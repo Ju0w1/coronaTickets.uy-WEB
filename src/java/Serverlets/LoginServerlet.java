@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import Logica.Fabrica;
+import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -20,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class LoginServerlet extends HttpServlet {
-
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorUsuario ICU = fabrica.getIControladorUsuario();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -65,7 +68,19 @@ public class LoginServerlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("user");
+        String password = request.getParameter("password");
+    
+        if (ICU.login(email, password)) {
+            request.setAttribute("message", "Bienvenido");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+            view.forward(request, response);
+        } else {
+            request.setAttribute("error", "Revisa tus datos!");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+            view.forward(request, response);
+        }
+        //processRequest(request, response);
     }
 
     /**
