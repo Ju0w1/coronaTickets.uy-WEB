@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:4306
--- Generation Time: Oct 01, 2021 at 10:53 PM
+-- Generation Time: Oct 03, 2021 at 11:21 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -278,7 +278,7 @@ CREATE TABLE `usuario` (
   `usu_apellido` varchar(250) DEFAULT NULL,
   `usu_mail` varchar(250) DEFAULT NULL,
   `usu_nacimiento` date DEFAULT NULL,
-  `usu_contrasenia` varchar(255) DEFAULT NULL,
+  `usu_contrasenia` varchar(1000) DEFAULT NULL,
   `usu_imagen` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -523,7 +523,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `usuario_funcion`
