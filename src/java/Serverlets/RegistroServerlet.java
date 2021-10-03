@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import Logica.Fabrica;
+import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -20,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Registro", urlPatterns = {"/registro"})
 public class RegistroServerlet extends HttpServlet {
-
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorUsuario ICU = fabrica.getIControladorUsuario();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -65,7 +68,27 @@ public class RegistroServerlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String nickname = request.getParameter("inputNickname");
+        String password1 = request.getParameter("inputPassword1");
+        String password2 = request.getParameter("inputPassword2");
+        String email = request.getParameter("inputEmail1");
+        String nombre = request.getParameter("inputNombre");
+        String apellido = request.getParameter("inputApellido");
+        String nacimiento = request.getParameter("inputNacimiento");
+        String imagen = request.getParameter("inputImagenPerfil");
+        
+        if (ICU.addEspectador(nickname,password1,email,nombre,apellido,nacimiento,imagen)){
+            request.setAttribute("message", "Registrado con éxito, Bienvenido");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+            view.forward(request, response);
+        }
+        else {
+            request.setAttribute("error", "Revisa tus datos!");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+            view.forward(request, response);
+        }
+        
+        //processRequest(request, response);
     }
 
     /**

@@ -30,7 +30,7 @@
 <body>
     <div class="d-flex justify-content-md-center align-items-center vh-100">
 
-        <form>
+        <form name="registro" method="POST" action="/CoronaTickets-Web/registro">
             <div class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">REGISTRAR USUARIO</h1>
             </div>
@@ -38,30 +38,30 @@
                 <div class="column col-6">
                     <h6 class="mb-2">Datos de usuario</h6>
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-pill mb-2" id="inputNickname" placeholder="Nickname">
+                        <input type="text" class="form-control rounded-pill mb-2" id="inputNickname" name="inputNickname" placeholder="Nickname">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-pill mb-2" id="inputPassword1" placeholder="Contraseña">
+                        <input type="password" class="form-control rounded-pill mb-2" id="inputPassword1" name="inputPassword1" placeholder="Contraseña">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-pill mb-2" id="inputPassword2" placeholder="Confirmar contraseña">
+                        <input type="password" class="form-control rounded-pill mb-2" id="inputPassword2" name="inputPassword2" placeholder="Confirmar contraseña">
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control rounded-pill mb-2" id="inputEmail1" aria-describedby="emailHelp" placeholder="Nickname/Email">
+                        <input type="email" class="form-control rounded-pill mb-2" id="inputEmail1" name="inputEmail1" aria-describedby="emailHelp" placeholder="Nickname/Email">
                     </div>
                 </div>
 
                 <div class="column col-6 mb-5">
                     <h6 class="mb-2">Datos personales</h6>
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-pill mb-2" id="inputNombre" placeholder="Nombre">
+                        <input type="text" class="form-control rounded-pill mb-2" id="inputNombre" name="inputNombre" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-pill mb-2" id="inputApellido" placeholder="Apellido">
+                        <input type="text" class="form-control rounded-pill mb-2" id="inputApellido" name="inputApellido"  placeholder="Apellido">
                     </div>
                     <div class="form-group">
                         <div class="input-group border border-secondary rounded-pill mb-2">
-                            <input type="date" class="form-control border-0 rounded-pill " placeholder="">
+                            <input type="date" class="form-control border-0 rounded-pill " placeholder="" id="inputNacimiento" name="inputNacimiento">
                             <span class="input-group-btn">
                               <button class="btn btn-default" type="">
                                 <i class="bi bi-calendar2-date"></i>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="url" class="form-control rounded-pill mb-2" id="inputImagenPerfil" placeholder="Imagen de perfil">
+                        <input type="url" class="form-control rounded-pill mb-2" id="inputImagenPerfil" name="inputImagenPerfil" placeholder="Imagen de perfil">
                     </div>
 
 
