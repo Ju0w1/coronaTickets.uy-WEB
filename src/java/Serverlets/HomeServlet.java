@@ -41,11 +41,11 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("Antess");
-        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.getUsuarios();
-        System.out.println("Pasó");
+//        System.out.println("Antess");
+//        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.getUsuarios();
+//        System.out.println("Pasó");
         try (PrintWriter out = response.getWriter()) {
-            request.setAttribute("usuarios", usuarios);
+//            request.setAttribute("usuarios", usuarios);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
             view.forward(request, response);
         }
