@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <!-- <%@include file="/Pages/Common/Header.jsp" %> -->
+    <%@include file="/Pages/Common/Header2.jsp" %>
     <div class="d-flex justify-content-md-center align-items-center vh-100">
 
         <form>
