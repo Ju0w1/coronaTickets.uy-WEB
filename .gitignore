@@ -45,3 +45,5 @@ nbproject/private/private.properties
 nbproject/private/private.xml
 nbproject/project.properties
 nbproject/project.xml
+build/web/Pages/Home.jsp
+build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
