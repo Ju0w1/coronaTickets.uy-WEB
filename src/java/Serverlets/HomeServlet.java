@@ -6,6 +6,9 @@ package Serverlets;
  * and open the template in the editor.
  */
 
+import Logica.Clases.Paquete;
+import Logica.Clases.Usuario;
+import Logica.DataTypes.DTFecha;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -15,9 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Logica.Clases.Usuario;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorUsuario;
+import Logica.Interfaz.IControladorPaquete;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -36,7 +41,7 @@ public class HomeServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
@@ -44,8 +49,27 @@ public class HomeServlet extends HttpServlet {
 //        System.out.println("Antess");
 //        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.getUsuarios();
 //        System.out.println("Pasó");
+//        try (PrintWriter out = response.getWriter()) {
+////            request.setAttribute("usuarios", usuarios);
+//            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+//            view.forward(request, response);
+//        }
+
+        Map<String, Paquete> paquetes = new HashMap<>();
+        Paquete p = new Paquete("Paquete1", "Este es el paquete 1", new DTFecha(1,1,2021), new DTFecha(1,1,2021),0,1, new DTFecha(1,1,2021), "https://tickantel.cdn.antel.net.uy/media/Espectaculo/40009899/Cuarteto_2021_Tickantel_Grilla_700x390.png" ,new DTFecha(1,1,2021), true);
+        paquetes.put(p.getNombre(), p);
+        //Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
+        String mens;
+        if(paquetes.isEmpty()){
+            System.out.println("VACIOS");
+            mens="Vacio";
+        }else{
+            System.out.println("NO VACIO");
+            mens="No vacio";
+        }
         try (PrintWriter out = response.getWriter()) {
-//            request.setAttribute("usuarios", usuarios);
+            request.setAttribute("paquetes", paquetes);
+            request.setAttribute("mensaje", mens);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
             view.forward(request, response);
         }

@@ -33,3 +33,15 @@ nbproject/private/private.properties
 nbproject/genfiles.properties
 nbproject/build-impl.xml
 build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
+build/web/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp
+build/web/Pages/Home.jsp
+build/web/Pages/Paquetes/consultaPaquete.jsp
+build/web/WEB-INF/classes/Serverlets/HomeServlet.class
+build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
+coronaTickets.sql
+nbproject/build-impl.xml
+nbproject/genfiles.properties
+nbproject/private/private.properties
+nbproject/private/private.xml
+nbproject/project.properties
+nbproject/project.xml

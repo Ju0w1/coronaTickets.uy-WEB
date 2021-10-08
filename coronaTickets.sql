@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4306
--- Generation Time: Oct 03, 2021 at 11:21 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.3
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 08-10-2021 a las 01:37:56
+-- Versión del servidor: 8.0.26
+-- Versión de PHP: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,25 +18,28 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `coronaticket`
+-- Base de datos: `coronaticket3`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `artistas`
+-- Estructura de tabla para la tabla `artistas`
 --
 
-CREATE TABLE `artistas` (
-  `art_id` int(11) NOT NULL,
-  `art_usu` int(11) NOT NULL,
-  `art_descripcion` text DEFAULT NULL,
-  `art_biografia` text DEFAULT NULL,
-  `art_url` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `artistas`;
+CREATE TABLE IF NOT EXISTS `artistas` (
+  `art_id` int NOT NULL AUTO_INCREMENT,
+  `art_usu` int NOT NULL,
+  `art_descripcion` text,
+  `art_biografia` text,
+  `art_url` text,
+  PRIMARY KEY (`art_id`),
+  KEY `FK_art_usu` (`art_usu`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `artistas`
+-- Volcado de datos para la tabla `artistas`
 --
 
 INSERT INTO `artistas` (`art_id`, `art_usu`, `art_descripcion`, `art_biografia`, `art_url`) VALUES
@@ -48,101 +50,141 @@ INSERT INTO `artistas` (`art_id`, `art_usu`, `art_descripcion`, `art_biografia`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorias`
+-- Estructura de tabla para la tabla `categorias`
 --
 
-CREATE TABLE `categorias` (
-  `cat_id` int(11) NOT NULL,
-  `cat_nombre` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `categorias`;
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `cat_id` int NOT NULL AUTO_INCREMENT,
+  `cat_nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`cat_id`),
+  UNIQUE KEY `cat_nombre` (`cat_nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorias_espectaculos`
+-- Estructura de tabla para la tabla `categorias_espectaculos`
 --
 
-CREATE TABLE `categorias_espectaculos` (
-  `cat_id` int(11) NOT NULL,
-  `espec_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `categorias_espectaculos`;
+CREATE TABLE IF NOT EXISTS `categorias_espectaculos` (
+  `cat_id` int NOT NULL,
+  `espec_id` int NOT NULL,
+  KEY `cat_id_categoria` (`cat_id`),
+  KEY `espec_id_espectaculo` (`espec_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compra`
+-- Estructura de tabla para la tabla `compra`
 --
 
-CREATE TABLE `compra` (
-  `comp_id` int(11) NOT NULL,
-  `comp_usu` int(11) DEFAULT NULL,
-  `comp_fecha` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `compra`;
+CREATE TABLE IF NOT EXISTS `compra` (
+  `comp_id` int NOT NULL AUTO_INCREMENT,
+  `comp_usu` int DEFAULT NULL,
+  `comp_fecha` date DEFAULT NULL,
+  PRIMARY KEY (`comp_id`),
+  KEY `compra_usu_idx` (`comp_usu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compra_linea`
+-- Estructura de tabla para la tabla `compra_linea`
 --
 
-CREATE TABLE `compra_linea` (
-  `comp_lin_id` int(11) NOT NULL,
-  `comp_lin_comp_id` int(11) DEFAULT NULL,
-  `comp_lin_prod` int(11) DEFAULT NULL,
-  `comp_lin_tipo` int(11) DEFAULT NULL,
-  `comp_lin_precio` double(15,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `compra_linea`;
+CREATE TABLE IF NOT EXISTS `compra_linea` (
+  `comp_lin_id` int NOT NULL AUTO_INCREMENT,
+  `comp_lin_comp_id` int DEFAULT NULL,
+  `comp_lin_prod` int DEFAULT NULL,
+  `comp_lin_tipo` int DEFAULT NULL,
+  `comp_lin_precio` double(15,2) DEFAULT NULL,
+  PRIMARY KEY (`comp_lin_id`),
+  KEY `complin_idx` (`comp_lin_comp_id`),
+  KEY `conlintipo_idx` (`comp_lin_tipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `espetaculos`
+-- Estructura de tabla para la tabla `compra_paquetes`
 --
 
-CREATE TABLE `espetaculos` (
-  `espec_id` int(11) NOT NULL,
-  `espec_artista` int(11) DEFAULT NULL,
-  `espec_plataforma` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `compra_paquetes`;
+CREATE TABLE IF NOT EXISTS `compra_paquetes` (
+  `compra_id` int NOT NULL AUTO_INCREMENT,
+  `compra_paq_id` int NOT NULL,
+  `compra_usu_id` int NOT NULL,
+  `compra_fecha` date NOT NULL,
+  PRIMARY KEY (`compra_id`),
+  KEY `compra_paq_id` (`compra_paq_id`),
+  KEY `compra_usu_id` (`compra_usu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `espetaculos`
+--
+
+DROP TABLE IF EXISTS `espetaculos`;
+CREATE TABLE IF NOT EXISTS `espetaculos` (
+  `espec_id` int NOT NULL AUTO_INCREMENT,
+  `espec_artista` int DEFAULT NULL,
+  `espec_plataforma` int DEFAULT NULL,
   `espec_nombre` varchar(250) DEFAULT NULL,
-  `espec_descripcion` text DEFAULT NULL,
+  `espec_descripcion` text,
   `espec_duracion` double(15,2) DEFAULT NULL,
-  `espec_cant_min_espect` int(11) DEFAULT NULL,
-  `espec_cant_max_espect` int(11) DEFAULT NULL,
+  `espec_cant_min_espect` int DEFAULT NULL,
+  `espec_cant_max_espect` int DEFAULT NULL,
   `espec_url` varchar(2000) DEFAULT NULL,
   `espec_fecha_registro` date DEFAULT NULL,
   `espec_costo` double(15,2) DEFAULT NULL,
   `espec_estado` char(1) NOT NULL,
-  `espec_imagen` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `espec_imagen` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`espec_id`),
+  UNIQUE KEY `espec_nombre` (`espec_nombre`),
+  KEY `espe_art_idx` (`espec_artista`),
+  KEY `espec_plat_idx` (`espec_plataforma`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `espetaculos`
+-- Volcado de datos para la tabla `espetaculos`
 --
 
 INSERT INTO `espetaculos` (`espec_id`, `espec_artista`, `espec_plataforma`, `espec_nombre`, `espec_descripcion`, `espec_duracion`, `espec_cant_min_espect`, `espec_cant_max_espect`, `espec_url`, `espec_fecha_registro`, `espec_costo`, `espec_estado`, `espec_imagen`) VALUES
 (2, 2, 1, 'Rock de los 90', 'asdasdasd', 90.00, 20, 100, 'www.cualquiercosa.com', '2021-09-20', 200.00, '', ''),
 (6, 2, 1, 'asdad', 'asdsad', 225.00, 22, 222, 'sadasd', '2021-09-05', 123.00, '', ''),
 (7, 2, 2, 'asdasd', 'asdfafsasf', 14.00, 15, 200, 'https://www.hola.com', '2021-09-07', 1200.00, '', ''),
-(8, 3, 1, 'Espectaculo 1', 'asdokashjndlas', 90.00, 90, 120, 'https://www.twitch.tv/espec1', '2021-09-08', 200.00, '', '');
+(8, 3, 1, 'Espectaculo 1', 'asdokashjndlas', 90.00, 90, 120, 'https://www.twitch.tv/espec1', '2021-09-08', 200.00, '', ''),
+(9, 3, 1, 'AntelArenaSSS', 'Algo', 23.00, 50, 1000, 'corona.com', '2021-10-04', 55.00, 'a', 'imgur:com');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `funcion`
+-- Estructura de tabla para la tabla `funcion`
 --
 
-CREATE TABLE `funcion` (
-  `fun_id` int(11) NOT NULL,
-  `fun_espec_id` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `funcion`;
+CREATE TABLE IF NOT EXISTS `funcion` (
+  `fun_id` int NOT NULL AUTO_INCREMENT,
+  `fun_espec_id` int DEFAULT NULL,
   `fun_nombre` varchar(250) DEFAULT NULL,
   `fun_fecha_registro` date DEFAULT NULL,
   `fun_hora_inicio` time NOT NULL,
   `fun_fecha_inicio` date NOT NULL,
-  `fun_imagen` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `fun_imagen` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`fun_id`),
+  UNIQUE KEY `fun_nombre` (`fun_nombre`),
+  KEY `fun_escp_idx` (`fun_espec_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `funcion`
+-- Volcado de datos para la tabla `funcion`
 --
 
 INSERT INTO `funcion` (`fun_id`, `fun_espec_id`, `fun_nombre`, `fun_fecha_registro`, `fun_hora_inicio`, `fun_fecha_inicio`, `fun_imagen`) VALUES
@@ -161,18 +203,21 @@ INSERT INTO `funcion` (`fun_id`, `fun_espec_id`, `fun_nombre`, `fun_fecha_regist
 -- --------------------------------------------------------
 
 --
--- Table structure for table `funcion_artista`
+-- Estructura de tabla para la tabla `funcion_artista`
 --
 
-CREATE TABLE `funcion_artista` (
-  `funart_fun_id` int(11) DEFAULT NULL,
-  `funart_art_id` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `funcion_artista`;
+CREATE TABLE IF NOT EXISTS `funcion_artista` (
+  `funart_fun_id` int DEFAULT NULL,
+  `funart_art_id` int DEFAULT NULL,
   `fun_nombre` varchar(45) DEFAULT NULL,
-  `funart_vigente` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `funart_vigente` char(1) DEFAULT NULL,
+  KEY `funart_fun_idx` (`funart_fun_id`),
+  KEY `funart_art_idx` (`funart_art_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `funcion_artista`
+-- Volcado de datos para la tabla `funcion_artista`
 --
 
 INSERT INTO `funcion_artista` (`funart_fun_id`, `funart_art_id`, `fun_nombre`, `funart_vigente`) VALUES
@@ -190,13 +235,14 @@ INSERT INTO `funcion_artista` (`funart_fun_id`, `funart_art_id`, `fun_nombre`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paquetes`
+-- Estructura de tabla para la tabla `paquetes`
 --
 
-CREATE TABLE `paquetes` (
-  `paq_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `paquetes`;
+CREATE TABLE IF NOT EXISTS `paquetes` (
+  `paq_id` int NOT NULL AUTO_INCREMENT,
   `paq_nombre` varchar(250) NOT NULL,
-  `paq_descripcion` text DEFAULT NULL,
+  `paq_descripcion` text,
   `paq_fecha_inicio` date DEFAULT NULL,
   `paq_fecha_fin` date DEFAULT NULL,
   `paq_descuento` double(15,2) DEFAULT NULL,
@@ -204,11 +250,13 @@ CREATE TABLE `paquetes` (
   `paq_fecha_compra` date DEFAULT NULL,
   `paq_fecha_alta` date DEFAULT NULL,
   `paq_vigente` tinyint(1) NOT NULL,
-  `paq_imagen` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `paq_imagen` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`paq_id`),
+  UNIQUE KEY `paq_nombre` (`paq_nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `paquetes`
+-- Volcado de datos para la tabla `paquetes`
 --
 
 INSERT INTO `paquetes` (`paq_id`, `paq_nombre`, `paq_descripcion`, `paq_fecha_inicio`, `paq_fecha_fin`, `paq_descuento`, `paq_costo`, `paq_fecha_compra`, `paq_fecha_alta`, `paq_vigente`, `paq_imagen`) VALUES
@@ -219,17 +267,20 @@ INSERT INTO `paquetes` (`paq_id`, `paq_nombre`, `paq_descripcion`, `paq_fecha_in
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paquete_espetaculos`
+-- Estructura de tabla para la tabla `paquete_espetaculos`
 --
 
-CREATE TABLE `paquete_espetaculos` (
-  `paqespec_paq_id` int(11) DEFAULT NULL,
-  `paqespec_espec_id` int(11) DEFAULT NULL,
-  `paqespec_paq_vigente` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `paquete_espetaculos`;
+CREATE TABLE IF NOT EXISTS `paquete_espetaculos` (
+  `paqespec_paq_id` int DEFAULT NULL,
+  `paqespec_espec_id` int DEFAULT NULL,
+  `paqespec_paq_vigente` char(1) DEFAULT NULL,
+  KEY `paq_espect_idx` (`paqespec_espec_id`),
+  KEY `paq_paq_idx` (`paqespec_paq_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `paquete_espetaculos`
+-- Volcado de datos para la tabla `paquete_espetaculos`
 --
 
 INSERT INTO `paquete_espetaculos` (`paqespec_paq_id`, `paqespec_espec_id`, `paqespec_paq_vigente`) VALUES
@@ -239,27 +290,42 @@ INSERT INTO `paquete_espetaculos` (`paqespec_paq_id`, `paqespec_espec_id`, `paqe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `seguidores`
+-- Estructura de tabla para la tabla `seguidores`
 --
 
-CREATE TABLE `seguidores` (
-  `usu_id` int(11) NOT NULL,
-  `usu_seguidor` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `seguidores`;
+CREATE TABLE IF NOT EXISTS `seguidores` (
+  `usu_id` int NOT NULL,
+  `usu_seguidor` int NOT NULL,
+  UNIQUE KEY `usu_id` (`usu_id`,`usu_seguidor`),
+  KEY `usu_id_seguidor` (`usu_seguidor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `seguidores`
+--
+
+INSERT INTO `seguidores` (`usu_id`, `usu_seguidor`) VALUES
+(6, 5),
+(5, 6),
+(9, 6),
+(5, 9);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo`
+-- Estructura de tabla para la tabla `tipo`
 --
 
-CREATE TABLE `tipo` (
-  `tp_id` int(11) NOT NULL,
-  `tp_nombre` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tipo`;
+CREATE TABLE IF NOT EXISTS `tipo` (
+  `tp_id` int NOT NULL AUTO_INCREMENT,
+  `tp_nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`tp_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `tipo`
+-- Volcado de datos para la tabla `tipo`
 --
 
 INSERT INTO `tipo` (`tp_id`, `tp_nombre`) VALUES
@@ -268,22 +334,26 @@ INSERT INTO `tipo` (`tp_id`, `tp_nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` (
-  `usu_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `usu_id` int NOT NULL AUTO_INCREMENT,
   `usu_nick` varchar(50) DEFAULT NULL,
   `usu_nombre` varchar(250) DEFAULT NULL,
   `usu_apellido` varchar(250) DEFAULT NULL,
   `usu_mail` varchar(250) DEFAULT NULL,
   `usu_nacimiento` date DEFAULT NULL,
-  `usu_contrasenia` varchar(1000) DEFAULT NULL,
-  `usu_imagen` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `usu_contrasenia` varchar(255) DEFAULT NULL,
+  `usu_imagen` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`usu_id`),
+  UNIQUE KEY `usu_nick` (`usu_nick`),
+  UNIQUE KEY `usu_mail` (`usu_mail`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`usu_id`, `usu_nick`, `usu_nombre`, `usu_apellido`, `usu_mail`, `usu_nacimiento`, `usu_contrasenia`, `usu_imagen`) VALUES
@@ -292,60 +362,52 @@ INSERT INTO `usuario` (`usu_id`, `usu_nick`, `usu_nombre`, `usu_apellido`, `usu_
 (6, 'Juanpa', 'Juan Pablo', 'Peculios', 'pablopeculio@pepe.com', '2001-07-13', NULL, NULL),
 (7, 'fede', 'Federico', 'Rodriguez', 'fede@gmail.com', '2001-10-11', NULL, NULL),
 (8, 'Pedrito', 'Pedro', 'Perez', 'pepe@gmail.com', '2003-12-31', NULL, NULL),
-(9, 'artista1', 'Artista', 'Art', 'artista@gmail.com', '2002-10-08', NULL, NULL);
+(9, 'artista1', 'Artista', 'Art', 'artista@gmail.com', '2002-10-08', NULL, NULL),
+(11, 'feder', 'Federico', 'Rodriguez', 'federzvz@gmail.com', '2021-09-29', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', ''),
+(12, 'feder2', 'Federico', 'Rodriguez', 'federzvz2@gmail.com', '2021-10-12', 'add92273c86a1f08eda682b40f1142f7db68ea7cd67cdf1b283f80f451fd78ff', ''),
+(13, 'feder2323', 'Federico', 'Rodriguez', 'federzvzasdasd@gmail.com', '2021-09-29', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', ''),
+(14, 'root', 'rootname', 'rootlastname', 'root@gmail.com', '2021-09-27', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario_funcion`
+-- Estructura de tabla para la tabla `usuario_funcion`
 --
 
-CREATE TABLE `usuario_funcion` (
-  `funcion_id` int(11) NOT NULL,
-  `usu_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `usuario_funcion`;
+CREATE TABLE IF NOT EXISTS `usuario_funcion` (
+  `funcion_id` int NOT NULL,
+  `usu_id` int NOT NULL,
   `fechaRegistro` date NOT NULL,
-  `registro_id` int(11) NOT NULL,
-  `canjeado` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `usuario_funcion`
---
-
-INSERT INTO `usuario_funcion` (`funcion_id`, `usu_id`, `fechaRegistro`, `registro_id`, `canjeado`) VALUES
-(1, 7, '1912-04-12', 18, 1),
-(2, 7, '1912-04-12', 19, 1),
-(4, 7, '1912-04-12', 20, 1),
-(3, 7, '1912-04-12', 21, 0),
-(1, 3, '1912-04-12', 22, 1),
-(2, 3, '1912-04-12', 23, 1),
-(4, 3, '1912-04-12', 24, 1),
-(3, 3, '1912-04-12', 25, 0),
-(6, 7, '1913-04-12', 26, 0),
-(16, 3, '1914-04-13', 27, 0),
-(16, 8, '1914-04-13', 28, 1),
-(16, 7, '1914-04-13', 29, 0),
-(4, 8, '1914-04-13', 30, 1),
-(10, 8, '1914-04-13', 31, 1),
-(5, 8, '1914-04-13', 32, 0);
+  `registro_id` int NOT NULL AUTO_INCREMENT,
+  `canjeado` tinyint(1) NOT NULL,
+  `paquete_id` int NOT NULL,
+  PRIMARY KEY (`registro_id`),
+  KEY `usu_id_usuario` (`usu_id`),
+  KEY `fun_id_funcion` (`funcion_id`),
+  KEY `paquete_id` (`paquete_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `valores_tipo`
+-- Estructura de tabla para la tabla `valores_tipo`
 --
 
-CREATE TABLE `valores_tipo` (
-  `tp_id` int(11) NOT NULL,
-  `vp_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `valores_tipo`;
+CREATE TABLE IF NOT EXISTS `valores_tipo` (
+  `tp_id` int NOT NULL,
+  `vp_id` int NOT NULL AUTO_INCREMENT,
   `vp_nombre` varchar(250) DEFAULT NULL,
-  `vp_valor_1` text DEFAULT NULL,
-  `vp_valor_2` text DEFAULT NULL,
-  `vp_vigente` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `vp_valor_1` text,
+  `vp_valor_2` text,
+  `vp_vigente` char(1) DEFAULT NULL,
+  PRIMARY KEY (`vp_id`),
+  KEY `vp_tipo_idx` (`tp_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
--- Dumping data for table `valores_tipo`
+-- Volcado de datos para la tabla `valores_tipo`
 --
 
 INSERT INTO `valores_tipo` (`tp_id`, `vp_id`, `vp_nombre`, `vp_valor_1`, `vp_valor_2`, `vp_vigente`) VALUES
@@ -354,265 +416,89 @@ INSERT INTO `valores_tipo` (`tp_id`, `vp_id`, `vp_nombre`, `vp_valor_1`, `vp_val
 (1, 3, 'Pepito', 'https://www.pepito.com', 'asdasd', NULL);
 
 --
--- Indexes for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Indexes for table `artistas`
---
-ALTER TABLE `artistas`
-  ADD PRIMARY KEY (`art_id`),
-  ADD KEY `FK_art_usu` (`art_usu`);
-
---
--- Indexes for table `categorias`
---
-ALTER TABLE `categorias`
-  ADD PRIMARY KEY (`cat_id`),
-  ADD UNIQUE KEY `cat_nombre` (`cat_nombre`);
-
---
--- Indexes for table `categorias_espectaculos`
---
-ALTER TABLE `categorias_espectaculos`
-  ADD KEY `cat_id_categoria` (`cat_id`),
-  ADD KEY `espec_id_espectaculo` (`espec_id`);
-
---
--- Indexes for table `compra`
---
-ALTER TABLE `compra`
-  ADD PRIMARY KEY (`comp_id`),
-  ADD KEY `compra_usu_idx` (`comp_usu`);
-
---
--- Indexes for table `compra_linea`
---
-ALTER TABLE `compra_linea`
-  ADD PRIMARY KEY (`comp_lin_id`),
-  ADD KEY `complin_idx` (`comp_lin_comp_id`),
-  ADD KEY `conlintipo_idx` (`comp_lin_tipo`);
-
---
--- Indexes for table `espetaculos`
---
-ALTER TABLE `espetaculos`
-  ADD PRIMARY KEY (`espec_id`),
-  ADD UNIQUE KEY `espec_nombre` (`espec_nombre`),
-  ADD KEY `espe_art_idx` (`espec_artista`),
-  ADD KEY `espec_plat_idx` (`espec_plataforma`);
-
---
--- Indexes for table `funcion`
---
-ALTER TABLE `funcion`
-  ADD PRIMARY KEY (`fun_id`),
-  ADD UNIQUE KEY `fun_nombre` (`fun_nombre`),
-  ADD KEY `fun_escp_idx` (`fun_espec_id`);
-
---
--- Indexes for table `funcion_artista`
---
-ALTER TABLE `funcion_artista`
-  ADD KEY `funart_fun_idx` (`funart_fun_id`),
-  ADD KEY `funart_art_idx` (`funart_art_id`);
-
---
--- Indexes for table `paquetes`
---
-ALTER TABLE `paquetes`
-  ADD PRIMARY KEY (`paq_id`),
-  ADD UNIQUE KEY `paq_nombre` (`paq_nombre`);
-
---
--- Indexes for table `paquete_espetaculos`
---
-ALTER TABLE `paquete_espetaculos`
-  ADD KEY `paq_espect_idx` (`paqespec_espec_id`),
-  ADD KEY `paq_paq_idx` (`paqespec_paq_id`);
-
---
--- Indexes for table `seguidores`
---
-ALTER TABLE `seguidores`
-  ADD UNIQUE KEY `usu_id` (`usu_id`,`usu_seguidor`),
-  ADD KEY `usu_id_seguidor` (`usu_seguidor`);
-
---
--- Indexes for table `tipo`
---
-ALTER TABLE `tipo`
-  ADD PRIMARY KEY (`tp_id`);
-
---
--- Indexes for table `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`usu_id`),
-  ADD UNIQUE KEY `usu_nick` (`usu_nick`),
-  ADD UNIQUE KEY `usu_mail` (`usu_mail`);
-
---
--- Indexes for table `usuario_funcion`
---
-ALTER TABLE `usuario_funcion`
-  ADD PRIMARY KEY (`registro_id`),
-  ADD KEY `usu_id_usuario` (`usu_id`),
-  ADD KEY `fun_id_funcion` (`funcion_id`);
-
---
--- Indexes for table `valores_tipo`
---
-ALTER TABLE `valores_tipo`
-  ADD PRIMARY KEY (`vp_id`),
-  ADD KEY `vp_tipo_idx` (`tp_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `artistas`
---
-ALTER TABLE `artistas`
-  MODIFY `art_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `categorias`
---
-ALTER TABLE `categorias`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `compra`
---
-ALTER TABLE `compra`
-  MODIFY `comp_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `compra_linea`
---
-ALTER TABLE `compra_linea`
-  MODIFY `comp_lin_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `espetaculos`
---
-ALTER TABLE `espetaculos`
-  MODIFY `espec_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `funcion`
---
-ALTER TABLE `funcion`
-  MODIFY `fun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `paquetes`
---
-ALTER TABLE `paquetes`
-  MODIFY `paq_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tipo`
---
-ALTER TABLE `tipo`
-  MODIFY `tp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `usuario_funcion`
---
-ALTER TABLE `usuario_funcion`
-  MODIFY `registro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
--- AUTO_INCREMENT for table `valores_tipo`
---
-ALTER TABLE `valores_tipo`
-  MODIFY `vp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `artistas`
+-- Filtros para la tabla `artistas`
 --
 ALTER TABLE `artistas`
   ADD CONSTRAINT `FK_art_usu` FOREIGN KEY (`art_usu`) REFERENCES `usuario` (`usu_id`);
 
 --
--- Constraints for table `categorias_espectaculos`
+-- Filtros para la tabla `categorias_espectaculos`
 --
 ALTER TABLE `categorias_espectaculos`
   ADD CONSTRAINT `cat_id_categoria` FOREIGN KEY (`cat_id`) REFERENCES `categorias` (`cat_id`),
   ADD CONSTRAINT `espec_id_espectaculo` FOREIGN KEY (`espec_id`) REFERENCES `espetaculos` (`espec_id`);
 
 --
--- Constraints for table `compra`
+-- Filtros para la tabla `compra`
 --
 ALTER TABLE `compra`
-  ADD CONSTRAINT `compra_usu` FOREIGN KEY (`comp_usu`) REFERENCES `usuario` (`usu_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `compra_usu` FOREIGN KEY (`comp_usu`) REFERENCES `usuario` (`usu_id`);
 
 --
--- Constraints for table `compra_linea`
+-- Filtros para la tabla `compra_linea`
 --
 ALTER TABLE `compra_linea`
-  ADD CONSTRAINT `complin` FOREIGN KEY (`comp_lin_comp_id`) REFERENCES `compra` (`comp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `conlintipo` FOREIGN KEY (`comp_lin_tipo`) REFERENCES `valores_tipo` (`vp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `complin` FOREIGN KEY (`comp_lin_comp_id`) REFERENCES `compra` (`comp_id`),
+  ADD CONSTRAINT `conlintipo` FOREIGN KEY (`comp_lin_tipo`) REFERENCES `valores_tipo` (`vp_id`);
 
 --
--- Constraints for table `espetaculos`
+-- Filtros para la tabla `compra_paquetes`
+--
+ALTER TABLE `compra_paquetes`
+  ADD CONSTRAINT `compra_paquetes_ibfk_1` FOREIGN KEY (`compra_paq_id`) REFERENCES `paquetes` (`paq_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `compra_paquetes_ibfk_2` FOREIGN KEY (`compra_usu_id`) REFERENCES `usuario` (`usu_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Filtros para la tabla `espetaculos`
 --
 ALTER TABLE `espetaculos`
-  ADD CONSTRAINT `espe_art` FOREIGN KEY (`espec_artista`) REFERENCES `artistas` (`art_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `espec_plat` FOREIGN KEY (`espec_plataforma`) REFERENCES `valores_tipo` (`vp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `espe_art` FOREIGN KEY (`espec_artista`) REFERENCES `artistas` (`art_id`),
+  ADD CONSTRAINT `espec_plat` FOREIGN KEY (`espec_plataforma`) REFERENCES `valores_tipo` (`vp_id`);
 
 --
--- Constraints for table `funcion`
+-- Filtros para la tabla `funcion`
 --
 ALTER TABLE `funcion`
-  ADD CONSTRAINT `fun_escp` FOREIGN KEY (`fun_espec_id`) REFERENCES `espetaculos` (`espec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fun_escp` FOREIGN KEY (`fun_espec_id`) REFERENCES `espetaculos` (`espec_id`);
 
 --
--- Constraints for table `funcion_artista`
+-- Filtros para la tabla `funcion_artista`
 --
 ALTER TABLE `funcion_artista`
-  ADD CONSTRAINT `funart_art` FOREIGN KEY (`funart_art_id`) REFERENCES `artistas` (`art_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `funart_fun` FOREIGN KEY (`funart_fun_id`) REFERENCES `funcion` (`fun_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `funart_art` FOREIGN KEY (`funart_art_id`) REFERENCES `artistas` (`art_id`),
+  ADD CONSTRAINT `funart_fun` FOREIGN KEY (`funart_fun_id`) REFERENCES `funcion` (`fun_id`);
 
 --
--- Constraints for table `paquete_espetaculos`
+-- Filtros para la tabla `paquete_espetaculos`
 --
 ALTER TABLE `paquete_espetaculos`
-  ADD CONSTRAINT `paq_espect` FOREIGN KEY (`paqespec_espec_id`) REFERENCES `espetaculos` (`espec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `paq_paq` FOREIGN KEY (`paqespec_paq_id`) REFERENCES `paquetes` (`paq_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `paq_espect` FOREIGN KEY (`paqespec_espec_id`) REFERENCES `espetaculos` (`espec_id`),
+  ADD CONSTRAINT `paq_paq` FOREIGN KEY (`paqespec_paq_id`) REFERENCES `paquetes` (`paq_id`);
 
 --
--- Constraints for table `seguidores`
+-- Filtros para la tabla `seguidores`
 --
 ALTER TABLE `seguidores`
   ADD CONSTRAINT `usu_id_seguidor` FOREIGN KEY (`usu_seguidor`) REFERENCES `usuario` (`usu_id`),
   ADD CONSTRAINT `usu_id_usuarioSeg` FOREIGN KEY (`usu_id`) REFERENCES `usuario` (`usu_id`);
 
 --
--- Constraints for table `usuario_funcion`
+-- Filtros para la tabla `usuario_funcion`
 --
 ALTER TABLE `usuario_funcion`
   ADD CONSTRAINT `fun_id_funcion` FOREIGN KEY (`funcion_id`) REFERENCES `funcion` (`fun_id`),
-  ADD CONSTRAINT `usu_id_usuario` FOREIGN KEY (`usu_id`) REFERENCES `usuario` (`usu_id`);
+  ADD CONSTRAINT `usu_id_usuario` FOREIGN KEY (`usu_id`) REFERENCES `usuario` (`usu_id`),
+  ADD CONSTRAINT `usuario_funcion_ibfk_1` FOREIGN KEY (`paquete_id`) REFERENCES `paquetes` (`paq_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Constraints for table `valores_tipo`
+-- Filtros para la tabla `valores_tipo`
 --
 ALTER TABLE `valores_tipo`
-  ADD CONSTRAINT `vp_tipo` FOREIGN KEY (`tp_id`) REFERENCES `tipo` (`tp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `vp_tipo` FOREIGN KEY (`tp_id`) REFERENCES `tipo` (`tp_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
