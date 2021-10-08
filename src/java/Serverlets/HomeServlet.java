@@ -46,19 +46,7 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        System.out.println("Antess");
-//        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.getUsuarios();
-//        System.out.println("Pasó");
-//        try (PrintWriter out = response.getWriter()) {
-////            request.setAttribute("usuarios", usuarios);
-//            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
-//            view.forward(request, response);
-//        }
-
-        Map<String, Paquete> paquetes = new HashMap<>();
-        Paquete p = new Paquete("Paquete1", "Este es el paquete 1", new DTFecha(1,1,2021), new DTFecha(1,1,2021),0,1, new DTFecha(1,1,2021), "https://tickantel.cdn.antel.net.uy/media/Espectaculo/40009899/Cuarteto_2021_Tickantel_Grilla_700x390.png" ,new DTFecha(1,1,2021), true);
-        paquetes.put(p.getNombre(), p);
-        //Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
+        Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
         String mens;
         if(paquetes.isEmpty()){
             System.out.println("VACIOS");
