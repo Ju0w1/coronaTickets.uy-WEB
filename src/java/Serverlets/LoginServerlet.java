@@ -38,6 +38,7 @@ public class LoginServerlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+            //RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funciones-list.jsp");
             view.forward(request, response);
         }
     }
