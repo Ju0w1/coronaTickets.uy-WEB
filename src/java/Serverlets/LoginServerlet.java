@@ -37,8 +37,8 @@ public class LoginServerlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            //RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funciones-list.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+            //RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funciones-list.jsp");
             view.forward(request, response);
         }
     }
