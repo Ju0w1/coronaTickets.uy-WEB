@@ -76,7 +76,7 @@ public class RegistroServerlet extends HttpServlet {
         String apellido = request.getParameter("inputApellido");
         String nacimiento = request.getParameter("inputNacimiento");
         String imagen = request.getParameter("inputImagenPerfil");
-        
+       /*
         if (ICU.addEspectador(nickname,password1,email,nombre,apellido,nacimiento,imagen)){
             request.setAttribute("message", "Registrado con éxito, Bienvenido");
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
@@ -87,7 +87,7 @@ public class RegistroServerlet extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
             view.forward(request, response);
         }
-        
+        */
         //processRequest(request, response);
     }
 

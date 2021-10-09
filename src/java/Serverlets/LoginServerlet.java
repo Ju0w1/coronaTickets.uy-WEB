@@ -70,7 +70,7 @@ public class LoginServerlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("user");
         String password = request.getParameter("password");
-    
+    /*
         if (ICU.login(email, password)) {
             request.setAttribute("message", "Bienvenido");
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
@@ -81,6 +81,7 @@ public class LoginServerlet extends HttpServlet {
             view.forward(request, response);
         }
         //processRequest(request, response);
+        */
     }
 
     /**
