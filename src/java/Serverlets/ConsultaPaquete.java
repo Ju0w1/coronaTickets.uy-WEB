@@ -1,36 +1,25 @@
-package Serverlets;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Serverlets;
 
-import Logica.Clases.Paquete;
-import Logica.Clases.Usuario;
-import Logica.DataTypes.DTFecha;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Logica.Fabrica;
-import Logica.Interfaz.IControladorUsuario;
-import Logica.Interfaz.IControladorPaquete;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  *
- * @author LucasCiceri
+ * @author pabli
  */
-@WebServlet(name = "Home", urlPatterns = {"/home"})
+@WebServlet(name = "ConsultaPaquete", urlPatterns = {"/Paquete"})
+public class ConsultaPaquete extends HttpServlet {
 
-public class HomeServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,18 +29,9 @@ public class HomeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorPaquete ICP = fabrica.getIControladorPaquete();
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
-        try (PrintWriter out = response.getWriter()) {
-            request.setAttribute("paquetes", paquetes);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
-            view.forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,9 +46,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //System.out.println("Hola");
         processRequest(request, response);
-        
     }
 
     /**

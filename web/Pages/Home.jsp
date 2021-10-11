@@ -31,38 +31,54 @@
 
         <!-- JavaScript Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <style>
+            body {
+                font-family: 'Montserrat', sans-serif;
+            }
+        </style>
     </head>
     <%@include file="/Pages/Common/Header.jsp" %>
     <body>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
-            <div class="container w-75 bg-danger" style="overflow-y: scroll; ">
-                <%
-                    Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
-                    String mensaje = (String) request.getAttribute("mensaje");
-                    System.out.println(mensaje);
-                    if(paquetes == null){
-                        System.out.println("VACIO");
-                    }
-                    for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
-                        String key = entry.getKey();
-                        Paquete value = entry.getValue();
-
-                    %>
+            <div class="container w-75 ">
                     <div class="row ">
-                        <div class="col-6 h-100">
-                            <div class="container bg-success">
-                                <img src="<%= value.getUrl()%>" id="<%= key%>" width="100" height="100">
+                        <div class="col-6"  style="overflow-y: scroll; height: 85vh">
+                            <h1>Paquetes</h1>
+                            <%
+                                Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
+                                if(paquetes == null){
+                                    System.out.println("VACIO");
+                                }else{
+                                    for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                        String key = entry.getKey();
+                                        Paquete value = entry.getValue();
+                            %>
+                            <div class="row ">
+                                <div class="container w-100 mt-3 mb-3">
+                                    <div class="card bg-dark text-white">
+                                        <img src="<%= value.getUrl()%>" id="<%= key%>" class="card-img">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="GET" action="/CoronaTickets-Web/login" >
+                                                <input type="submit" value="Ver más" name="ver_mas" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                             </div>
+                            <%
+                                    }
+                                }
+                            %> 
                         </div>
-                        <div class="col-6 h-100">
-                            <div class="container bg-success">
-                                <img src="<%= value.getUrl() %>" width="100" height="100">
+                        <div class="col-6"  style="overflow-y: scroll; height: 85vh">
+                            <h1>Espectáculos</h1>
+                            <div class="container">
+                                
                             </div>
                         </div>
                     </div>
-                    <%
-                        }
-                    %>          
+                             
             </div>
         </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

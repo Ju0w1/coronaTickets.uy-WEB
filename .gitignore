@@ -57,3 +57,7 @@ build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
 build/web/WEB-INF/classes/Serverlets/LoginServerlet.class
 build/web/WEB-INF/classes/Serverlets/RegistroServerlet.class
 build/web/WEB-INF/classes/Serverlets/UsersServlet.class
+build/web/Pages/Home.jsp
+build/web/WEB-INF/classes/Serverlets/ConsultaPaquete.class
+build/web/WEB-INF/classes/Serverlets/HomeServlet.class
+build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
