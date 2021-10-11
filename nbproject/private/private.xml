@@ -3,12 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Home.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Login/login.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/LoginServerlet.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/homeLogueado.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/HomeServlet.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Espectaculos/altaEspectaculo.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/LoginServerlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/RegistroServerlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/HomeServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/homeLogueado.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Header2.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users-list.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Footer.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Users.css</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Home.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/login.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Header.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/registro.jsp</file>
         </group>
     </open-files>
 </project-private>

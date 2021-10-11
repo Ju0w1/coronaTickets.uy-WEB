@@ -3,6 +3,12 @@
     Created on : 09/10/2021, 11:59:44 AM
     Author     : milto
 --%>
+<%@page import="Logica.Interfaz.IControladorUsuario"%>
+<%@page import="Logica.Fabrica"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="Logica.Clases.Artista"%>
+<%@page import="java.util.Map"%>
+<%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,6 +31,19 @@
   </script>
 </head>
 <body style="background-color: rgb(230, 232, 240);">
+    <%
+        Artista art = (Artista) request.getAttribute("Artista");
+        String imagen = art.getImagen();
+        String nombre = art.getNombre();
+        String apellido = art.getApellido();
+        DTFecha nacimiento = art.getNacimiento();
+        String web = art.getLinkWeb();
+        String email = art.getEmail();
+        String nick = art.getNickname();
+        String descripcion = art.getDescripcion();
+        String bio = art.getBiografia();
+    %>
+                    
   <div id="header"></div>
   <div class="container">
     <div class="main-body">
@@ -34,9 +53,10 @@
             <!-- Tarjeta de perfil -->
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://i.pinimg.com/236x/56/cc/4a/56cc4afe5b46ba2e089c8e2ba2bbe897.jpg" alt="Admin" class="rounded-circle" width="150">
+                  
+                <img src="<%=imagen%>" alt="Foto" class="rounded-circle" width="150">
                 <div class="mt-3">
-                  <h4>Negrii</h4>
+                  <h4><%=nick%></h4>
                   <p class="text-secondary mb-1">Artista</p>
                   <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b>1230</b></a></label>
                   <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b>534</b></a> </label>
@@ -51,12 +71,12 @@
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- NOMBRE -->
                 <h6 class="mb-0"> Nombre</h6>
-                <span class="text-secondary">Negrita Morocha</span>
+                <span class="text-secondary"><%=nombre%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- APELLIDO -->
                 <h6 class="mb-0"> Apellido</h6>
-                <span class="text-secondary">Alves López</span>
+                <span class="text-secondary"><%=apellido%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- FECHA DE NACIMIENTO -->
@@ -66,7 +86,7 @@
                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                   </svg>
                   </svg> Nacimiento</h6>
-                <span class="text-secondary">04/08/1997</span>
+                <span class="text-secondary"><%=nacimiento.getDia() + "/" +nacimiento.getMes() + "/" +nacimiento.getAnio()%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- URL -->
@@ -80,7 +100,7 @@
                       d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                     </path>
                   </svg> Sitio</h6>
-                <span class="text-secondary">www.negrita-alves.com.uy</span>
+                <span class="text-secondary"><%=web%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- EMAIL -->
@@ -91,7 +111,7 @@
                       d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
                   </svg>
                   </svg> Mail</h6>
-                <span class="text-secondary">Alves.negri@gmail.com</span>
+                <span class="text-secondary"><%=email%></span>
               </li>
             </ul>
           </div>
@@ -105,7 +125,7 @@
                   <h6 class="mb-0">Descripción </h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  Soy cantante de reggae, me gusta componer, toco el bajo y la flauta.
+                  <%=descripcion%>
                 </div>
               </div>
             </div>
@@ -118,27 +138,7 @@
                   <h6 class="mb-0">Biografía</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  Nació el 7 de agosto de 1533 en Madrid, España, y murió en la misma ciudad en 1594. Su padre fue
-                  Fortún García de Ercilla
-                  y su madre Leonor de Zúñiga, quien fuera la guardacama de la infanta Marí. <br>
-                  Habiendo quedado viuda cuando Alonso tenía 1 año de edad, Leonor consiguió ubicarlo como paje del
-                  Príncipe Felipe,
-                  futuro Rey de España. <br>
-                  La permanencia de Ercilla en la Corte, le permitió adquirir los conocimientos entregados por el
-                  preceptor de pajes, el latinista
-                  Cristóbal Calvete de la Estrella. El estudio de clásicos como Virgilio y Lucano, y la lectura de otros
-                  autores como Garcilaso, Dante,
-                  Ariosto y Boccaccio, conformaron su universo intelectual, que incluyó también la Astronomía y la
-                  Astrología. Su educación
-                  se complementó con una serie de viajes que hizo acompañando a Felipe II a Flandes, Viena e Inglaterra.
-                  <br>
-                  Ercilla llegó a América en 1556 y a Chile en 1557. Aquí fue testigo de la resistencia indígena,
-                  experiencia que plasmó en su
-                  obra La Araucana. Regresó a Lima en 1559 y en 1563, a España. En la capital imperial retornó a la
-                  Corte, donde recibió el hábito
-                  de la Orden de Santiago y contrajo matrimonio con María Bazán, enlace que le dio independencia
-                  económica. <br>
-
+                  <%=bio%>
                 </div>
               </div>
             </div>
