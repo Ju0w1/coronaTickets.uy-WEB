@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+
+<%@page import="java.util.HashMap"%>
+<%@page import="Logica.Clases.Plataforma"%>
+<%@page import="Logica.Clases.Categoria"%>
+<%@page import="java.util.Map"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,23 +29,23 @@
 
 <body>
     <%@include file="/Pages/Common/Header2.jsp" %>
-    <div class="d-flex justify-content-md-center align-items-center vh-100">
+    <div class="d-flex justify-content-md-center align-items-center mt-5">
 
-        <form>
+        <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
-                <h1 class="mb-5">ALTA DE ESPECT¡CULO</h1>
+                <h1 class="mb-5">ALTA DE ESPECT√ÅCULO</h1>
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group ">
-                        <input type="text " class="form-control rounded-pill mb-2 " id="inputNombre " placeholder="Nombre ">
+                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre ">
                     </div>
-                    <textarea class="form-control rounded-3 mb-2" id="inputDescripcion " style="resize: none; " placeholder="DescripciÛn " rows="2 "></textarea>
+                    <textarea class="form-control rounded-3 mb-2" id="inputDescripcion" name="inputDescripcion" style="resize: none; " placeholder="Descripci√≥n " rows="2 "></textarea>
                     <div class="form-group ">
                         <div class="input-group ">
-                            <input type="time " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="DuraciÛn ">
+                            <input type="number" class="form-control rounded-pill mb-2 " id="inputDuracion" name="inputDuracion" placeholder="Duraci√≥n(minutos)">
                             <span class="input-group-append ">
-                                <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                                <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-clock "></i>
                                 </button>
                             </span>
@@ -47,28 +54,52 @@
                     <div class="form-group mt-1">
                         <div class="row">
                             <div class="col">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Plataformas
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
+                                <select class="form-select" name="plataforma" aria-label="Plataformas">
+                                    <option selected>Plataformas</option>
+                                    <%
+                                        int i=0;
+                                        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+                                        if(plataformas == null){
+                                            System.out.println("VACIO");
+                                        }else{
+                                            for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
+                                                String key = entry.getKey();
+                                                Plataforma value = entry.getValue();
+                                    %>
+                                    <option value="<%=i%>" id="<%=key%>"><%=key%></option>
+                                    <%
+                                                i++;
+                                            }
+                                        }
+                                    %>
+                                </select>
                             </div>
                             <div class="col">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    CategorÌas
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
+                                <div class="row">
+                                    <%
+                                    Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+                                    if(plataformas == null){
+                                        System.out.println("VACIO");
+                                    }else{
+                                        for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
+                                            String key2 = entry.getKey();
+                                            Categoria value2 = entry.getValue();
+
+                                %>
+
+
+                                <div class="form-check">
+                                    <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>" >
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      <%=value2.getNombre()%>
+                                    </label>
                                 </div>
+                                <%
+                                        }
+                                    }
+                                %>
+                                </div>
+                                
                             </div>
 
                         </div>
@@ -77,41 +108,42 @@
 
                 <div class="col-6">
                     <div class="input-group ">
-                        <input type="number " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="Espectadores mÌnimos ">
+                        <input type="number" class="form-control rounded-pill mb-2 " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores m√≠nimos ">
                         <span class="input-group-append ">
-                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
                             </button>
                         </span>
                     </div>
                     <div class="input-group ">
-                        <input type="number " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="Espectadores m·ximos ">
+                        <input type="number " class="form-control rounded-pill mb-2 " id="inputEspecMax" name="inputEspecMax" placeholder="Espectadores m√°ximos ">
                         <span class="input-group-append ">
-                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
                             </button>
                         </span>
                     </div>
-                    <div class="input-group ">
-                        <input type="url " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="URL ">
+                    <div class="input-group">
+                        <input type="url " class="form-control rounded-pill mb-2 " id="inputURL" name="inputURL" placeholder="URL">
                         <span class="input-group-append ">
-                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-link-45deg "></i>
                             </button>
                         </span>
                     </div>
-                    <div class="input-group ">
-                        <input type="number " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="Costo ">
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control rounded-pill mb-2 " id="inputCosto" name="inputCosto" placeholder="Costo">
                         <span class="input-group-append ">
-                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-currency-dollar "></i>
                             </button>
                         </span>
                     </div>
-                    <div class="input-group ">
-                        <input type="url " class="form-control rounded-pill mb-2 " id="inputDuracion " placeholder="URL para imagen (Opcional) ">
+                    <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control rounded-pill mb-2 " id="inputFile"  name="inputFile" placeholder="">
                         <span class="input-group-append ">
-                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
+                            <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-link-45deg "></i>
                             </button>
                         </span>
@@ -121,7 +153,7 @@
 
             </div>
             <div class="form-register mt-5 d-flex justify-content-md-center align-items-center ">
-                <button type="submit " class="btn btn-outline-secondary rounded-pill ">
+                <button type="submit" class="btn btn-outline-secondary rounded-pill ">
                     CREAR
                 </button>
             </div>

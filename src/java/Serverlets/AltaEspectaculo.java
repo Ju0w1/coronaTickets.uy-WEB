@@ -5,8 +5,14 @@
  */
 package Serverlets;
 
+import Logica.Clases.Categoria;
+import Logica.Clases.Paquete;
+import Logica.Clases.Plataforma;
+import Logica.Fabrica;
+import Logica.Interfaz.IControladorEspectaculo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,11 +36,17 @@ public class AltaEspectaculo extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
+        Map<String, Categoria> categorias = (Map<String, Categoria>) ICE.getCategorias();
         try (PrintWriter out = response.getWriter()) {
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectauclos/altaEspectaculo.jsp");
+            request.setAttribute("plataformas", plataformas);
+            request.setAttribute("categorias", categorias);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/altaEspectaculo.jsp");
             view.forward(request, response);
         }
     }
@@ -65,6 +77,19 @@ public class AltaEspectaculo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //OBTENIENDO DATOS DEL JSP
+        String nombre = request.getParameter("inputNombre");
+        String descripcion = request.getParameter("inputDescripcion");
+        double duracion = Double.parseDouble(request.getParameter("inputDuracion"));
+        String plataforma = request.getParameter("plataforma");
+        String categorias = request.getParameter("categoria");
+        int especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
+        int especMax = Integer.parseInt(request.getParameter("inputEspecMan"));
+        String url = request.getParameter("inputURL");
+        double costo = Double.parseDouble(request.getParameter("inputCosto"));
+        String urlImagen = request.getParameter("inputFile");
+        
+        ICE.altaEspectaculo(plataforma, "Juanpa", nombre, descripcion, duracion, especMin, especMax, url, costo, "v", urlImagen);
         processRequest(request, response);
     }
 
