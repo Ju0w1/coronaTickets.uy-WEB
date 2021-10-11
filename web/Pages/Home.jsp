@@ -52,14 +52,23 @@
                                     for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
                                         String key = entry.getKey();
                                         Paquete value = entry.getValue();
+                                        String nombre =value.getNombre();
+                                        String desc = value.getDescripcion();
+                                        String fechaIni = value.getFecha_Inicio().getDia()+"/"+value.getFecha_Inicio().getMes()+"/"+value.getFecha_Inicio().getAnio();
+                                        String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+                                        float descuento = value.getDescuento();
+                                        float costo = value.getCosto();
+                                        String urlImagen = value.getUrl();
+                                        String concat = nombre+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costo)+","+urlImagen;
                             %>
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
                                         <img src="<%= value.getUrl()%>" id="<%= key%>" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
-                                            <form name="ver_mas" method="GET" action="/CoronaTickets-Web/login" >
-                                                <input type="submit" value="Ver más" name="ver_mas" id="btn_ver_mas" class="btn btn-secondary">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
+                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
                                     </div>

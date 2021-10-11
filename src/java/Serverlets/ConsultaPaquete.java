@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import Logica.Clases.Paquete;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 /**
  *
@@ -32,6 +35,7 @@ public class ConsultaPaquete extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +64,23 @@ public class ConsultaPaquete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+            String paquete = request.getParameter("ver_mas");
+            ServletContext context = getServletContext( );
+            context.log(paquete);
+            String[] datos = paquete.split(",");
+            String nombre = datos[0];           request.setAttribute("nombre", nombre);
+            String descripcion = datos[1];      request.setAttribute("desc", descripcion);
+            String fechaInicio = datos[2];      request.setAttribute("fechaIni", fechaInicio);
+            String fechaFin = datos[3];         request.setAttribute("fechaFin", fechaFin);
+            String descuento = datos[4];        request.setAttribute("descuento", descuento);
+            String costo = datos[5];            request.setAttribute("costo", costo);
+            String imagen = datos[6];           request.setAttribute("imagen", imagen);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/consultaPaquete.jsp");
+            view.forward(request, response);
+
+        
+        
     }
 
     /**

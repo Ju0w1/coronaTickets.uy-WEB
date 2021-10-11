@@ -56,7 +56,7 @@
 <body>
     <div class="d-flex justify-content-md-center align-items-center vh-100">
         
-        <form name="login" method="POST" action="/CoronaTickets-Web/login" >
+        <form name="login" method="POST" action="/CoronaTickets-Web/login">
             <h1 class="mb-5">INICIAR SESIÓN</h1>
             <div class="form-group">
                 <input type="text" name="user" class="form-control rounded-pill mb-2" id="user" placeholder="Nickname/Email">
