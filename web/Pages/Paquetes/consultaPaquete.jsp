@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <form class="p-2">
+                    <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/login">
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-8">
@@ -97,9 +97,12 @@
             </div>
             <div class="row mt-5">
                 <div class="col-12 d-flex justify-content-md-center">
-                    <button type="submit " class="btn btn-outline-secondary rounded-pill ">
-                        VOLVER
-                    </button>
+                    <a href="home">
+                        <button class="btn btn-outline-secondary rounded-pill ">
+                            VOLVER
+                        </button>
+                    </a>
+                    
                 </div>
             </div>
         </div>
