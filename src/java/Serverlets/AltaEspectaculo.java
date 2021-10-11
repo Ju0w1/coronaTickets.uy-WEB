@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -82,7 +83,12 @@ public class AltaEspectaculo extends HttpServlet {
         String descripcion = request.getParameter("inputDescripcion");
         double duracion = Double.parseDouble(request.getParameter("inputDuracion"));
         String plataforma = request.getParameter("plataforma");
-        String categorias = request.getParameter("categoria");
+        String[] categorias = request.getParameterValues("categoria");
+        
+        ServletContext context = getServletContext( );
+        context.log(categorias[0]);
+        context.log(categorias[1]);
+        
         int especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
         int especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
         String url = "https://EspectaculoDE_Prueba.com";// request.getParameter("inputURL");

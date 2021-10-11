@@ -74,8 +74,8 @@
                                     %>
                                 </select>
                             </div>
-                            <div class="col">
-                                <div class="row">
+                            <div class="col" style="height: 8vh; overflow-y: scroll;">
+                                
                                     <%
                                     Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
                                     if(plataformas == null){
@@ -87,18 +87,19 @@
 
                                 %>
 
-
-                                <div class="form-check">
-                                    <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>" >
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                      <%=value2.getNombre()%>
-                                    </label>
+                                <div class="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>" >
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                          <%=value2.getNombre()%>
+                                        </label>
+                                    </div>
                                 </div>
                                 <%
                                         }
                                     }
                                 %>
-                                </div>
+                                
                                 
                             </div>
 
