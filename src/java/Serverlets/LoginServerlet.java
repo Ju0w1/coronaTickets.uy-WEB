@@ -5,16 +5,20 @@
  */
 package Serverlets;
 
+import Logica.Clases.Usuario;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -71,8 +75,18 @@ public class LoginServerlet extends HttpServlet {
             throws ServletException, IOException {
             String email = request.getParameter("user");
             String password = request.getParameter("password");
+            Map <String,Usuario> users = (Map <String,Usuario>) ICU.obtenerUsuarios();
+            Usuario clientUser = users.get(email);
+            HttpSession objSesion = request.getSession();
             
             if (ICU.login(email, password)==true) {
+                objSesion.setAttribute("nickname", clientUser.getNickname());
+                objSesion.setAttribute("nombre", clientUser.getNombre());
+                objSesion.setAttribute("apellido", clientUser.getApellido());
+                objSesion.setAttribute("mail", clientUser.getEmail());
+                objSesion.setAttribute("nacimiento", clientUser.getNacimiento());
+                objSesion.setAttribute("imagen", clientUser.getImagen());
+                
                 request.setAttribute("message", "Bienvenido");
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
                 view.forward(request, response);
