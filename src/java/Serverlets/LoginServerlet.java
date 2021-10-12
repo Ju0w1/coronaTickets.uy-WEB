@@ -73,8 +73,22 @@ public class LoginServerlet extends HttpServlet {
             String password = request.getParameter("password");
             
             if (ICU.login(email, password)==true) {
+                objSesion.setAttribute("nickname", clientUser.getNickname());
+                objSesion.setAttribute("nombre", clientUser.getNombre());
+                objSesion.setAttribute("apellido", clientUser.getApellido());
+                objSesion.setAttribute("mail", clientUser.getEmail());
+                objSesion.setAttribute("nacimiento", clientUser.getNacimiento());
+                objSesion.setAttribute("imagen", clientUser.getImagen());
+                
+                String tipo = ICU.esEspectador(clientUser.getNickname());
+                if(tipo.equals("error")){
+                    objSesion.setAttribute("tipo", "Error de usuario");
+                }else{
+                    objSesion.setAttribute("tipo", tipo);
+                }
+                
                 request.setAttribute("message", "Bienvenido");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/home");
                 view.forward(request, response);
             } else {
                 request.setAttribute("error", "Revisa tus datos!");

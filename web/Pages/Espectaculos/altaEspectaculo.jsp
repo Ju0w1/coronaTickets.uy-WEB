@@ -4,6 +4,7 @@
 <%@page import="Logica.Clases.Categoria"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 
     <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -28,7 +30,17 @@
 </head>
 
 <body>
-    <%@include file="/Pages/Common/Header2.jsp" %>
+    <%
+            HttpSession objSesion = request.getSession();
+            String usuario;
+            String imgPerfil;
+            if (objSesion.getAttribute("nickname") != null) {%>
+                <%@include file="/Pages/Common/Header2.jsp" %>
+            <%}
+            else{%>
+                <%@include file="/Pages/Common/Header.jsp" %>
+            <%}
+        %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
 
         <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
