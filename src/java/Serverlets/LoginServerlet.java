@@ -69,19 +69,19 @@ public class LoginServerlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("user");
-        String password = request.getParameter("password");
-    
-        if (ICU.login(email, password)) {
-            request.setAttribute("message", "Bienvenido");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
-            view.forward(request, response);
-        } else {
-            request.setAttribute("error", "Revisa tus datos!");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
-            view.forward(request, response);
-        }
-        //processRequest(request, response);
+            String email = request.getParameter("user");
+            String password = request.getParameter("password");
+            
+            if (ICU.login(email, password)==true) {
+                request.setAttribute("message", "Bienvenido");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+                view.forward(request, response);
+            } else {
+                request.setAttribute("error", "Revisa tus datos!");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
+                view.forward(request, response);
+            }
+        
     }
 
     /**
