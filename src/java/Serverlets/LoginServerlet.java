@@ -78,7 +78,7 @@ public class LoginServerlet extends HttpServlet {
                 view.forward(request, response);
             } else {
                 request.setAttribute("error", "Revisa tus datos!");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
                 view.forward(request, response);
             }
         
