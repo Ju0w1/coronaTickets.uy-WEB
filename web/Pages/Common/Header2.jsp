@@ -66,7 +66,7 @@
                             if(tipoUsuario.equals("artista")){
                         %>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Alta espectáculo</a></li>
+                                <li><a class="dropdown-item" href="../Espectaculos/altaEspectaculo.jsp">Alta espectáculo</a></li>
                                 <li><a class="dropdown-item" href="#">Crear paquete de espectáculos</a></li>
                                 <li><a class="dropdown-item" href="#">Alta función de espectáculo</a></li>
                                 <li><a class="dropdown-item" href="#">Agregar espectáculo a paquete</a></li>
