@@ -88,7 +88,7 @@ public class LoginServerlet extends HttpServlet {
                 objSesion.setAttribute("imagen", clientUser.getImagen());
                 
                 request.setAttribute("message", "Bienvenido");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/home");
                 view.forward(request, response);
             } else {
                 request.setAttribute("error", "Revisa tus datos!");
