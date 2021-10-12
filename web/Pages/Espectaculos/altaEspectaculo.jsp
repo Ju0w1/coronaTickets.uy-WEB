@@ -4,6 +4,7 @@
 <%@page import="Logica.Clases.Categoria"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 
     <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +29,17 @@
 </head>
 
 <body>
-    <%@include file="/Pages/Common/Header2.jsp" %>
+    <%
+            HttpSession objSesion = request.getSession();
+            String usuario;
+            String imgPerfil;
+            if (objSesion.getAttribute("nickname") != null) {%>
+                <%@include file="/Pages/Common/Header2.jsp" %>
+            <%}
+            else{%>
+                <%@include file="/Pages/Common/Header.jsp" %>
+            <%}
+        %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
 
         <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
