@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,16 +28,7 @@
 </head>
 
 <body>
-    <%@include file="/Pages/Common/HeaderMain.jsp" %>
-    <%
-        String nombre = (String) request.getAttribute("nombre");
-        String descripcion = (String) request.getAttribute("desc");
-        String fechaIni = (String) request.getAttribute("fechaIni");
-        String fechaFin = (String) request.getAttribute("fechaFin");
-        String descuento = (String) request.getAttribute("descuento");
-        String costo = (String) request.getAttribute("costo");
-        String imagen = (String) request.getAttribute("imagen");
-    %>
+    <%@include file="/Pages/Common/Header.jsp" %>
     <div class="d-flex justify-content-md-center align-items-center vh-100 ">
         <div class="container" style="width: 100vh;">
             <div class="row">
@@ -47,47 +37,51 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 d-flex justify-content-md-center align-items-center">
-                    <div class="" style="background-color: #eee;">
-                        <img class="w-100 " src="<%=imagen%>">
-                    </div>
+                <div class="col-6">
+                    <div class="w-100 h-100 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>
                 </div>
                 <div class="col-6">
-                    <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/login">
+                    <form class="p-2">
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=nombre%>" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Categoría</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputNombre" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=descripcion%>" rows="2 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="Descripción " rows="2 " readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de inicio</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputNombre" placeholder="<%=fechaIni%>" readonly>
+                                <input type="date" class="form-control" id="inputNombre" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de fin</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputNombre" placeholder="<%=fechaFin%>" readonly>
+                                <input type="date" class="form-control" id="inputNombre" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descuento</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=descuento%>" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-4 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row justify-content-center">
@@ -98,12 +92,9 @@
             </div>
             <div class="row mt-5">
                 <div class="col-12 d-flex justify-content-md-center">
-                    <a href="home">
-                        <button class="btn btn-outline-secondary rounded-pill ">
-                            VOLVER
-                        </button>
-                    </a>
-                    
+                    <button type="submit " class="btn btn-outline-secondary rounded-pill ">
+                        VOLVER
+                    </button>
                 </div>
             </div>
         </div>
