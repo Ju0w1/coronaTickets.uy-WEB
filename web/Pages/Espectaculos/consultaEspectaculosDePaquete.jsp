@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +29,7 @@
 </head>
 
 <body>
-    <%@include file="/Pages/Common/Header.jsp" %>
+    <%@include file="/Pages/Common/HeaderMain.jsp" %>
     <div class="d-flex justify-content-md-center align-items-center vh-100 ">
         <div class="container" style="width: 100vh;">
             <div class="row">

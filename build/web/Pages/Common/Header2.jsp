@@ -56,10 +56,16 @@
             <li class="nav-item dropdown" style="margin-right: 40px;">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img
-                        src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                        src="
+                        <%
+                            imgPerfil = objSesion.getAttribute("imagen").toString();
+                            out.print(imgPerfil);
+                        %>
+                        "
                         class="rounded-circle z-depth-0"
                         alt="avatar image"
                         height="35"
+                        hight="35"
                         />
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -68,7 +74,13 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-            </li
+                
+            </li>
+            <h6 style="margin-top: 10%; padding-left: 0px;"> 
+            <%
+                usuario = objSesion.getAttribute("nickname").toString();
+                out.print(usuario);
+            %> </h6>
         </ul>
     </div>
 </nav>

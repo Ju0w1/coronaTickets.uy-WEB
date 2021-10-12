@@ -1,0 +1,32 @@
+SMAP
+altaEspectaculo_jsp.java
+JSP
+*S JSP
+*F
++ 0 altaEspectaculo.jsp
+Pages/Espectaculos/altaEspectaculo.jsp
++ 1 Header2.jsp
+Pages/Common/Header2.jsp
+*L
+1,31:53
+5#1,56:84
+61,3:141
+63,18:144
+81,3:163
+83,5:166
+31#0,29:170
+60,9:200
+68:209
+69:210,8
+70:218
+71,4:220
+74,6:224
+80,9:231
+88,4:240
+92:244,3
+93:247
+94:248,3
+95,4:251
+99,3:256
+101,70:259
+*E

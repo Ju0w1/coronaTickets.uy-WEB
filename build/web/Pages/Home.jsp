@@ -10,6 +10,7 @@
 <%@page import="Logica.Clases.Paquete"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 
     <!DOCTYPE html>
 
@@ -37,7 +38,7 @@
             }
         </style>
     </head>
-    <%@include file="/Pages/Common/Header.jsp" %>
+    <%@include file="/Pages/Common/HeaderMain.jsp" %>
     <body>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container w-75 ">
