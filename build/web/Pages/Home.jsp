@@ -38,17 +38,7 @@
             }
         </style>
     </head>
-    <%
-            HttpSession objSesion = request.getSession();
-            String usuario;
-            String imgPerfil;
-            if (objSesion.getAttribute("nickname") != null) {%>
-                <%@include file="/Pages/Common/Header2.jsp" %>
-            <%}
-            else{%>
-                <%@include file="/Pages/Common/Header.jsp" %>
-            <%}
-        %>
+    <%@include file="/Pages/Common/HeaderMain.jsp" %>
     <body>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container w-75 ">

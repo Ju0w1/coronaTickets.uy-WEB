@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <%@include file="/Pages/Common/Header2.jsp" %>
+    <%@include file="/Pages/Common/HeaderMain.jsp" %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
 
         <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
