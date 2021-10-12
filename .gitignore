@@ -72,3 +72,8 @@ build/web/WEB-INF/classes/Serverlets/HomeServlet.class
 build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
 dist/CoronaTickets-Web.war
 nbproject/private/private.xml
+build/web/Pages/Common/Header2.jsp
+build/web/WEB-INF/classes/Serverlets/LoginServerlet.class
+build/web/WEB-INF/lib/laboratorioProgramacionAplicaciones.jar
+nbproject/private/private.properties
+nbproject/private/private.xml

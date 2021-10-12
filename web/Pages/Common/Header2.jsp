@@ -62,9 +62,9 @@
                             <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="35" />
                         </a>
                         <%
-                    String tipoUsuario = objSesion.getAttribute("tipo").toString();
-                    if(tipoUsuario.equals("artista")){
-                %>
+                            String tipoUsuario = objSesion.getAttribute("tipo").toString();
+                            if(tipoUsuario.equals("artista")){
+                        %>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Alta espectáculo</a></li>
                                 <li><a class="dropdown-item" href="#">Crear paquete de espectáculos</a></li>
@@ -75,9 +75,9 @@
                                 </li>
                                 <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
                             </ul>
-                            <%
-                    }else if(tipoUsuario.equals("espectador")){
-                %>
+                        <%
+                            }else if(tipoUsuario.equals("espectador")){
+                        %>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="#">Compra de paquete de espectáculo</a></li>
                                     <li><a class="dropdown-item" href="#">Registro función de espectáculo</a></li>
@@ -86,9 +86,9 @@
                                     </li>
                                     <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
                                 </ul>
-                                <%
-                    }
-                %>
+                        <%
+                            }
+                        %>
 
 
                     </li>
