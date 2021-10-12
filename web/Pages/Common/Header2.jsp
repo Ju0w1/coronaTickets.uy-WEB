@@ -68,17 +68,36 @@
                         hight="35"
                         />
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
-                </ul>
+                <%
+                    String tipoUsuario = objSesion.getAttribute("tipo").toString();
+                    if(tipoUsuario.equals("artista")){
+                %>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Alta espectáculo</a></li>
+                            <li><a class="dropdown-item" href="#">Crear paquete de espectáculos</a></li>
+                            <li><a class="dropdown-item" href="#">Alta función de espectáculo</a></li>
+                            <li><a class="dropdown-item" href="#">Agregar espectáculo a paquete</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
+                        </ul>
+                <%
+                    }else if(tipoUsuario.equals("espectador")){
+                %>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Compra de paquete de espectáculo</a></li>
+                            <li><a class="dropdown-item" href="#">Registro función de espectáculo</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
+                        </ul>
+                <%
+                    }
+                %>
+                
                 
             </li>
-            <h6 style="margin-top: 10%; padding-left: 0px;"> 
+            <h6 style="margin-top: 8%; padding-left: 0px;"> 
             <%
-                usuario = objSesion.getAttribute("nickname").toString();
+                usuario = objSesion.getAttribute("tipo").toString();
                 out.print(usuario);
             %> </h6>
         </ul>
