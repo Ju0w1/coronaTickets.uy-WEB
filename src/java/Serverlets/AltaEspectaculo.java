@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -78,6 +79,8 @@ public class AltaEspectaculo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession objSesion = request.getSession();
+        String user = (String) objSesion.getAttribute("nickname");
         //OBTENIENDO DATOS DEL JSP
         String nombre = request.getParameter("inputNombre");
         String descripcion = request.getParameter("inputDescripcion");
@@ -91,11 +94,11 @@ public class AltaEspectaculo extends HttpServlet {
         
         int especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
         int especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
-        String url = "https://EspectaculoDE_Prueba.com";// request.getParameter("inputURL");
+        String url = request.getParameter("inputURL");
         double costo = Double.parseDouble(request.getParameter("inputCosto"));
         String urlImagen = request.getParameter("inputFile");
         
-        ICE.altaEspectaculo(plataforma, "Juanpa", nombre, descripcion, duracion, especMin, especMax, url, costo, "v", urlImagen, categorias);
+        ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "v", urlImagen, categorias);
         processRequest(request, response);
     }
 
