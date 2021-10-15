@@ -25,6 +25,7 @@ import Logica.Interfaz.IControladorUsuario;
 import Logica.Interfaz.IControladorPaquete;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -51,6 +52,8 @@ public class HomeServlet extends HttpServlet {
         Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
         Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
         try (PrintWriter out = response.getWriter()) {
+            ServletContext context = getServletContext( );
+            context.log("El largo es: "+Integer.toString(espectaculos.size()));
             request.setAttribute("paquetes", paquetes);
             request.setAttribute("espectaculos", espectaculos);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
