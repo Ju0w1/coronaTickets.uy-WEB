@@ -4,6 +4,7 @@
     Author     : LucasCiceri
 --%>
 
+<%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Interfaz.IControladorPaquete"%>
 <%@page import="Logica.Fabrica"%>
 <%@page import="java.util.HashMap"%>
@@ -56,8 +57,36 @@
                                         Paquete value = entry.getValue();
                                         String nombre =value.getNombre();
                                         String desc = value.getDescripcion();
-                                        String fechaIni = value.getFecha_Inicio().getDia()+"/"+value.getFecha_Inicio().getMes()+"/"+value.getFecha_Inicio().getAnio();
-                                        String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+                                        
+                                        String mes1;
+                                        if(value.getFecha_Inicio().getMes()<10){
+                                           mes1 = "0"+value.getFecha_Inicio().getMes();
+                                        }else{
+                                           mes1 = Integer.toString(value.getFecha_Inicio().getMes());
+                                        }
+                                        String dia1;
+                                        if(value.getFecha_Inicio().getDia()<10){
+                                           dia1 = "0"+value.getFecha_Inicio().getDia();
+                                        }else{
+                                           dia1 = Integer.toString(value.getFecha_Inicio().getDia());
+                                        }
+                                        String mes2;
+                                        if(value.getFecha_Fin().getMes()<10){
+                                           mes2 = "0"+value.getFecha_Fin().getMes();
+                                        }else{
+                                           mes2 = Integer.toString(value.getFecha_Fin().getMes());
+                                        }
+                                        String dia2;
+                                        if(value.getFecha_Fin().getDia()<10){
+                                           dia2 = "0"+value.getFecha_Fin().getDia();
+                                        }else{
+                                           dia2 = Integer.toString(value.getFecha_Inicio().getDia());
+                                        }
+                                        
+                                        String fechaIni = value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
+                                        String fechaFin = value.getFecha_Fin().getAnio()+"-"+mes2+"-"+dia2;
+                                        //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+                                        
                                         float descuento = value.getDescuento();
                                         float costo = value.getCosto();
                                         String urlImagen = value.getUrl();
@@ -84,9 +113,34 @@
                         </div>
                         <div class="col-6"  style="overflow-y: scroll; height: 85vh">
                             <h1>Espectáculos</h1>
-                            <div class="container">
-                                
+                            <%
+                                Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+                                if(espectaculos == null){
+                                    System.out.println("VACIO");
+                                }else{
+                                    for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                        String key = entry.getKey();
+                                        Espectaculo value = entry.getValue();
+                            %>
+                            <div class="row ">
+                                <div class="container w-100 mt-3 mb-3">
+                                    <div class="card bg-dark text-white">
+                                        <img src="<%= value.getUrlIamgen()%>" id="<%= key%>" class="card-img">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
+                                                <input type="hidden" value="" name="ver_mas">
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                             </div>
+                            <%
+                                    }
+                                }
+
+                            %> 
                         </div>
                     </div>
                              

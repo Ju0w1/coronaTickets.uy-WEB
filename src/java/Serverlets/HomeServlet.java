@@ -6,6 +6,7 @@ package Serverlets;
  * and open the template in the editor.
  */
 
+import Logica.Clases.Espectaculo;
 import Logica.Clases.Paquete;
 import Logica.Clases.Usuario;
 import Logica.DataTypes.DTFecha;
@@ -19,10 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Logica.Fabrica;
+import Logica.Interfaz.IControladorEspectaculo;
 import Logica.Interfaz.IControladorUsuario;
 import Logica.Interfaz.IControladorPaquete;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -42,13 +45,17 @@ public class HomeServlet extends HttpServlet {
      */
     Fabrica fabrica = Fabrica.getInstance();
     IControladorPaquete ICP = fabrica.getIControladorPaquete();
-
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
+        Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
         try (PrintWriter out = response.getWriter()) {
+            ServletContext context = getServletContext( );
+            context.log("El largo es: "+Integer.toString(espectaculos.size()));
             request.setAttribute("paquetes", paquetes);
+            request.setAttribute("espectaculos", espectaculos);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
             view.forward(request, response);
         }

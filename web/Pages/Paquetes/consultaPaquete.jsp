@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="Logica.Clases.Paquete"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true" %>
 <!DOCTYPE html>
@@ -35,12 +37,16 @@
             String usuario;
             String imgPerfil;
         if (objSesion.getAttribute("nickname") != null) {%>
-        <%@include file="/Pages/Common/Header2.jsp" %>
+            <%@include file="/Pages/Common/Header2.jsp" %>
         <%} else {%>
-        <%@include file="/Pages/Common/Header.jsp" %>
-        <%}
-        %>
+            <%@include file="/Pages/Common/Header.jsp" %>
+        <%}%>
         <%
+            /*Paquete paqSeleccionado = (Paquete) objSesion.getAttribute("paqueteSeleccionado");
+            String imagen = (String) objSesion.getAttribute("imagenPaquete");
+            System.out.println(imagen);*/
+            //Paquete paq = new Paquete(nombre_, Descripcion_, Fecha_Inicio_, Fecha_Fin_, Costo_, Descuento_, Fecha_Compra_);
+            //Paquete paq = new Paquete(nombre_, Descripcion_, Fecha_Inicio_, Fecha_Fin_, Costo_, Descuento_, Fecha_Compra_, url_, Fecha_alta_, vigencia_);
             String nombre = (String) request.getAttribute("nombre");
             String descripcion = (String) request.getAttribute("desc");
             String fechaIni = (String) request.getAttribute("fechaIni");
@@ -48,6 +54,10 @@
             String descuento = (String) request.getAttribute("descuento");
             String costo = (String) request.getAttribute("costo");
             String imagen = (String) request.getAttribute("imagen");
+            //2013-01-08
+            
+            
+            
         %>
         <div class="d-flex justify-content-md-center align-items-center vh-100 ">
             <div class="container" style="width: 100vh;">
@@ -79,13 +89,13 @@
                             <div class="form-group row mb-2 justify-content-between">
                                 <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de inicio</label>
                                 <div class="col-sm-8">
-                                    <input type="date" class="form-control" id="inputNombre" placeholder="<%=fechaIni%>" readonly>
+                                    <input type="date" class="form-control" id="inputNombre" value="<%=fechaIni%>" placeholder="" readonly>
                                 </div>
                             </div>
                             <div class="form-group row mb-2 justify-content-between">
                                 <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de fin</label>
                                 <div class="col-sm-8">
-                                    <input type="date" class="form-control" id="inputNombre" placeholder="<%=fechaFin%>" readonly>
+                                    <input type="date" class="form-control" id="inputNombre" value="<%=fechaFin%>" placeholder="" readonly>
                                 </div>
                             </div>
                             <div class="form-group row mb-2 justify-content-between">
