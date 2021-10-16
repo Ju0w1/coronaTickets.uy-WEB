@@ -3,6 +3,8 @@
     Created on : 09/10/2021, 12:05:06 PM
     Author     : milto
 --%>
+<%@page import="Logica.Clases.Espectaculo"%>
+<%@page import="Logica.Clases.Funcion"%>
 <%@page import="Logica.Clases.Usuario"%>
 <%@page import="Logica.Interfaz.IControladorUsuario"%>
 <%@page import="Logica.Fabrica"%>
@@ -20,7 +22,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ESPECTADOR</title>
-  <link rel="stylesheet" href="source/Style.css">
+  <link rel="stylesheet" href="Perfil.css">
   <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
@@ -40,6 +42,10 @@
         DTFecha nacimiento = espect.getNacimiento();
         String email = espect.getEmail();
         String nick = espect.getNickname();
+        int seguidores = espect.getSeguidores();
+        int seguidos = espect.getSeguidos();
+        Map<String, Funcion> funciones = (Map<String, Funcion>) request.getAttribute("Funciones");
+        
     %>
     
     
@@ -57,8 +63,8 @@
                 <div class="mt-3">
                   <h4><%=nick%></h4>
                   <p class="text-secondary mb-1">Espectador</p>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b>1230</b></a></label>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b>534</b></a> </label>
+                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b><%=seguidores%></b></a></label>
+                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b><%=seguidos%></b></a> </label>
                   <button class="btn btn-primary">Seguir <!-- O dejar de seguir --></button>
                 </div>
               </div>
@@ -107,18 +113,26 @@
               <!-- FUNCIONES REGISTRADO -->
               <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Funciones </i>  Registrado
               </h6>
+              
+            <%
+                for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                    String key = entry.getKey();
+                    Funcion value = entry.getValue();  
+            %>
+              
+              
               <div class="func">
                 <!-- FUNCION EJEMPLO -->
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- NOMBRE -->
                     <h6 class="mb-0"> Nombre</h6>
-                    <span class="text-secondary">El entierro</span>
+                    <span class="text-secondary"><%=value.getNombre() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- NOMBRE -->
                     <h6 class="mb-0"> Espectaculo</h6>
-                    <span class="text-secondary">Carnaval</span>
+                    <span class="text-secondary"><%=value.getEspectaculo().getNombre() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- PLATAFORMA -->
@@ -131,13 +145,19 @@
                           d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
                       </svg>
                       Plataforma</h6>
-                    <span class="text-secondary">Twitch</span>
+                    <span class="text-secondary"><%=value.getEspectaculo().getPlataforma() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <button class="btn btn-outline-primary">Detalles</button>
                   </li>
                 </ul>
               </div>
+            <br>
+            <%
+                }
+            %>
+              
+              
             </div>
           </div>
         </div>

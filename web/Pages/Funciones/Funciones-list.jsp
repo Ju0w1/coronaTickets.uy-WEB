@@ -3,12 +3,33 @@
     Created on : 09/10/2021, 12:13:41 PM
     Author     : milto
 --%>
+<%@page import="Logica.Clases.Categoria"%>
+<%@page import="Logica.Clases.Plataforma"%>
+<%@page import="Logica.Clases.Funcion"%>
+<%@page import="Logica.Clases.Espectaculo"%>
+<%@page import="Logica.Fabrica"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <%
+        //Map<String, Espectaculo> espectaculosAux;
+        Map<String, Espectaculo> EspectAux = new HashMap<>();
+        Map<String, Categoria> categoriasAux;
+        
+        
+        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+        Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+        //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+        
+        Map<String, Espectaculo> espectaculosFiltrados = new HashMap<>();
+        espectaculosFiltrados = (Map<String, Espectaculo>) request.getAttribute("espectaculosFiltrados");
+    %>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,10 +43,19 @@
             $("#header").load("Pages/Common/Header2.jsp");
         });
     </script>
+    <script>
+        function activa_boton(campo,boton){
+            $("#boton").click();
+        }
+    </script> 
+
 </head>
 
 <body>
     <div id="header"></div>
+    
+    
+    <div class="resultado"></div>
     <br>
     <h3 style="text-align: center;">
         CONSULTA DE FUNCIÓN:
@@ -39,23 +69,43 @@
                 </div>
                 <div class="col-2">
                     <div class="dropdown">
-                        <select aria-label="Default select example"
-                            style="height: 42px; font-size: large; border-color: rgb(226, 227, 236); border-radius: 5%; background-color: #fafafa;">
-                            <option selected>Categorias</option>
-                            <option value="1">Categoria 1</option>
-                            <option value="2">Categoria 2</option>
-                            <option value="3">Categoria 3</option>
-                        </select>
+                        
+                        <form action="/CoronaTickets-Web/funciones" method="post">
+                            <select aria-label="Default select example" class="cat" name="cat" onChange="activa_boton(this,this.form.boton)" required
+                                style="height: 42px; font-size: large; border-color: rgb(226, 227, 236); border-radius: 5%; background-color: #fafafa;">
+                                <<option value="Default">Categorias</option>
+                                <%
+                                for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
+                                    String key = entry.getKey();
+                                    Categoria value = entry.getValue();  
+                                %>
+                                <option value="<%=value.getNombre()%>"><%=value.getNombre()%></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                            <input hidden="true" type="submit" name="boton" id="boton">
+                        </form>
+                        
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="dropdown">
-                        <select aria-label="Default select example"
+                        <select aria-label="Default select example" class="pla"
                             style="height: 42px; font-size: large; border-color: rgb(226, 227, 236); border-radius: 5%; background-color: #fafafa;">
                             <option selected>Plataformas</option>
-                            <option value="1">Twitch</option>
+                            <%
+                            for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
+                                String key = entry.getKey();
+                                Plataforma value = entry.getValue();  
+                            %>
+                            <option value="1"><%=value.getNombre()%></option>
+                            <%
+                                }
+                            %>
+                            <!--
                             <option value="2">YouTube</option>
-                            <option value="3">Facebook</option>
+                            <option value="3">Facebook</option>-->
                         </select>
                     </div>
                 </div>
@@ -74,50 +124,32 @@
                     <!--ESPECTACULOS-->
                     <div class="card-body no-padding">
                         <!--ESPECTACULO-EJEMPLO-->
+                        <%
+                            if(espectaculosFiltrados!=null){
+                                for (Map.Entry<String, Espectaculo> entry : espectaculosFiltrados.entrySet()) {
+                                    String key = entry.getKey();
+                                    Espectaculo value = entry.getValue();
+                        %>
                         <div class="item d-flex align-items-center">
                             <!--IMAGEN-->
-                            <div class="image"><img src="https://thumbs.dreamstime.com/z/carnaval-del-cartel-con-las-m%C3%A1scaras-de-la-mascarada-aisladas-en-fondo-ve-108720610.jpg"
+                            <div class="image"><img src="<%=value.getUrlIamgen()%>"
                                 alt="fotoPerfil" class="img-thumbnail" style="height: 100px ;width: 100px;"></div>
                                 <div class="text"><a href="#">
                                     <!--NOMBRE-->
-                                    <h3 class="h5">Carnaval</h3>
+                                    <h3 class="h5"><%=value.getNombre()%></h3>
                                 </a>
                                 <!--PLATAFORMA-->
-                                <small>Twitch</small><br>
+                                <small><%=value.getPlataforma() %></small><br>
                                 <!--PRECIO-->
-                                <small>$500</small>
+                                <small>$100</small>
                             </div>
                         </div>
+                        <%
+                                }
+                            }
+                        %>
                         <!--ESPECTACULO-EJEMPLO-->
-                        <div class="item d-flex align-items-center">
-                            <!--IMAGEN-->
-                            <div class="image"><img src="https://pbs.twimg.com/media/D-TzSqUXkAI2Tmw.jpg"
-                                alt="fotoPerfil" class="img-thumbnail" style="height: 100px ;width: 100px;"></div>
-                                <div class="text"><a href="#">
-                                    <!--NOMBRE-->
-                                    <h3 class="h5">Viña del Mar</h3>
-                                </a>
-                                <!--PLATAFORMA-->
-                                <small>Instagram</small><br>
-                                <!--PRECIO-->
-                                <small>$500</small>
-                            </div>
-                        </div>
-                        <!--ESPECTACULO-EJEMPLO-->
-                        <div class="item d-flex align-items-center">
-                            <!--IMAGEN-->
-                            <div class="image"><img src="https://www.eltiempo.com/files/image_640_428/uploads/2021/05/03/60904eaa310f4.jpeg"
-                                alt="fotoPerfil" class="img-thumbnail" style="height: 100px ;width: 100px;"></div>
-                                <div class="text"><a href="#">
-                                    <!--NOMBRE-->
-                                    <h3 class="h5">Concierto Gira</h3>
-                                </a>
-                                <!--PLATAFORMA-->
-                                <small>Facebook</small><br>
-                                <!--PRECIO-->
-                                <small>$500</small>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

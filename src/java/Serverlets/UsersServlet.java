@@ -89,17 +89,19 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nickname = request.getParameter("nick");
+        String nickname = request.getParameter("data");
+        String[] datos = nickname.split(",");
+        String nick = datos[0];
         
-        if (ICU.obtenerArtistaPorNick(nickname)==null){
+        if (ICU.obtenerArtistaPorNick(nick)==null){
             System.out.println("NO ES ARTISTA");
-            Usuario espect = ICU.obtenerEspectadorPorNick(nickname);
+            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
             System.out.println("ES ESPECTADOR");
             request.setAttribute("Espectador", espect);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
             view.forward(request, response);
         } else {
-            Artista art=ICU.obtenerArtistaPorNick(nickname);
+            Artista art=ICU.obtenerArtistaPorNick(nick);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
             
             request.setAttribute("Artista", art);

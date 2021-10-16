@@ -3,6 +3,8 @@
     Created on : 09/10/2021, 11:59:44 AM
     Author     : milto
 --%>
+<%@page import="Logica.Clases.Espectaculo"%>
+<%@page import="Logica.Clases.Usuario"%>
 <%@page import="Logica.Interfaz.IControladorUsuario"%>
 <%@page import="Logica.Fabrica"%>
 <%@page import="java.util.HashMap"%>
@@ -32,16 +34,22 @@
 </head>
 <body style="background-color: rgb(230, 232, 240);">
     <%
-        Artista art = (Artista) request.getAttribute("Artista");
-        String imagen = art.getImagen();
-        String nombre = art.getNombre();
-        String apellido = art.getApellido();
-        DTFecha nacimiento = art.getNacimiento();
-        String web = art.getLinkWeb();
-        String email = art.getEmail();
-        String nick = art.getNickname();
-        String descripcion = art.getDescripcion();
-        String bio = art.getBiografia();
+        Artista espect = (Artista) request.getAttribute("Artista");
+        String imagen = espect.getImagen();
+        String nombre = espect.getNombre();
+        String apellido = espect.getApellido();
+        DTFecha nacimiento = espect.getNacimiento();
+        String email = espect.getEmail();
+        String nick = espect.getNickname();
+        String web = espect.getLinkWeb();
+        String descripcion = espect.getDescripcion();
+        String bio = espect.getBiografia();
+        int seguidores = espect.getSeguidores();
+        int seguidos = espect.getSeguidos();
+        
+        Map<String, Espectaculo> espectaculosAceptados = (Map<String, Espectaculo>) request.getAttribute("Espectaculos");
+        
+        
     %>
                     
   <div id="header"></div>
@@ -58,8 +66,8 @@
                 <div class="mt-3">
                   <h4><%=nick%></h4>
                   <p class="text-secondary mb-1">Artista</p>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b>1230</b></a></label>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b>534</b></a> </label>
+                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b><%=seguidores%></b></a></label>
+                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b><%=seguidos%></b></a> </label>
                   <button class="btn btn-primary">Seguir <!-- O dejar de seguir --></button>
                 </div>
               </div>
@@ -144,17 +152,25 @@
             </div>
           </div>
           <div class="card mb-3">
+              
             <div class="card-body">
               <!-- ESPECTACULOS -->
               <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Espectaculos </i>
               </h6>
+
+                <%
+                for (Map.Entry<String, Espectaculo> entry : espectaculosAceptados.entrySet()) {
+                    String key = entry.getKey();
+                    Espectaculo value = entry.getValue();  
+                %>
+
               <div class="espect">
                 <!-- ESPECTACULO EJEMPLO -->
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- NOMBRE -->
                     <h6 class="mb-0"> Nombre</h6>
-                    <span class="text-secondary">Carnaval</span>
+                    <span class="text-secondary"><%=value.getNombre()%></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- PLATAFORMA -->
@@ -167,7 +183,7 @@
                           d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
                       </svg>
                       Plataforma</h6>
-                    <span class="text-secondary">Twitch</span>
+                    <span class="text-secondary"><%=value.getPlataforma() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- COSTO -->
@@ -183,7 +199,7 @@
                         <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
                       </svg>
                       Costo</h6>
-                    <span class="text-secondary">500</span>
+                    <span class="text-secondary"><%=value.getCosto()%></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <button class="btn btn-outline-primary">Detalles</button>
@@ -191,135 +207,11 @@
                 </ul>
               </div>
               <br>
-              <div class="espect">
-                <!-- ESPECTACULO EJEMPLO -->
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- NOMBRE -->
-                    <h6 class="mb-0"> Nombre</h6>
-                    <span class="text-secondary">Viña del Mar</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- PLATAFORMA -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-collection-play" viewBox="0 0 16 16">
-                        <path
-                          d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z" />
-                        <path
-                          d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
-                      </svg>
-                      Plataforma</h6>
-                    <span class="text-secondary">Youtube</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- COSTO -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cash-coin" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                          d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
-                        <path
-                          d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
-                        <path
-                          d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
-                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
-                      </svg>
-                      Costo</h6>
-                    <span class="text-secondary">1599</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <button class="btn btn-outline-primary">Detalles</button>
-                  </li>
-                </ul>
-              </div>
-              <br>
-              <div class="espect">
-                <!-- ESPECTACULO EJEMPLO -->
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- NOMBRE -->
-                    <h6 class="mb-0"> Nombre</h6>
-                    <span class="text-secondary">Las tres Marias</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- PLATAFORMA -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-collection-play" viewBox="0 0 16 16">
-                        <path
-                          d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z" />
-                        <path
-                          d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
-                      </svg>
-                      Plataforma</h6>
-                    <span class="text-secondary">Facebook Live</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- COSTO -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cash-coin" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                          d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
-                        <path
-                          d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
-                        <path
-                          d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
-                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
-                      </svg>
-                      Costo</h6>
-                    <span class="text-secondary">690</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <button class="btn btn-outline-primary">Detalles</button>
-                  </li>
-                </ul>
-              </div>
-              <br>
-              <div class="espect">
-                <!-- ESPECTACULO EJEMPLO -->
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- NOMBRE -->
-                    <h6 class="mb-0"> Nombre</h6>
-                    <span class="text-secondary">Toque San Juan</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- PLATAFORMA -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-collection-play" viewBox="0 0 16 16">
-                        <path
-                          d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z" />
-                        <path
-                          d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
-                      </svg>
-                      Plataforma</h6>
-                    <span class="text-secondary">Instagram Live</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <!-- COSTO -->
-                    <h6 class="mb-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cash-coin" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                          d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
-                        <path
-                          d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
-                        <path
-                          d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
-                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
-                      </svg>
-                      Costo</h6>
-                    <span class="text-secondary">800</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <button class="btn btn-outline-primary">Detalles</button>
-                  </li>
-                </ul>
-              </div>
+                <%
+                    } 
+                %>
             </div>
+              
           </div>
         </div>
       </div>
