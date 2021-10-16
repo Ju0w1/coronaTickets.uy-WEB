@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,14 +17,20 @@
     <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"> </script>
-    <script>
-        $(function () {
-            $("#header").load("Pages/Common/Header2.jsp");
-        });
-    </script>
 </head>
 
 <body>
+    <%
+        HttpSession objSesion = request.getSession();
+        String usuario;
+        String imgPerfil;
+        if (objSesion.getAttribute("nickname") != null) {%>
+            <%@include file="/Pages/Common/Header2.jsp" %>
+        <%}
+        else{%>
+            <%@include file="/Pages/Common/Header.jsp" %>
+        <%}
+    %>
     <div id="header"></div>
     <br>
     <h3 style="text-align: center;">

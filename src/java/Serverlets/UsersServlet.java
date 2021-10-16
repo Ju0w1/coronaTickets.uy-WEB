@@ -5,6 +5,8 @@ package Serverlets;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import Logica.Clases.Artista;
+import Logica.Clases.Espectador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -17,14 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Logica.Clases.Usuario;
 import Logica.Fabrica;
+import Logica.Interfaz.IControladorPaquete;
 import Logica.Interfaz.IControladorUsuario;
+import java.util.HashSet;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 
 /**
  *
  * @author LucasCiceri
  */
-@WebServlet(urlPatterns = {"/homeLogueado"})
+@WebServlet(name = "Users", urlPatterns = {"/users"})
 public class UsersServlet extends HttpServlet {
 
     
@@ -37,11 +41,24 @@ public class UsersServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorUsuario ICU = fabrica.getIControladorUsuario();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.obtenerUsuarios();
+        String respuesta;
+        if(usuarios.isEmpty()){
+            System.out.println("NO HAY USERS");
+            respuesta="Vacio";
+        }else{
+            System.out.println("SI HAY USERS");
+            respuesta="No vacio";
+        }
         try (PrintWriter out = response.getWriter()) {
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/homeLogueado.jsp");
+            request.setAttribute("usuarios", usuarios);
+            request.setAttribute("mensaje", respuesta);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Users-list.jsp");
             view.forward(request, response);
         }
     }
@@ -72,7 +89,26 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String nickname = request.getParameter("data");
+        String[] datos = nickname.split(",");
+        String nick = datos[0];
+        
+        if (ICU.obtenerArtistaPorNick(nick)==null){
+            System.out.println("NO ES ARTISTA");
+            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+            System.out.println("ES ESPECTADOR");
+            request.setAttribute("Espectador", espect);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
+            view.forward(request, response);
+        } else {
+            Artista art=ICU.obtenerArtistaPorNick(nick);
+            System.out.println("IMAGEN GUARDADA: " + art.getImagen());
+            
+            request.setAttribute("Artista", art);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
+            view.forward(request, response);
+        }
+        //processRequest(request, response);
     }
 
     /**

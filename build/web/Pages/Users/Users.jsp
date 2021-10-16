@@ -8,7 +8,7 @@
 <%@page import="Logica.Clases.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +18,17 @@
     <body>
         <link rel="stylesheet" type="text/css" href="Users.css" />
 
-        <%@include file="/Pages/Common/Header.jsp" %>
+        <%
+            HttpSession objSesion = request.getSession();
+            String usuario;
+            String imgPerfil;
+            if (objSesion.getAttribute("nickname") != null) {%>
+                <%@include file="/Pages/Common/Header2.jsp" %>
+            <%}
+            else{%>
+                <%@include file="/Pages/Common/Header.jsp" %>
+            <%}
+        %>
         <h1>Hola usuario <b> ${name}</b></h1>
 
         <table class="table">
