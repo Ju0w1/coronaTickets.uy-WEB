@@ -13,6 +13,7 @@
 <%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,6 +53,17 @@
 </head>
 
 <body>
+    <%
+        HttpSession objSesion = request.getSession();
+        String usuario;
+        String imgPerfil;
+        if (objSesion.getAttribute("nickname") != null) {%>
+            <%@include file="/Pages/Common/Header2.jsp" %>
+        <%}
+        else{%>
+            <%@include file="/Pages/Common/Header.jsp" %>
+        <%}
+    %>
     <div id="header"></div>
     
     

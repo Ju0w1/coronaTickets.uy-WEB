@@ -13,6 +13,7 @@
 <%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +34,17 @@
   </script>
 </head>
 <body style="background-color: rgb(230, 232, 240);">
+    <%
+        HttpSession objSesion = request.getSession();
+        String usuario;
+        String imgPerfil;
+        if (objSesion.getAttribute("nickname") != null) {%>
+            <%@include file="/Pages/Common/Header2.jsp" %>
+        <%}
+        else{%>
+            <%@include file="/Pages/Common/Header.jsp" %>
+        <%}
+    %>
     <%
         Artista espect = (Artista) request.getAttribute("Artista");
         String imagen = espect.getImagen();
