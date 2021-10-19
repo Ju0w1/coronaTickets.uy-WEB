@@ -96,7 +96,7 @@ public class AltaEspectaculo extends HttpServlet {
         int especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
         String url = request.getParameter("inputURL");
         double costo = Double.parseDouble(request.getParameter("inputCosto"));
-        String urlImagen = request.getParameter("inputFile");
+        String urlImagen = request.getParameter("urlImagen");
         
         ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "v", urlImagen, categorias);
         processRequest(request, response);

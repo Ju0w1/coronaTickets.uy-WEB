@@ -15,13 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- CSS only -->
+    <!-- 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -42,7 +44,7 @@
             <%}
         %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
-
+        
         <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE ESPECTÁCULO</h1>
@@ -153,6 +155,7 @@
                         </span>
                     </div>
                     <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
+                    <input id="labelImagen" name="urlImagen" type="hidden" value="">
                     <div class="input-group">
                         <input type="file" class="form-control rounded-pill mb-2 " id="inputFile"  name="inputFile" placeholder="">
                         <span class="input-group-append ">
@@ -173,10 +176,42 @@
 
         </form>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input[type="file"]').change(function(e){
+                alert('The file name is : "' + e.target.files[0].name);
+                const file = document.getElementById("file");
+                const label = document.getElementById("imagen");
+                var apiURL = 'https://api-imgur.herokuapp.com/upload';
+                var settings = {
+                    sync: false,
+                    //crossDomain: true,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    url: apiURL,
+                    headers: {
+                        Accept: 'application/json',
+                        'Access-Control-Allow-Origin': "*"
+                    },
+                    mimeType: 'multipart/form-data'
+                };
+                var formData = new FormData();
+                formData.append('file', e.target.files[0]);
+                settings.data = formData;
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js " integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN " crossorigin="anonymous "></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js " integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF " crossorigin="anonymous "></script>
+                $.ajax(settings).done(function(response) {
+                    //console.log(response);
+                    var lab = $.parseJSON(response);
+                    //console.log(lab.data.url);
+                    //$label.val = response.data.link;
+                    //$("#labelImagen").text(lab.data.url);
+                    $("#labelImagen").attr("value",lab.data.url);
+                });
+            });
+        });
+        
+    </script>                            
 </body>
 
 </html>
