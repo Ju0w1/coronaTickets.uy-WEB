@@ -5,13 +5,20 @@
  */
 package Serverlets;
 
+import Logica.Clases.Espectaculo;
+import Logica.Fabrica;
+import Logica.Interfaz.IControladorEspectaculo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,7 +26,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ConsultaEspectaculosDePaquete", urlPatterns = {"/ConsultaEspectaculosDePaquete"})
 public class ConsultaEspectaculosDePaquete extends HttpServlet {
-
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -58,7 +66,15 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                String nombreEspectaculo = request.getParameter("espectaculo");
+                
+                Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
+                ServletContext context = getServletContext( );
+                context.log(espec.getNombre());
+                request.setAttribute("espec", espec);
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+                view.forward(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -72,7 +88,13 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                HttpSession objSesion = request.getSession();
+                String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
+                Map<String, Espectaculo> espectaculosDePaquete = (Map<String, Espectaculo>) ICE.obtenerMapEspectaculosDePaquete(nombrePaquete);
+                request.setAttribute("espectaculosPaquete", espectaculosDePaquete);
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+                view.forward(request, response);
+        //processRequest(request, response);
     }
 
     /**

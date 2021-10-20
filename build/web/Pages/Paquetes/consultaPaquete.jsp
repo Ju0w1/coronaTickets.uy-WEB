@@ -55,7 +55,7 @@
             String costo = (String) request.getAttribute("costo");
             String imagen = (String) request.getAttribute("imagen");
             //2013-01-08
-            
+            objSesion.setAttribute("nombrePaquete", nombre);
             
             
         %>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/login">
+                        <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
                             <div class="form-group row mb-2 justify-content-between">
                                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-8">

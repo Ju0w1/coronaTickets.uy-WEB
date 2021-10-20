@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="Logica.Clases.Espectaculo"%>
+<%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,62 +42,106 @@
                 <%@include file="/Pages/Common/Header.jsp" %>
             <%}
         %>
-    <div class="d-flex justify-content-md-center align-items-center vh-100 ">
+
+    <div class="d-flex justify-content-md-center align-items-center mt-5">
         <div class="container" style="width: 100vh;">
             <div class="row">
                 <div class="col-12 d-flex justify-content-md-center">
-                    <h1 class="mb-5">ESPECTÁCULOS DEL PAQUETE "NOMBRE"</h1>
+                    <h1 class="mb-5">ESPECTÁCULOS DEL PAQUETE "<%=(String) objSesion.getAttribute("nombrePaquete")%>"</h1>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="d-flex justify-content-md-center align-items-center">
-                    <div class="col-3 d-flex justify-content-md-center">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Espectáculos</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
+            <%
+                if((Espectaculo) request.getAttribute("espec") == null){
+
+            %>  
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-md-center">
+                    <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
+                            <select class="form-select" name="espectaculo" aria-label="Espectaculos">
+                                <option selected>Espectaculos</option>
+                                <%
+                                    int i=0;
+                                     Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
+                                    if(espectaculos == null){
+                                        System.out.println("VACIO");
+                                    }else{
+                                        for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                            String key = entry.getKey();
+                                            Espectaculo value = entry.getValue();
+                                %>
+                                <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                                <%
+                                            i++;
+                                        }
+                                    }
+                                %>
+                            </select>
+                            <div class="col-md-12 d-flex justify-content-md-center mt-2">
+                                <button type="submit " class="btn btn-secondary rounded-pill d-flex justify-content-md-center">
+                                BUSCAR
+                            </button>
+                            </div>
+                            
+                      </form>       
+                </div>      
             </div>
+            <%
+                }else{
+                    Espectaculo espectaculo = (Espectaculo) request.getAttribute("espec");
+                    //espectaculo.getUrlIamgen()
+                    //value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
+                    String dia;
+                    String mes;
+                    if(espectaculo.getFecha().getDate() <10){
+                        dia = "0"+espectaculo.getFecha().getDate();
+                    }else{
+                        dia = Integer.toString(espectaculo.getFecha().getDate());
+                    }
+                    if(espectaculo.getFecha().getMonth() <10){
+                        mes = "0"+espectaculo.getFecha().getMonth();
+                    }else{
+                        mes = Integer.toString(espectaculo.getFecha().getMonth());
+                    }
+                    String fecha = espectaculo.getFecha().getYear()+1900+"-"+mes+"-"+dia;
+
+            %>  
             <div class="row">
                 <div class="col-6">
                     <form class="p-2">
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getNombre()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="Descripción " rows="2 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="2 " readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Organizador</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getArtista()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Duración</label>
                             <div class="col-sm-8">
-                                <input type="time" class="form-control" id="inputNombre" placeholder="" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getDuracion()%> Minutos" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-8 col-form-label">Cantidad mínima de espectadores</label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getMin()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-8 col-form-label">Cantidad máxima de espectadores</label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getMax()%>" readonly>
                             </div>
                         </div>
                     </form>
@@ -105,31 +151,41 @@
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-2 col-form-label">URL</label>
                         <div class="col-sm-10">
-                            <input type="url" class="form-control" id="inputNombre" placeholder="" readonly>
+                            <input type="url" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getUrl()%>" readonly>
                         </div>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de registro</label>
                         <div class="col-sm-7">
-                            <input type="date" class="form-control" id="inputNombre" placeholder="" readonly>
+                            <input type="date" class="form-control" id="inputNombre" value="<%=fecha%>" readonly>
                         </div>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="inputNombre" placeholder="" readonly>
+                            <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getCosto()%>" readonly>
                         </div>
                     </div>
-                    <div class="w-100 h-50 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>
+                    <!--<div class="w-100 h-50 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>-->
+
+                    <div class="w-100 d-flex justify-content-md-center align-items-center">
+                        <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espectaculo.getUrlIamgen()%>">
+                    </div>
                 </div>
+                
             </div>
-            <div class="row mt-5">
+            <div class="row mt-3">
                 <div class="col-12 d-flex justify-content-md-center">
-                    <button type="submit " class="btn btn-outline-secondary rounded-pill ">
-                        VOLVER
-                    </button>
+                    <a href="home">
+                        <button class="btn btn-outline-secondary rounded-pill ">
+                            VOLVER
+                        </button>
+                    </a>
                 </div>
             </div>
+            <%
+                }
+            %>
         </div>
     </div>
 
