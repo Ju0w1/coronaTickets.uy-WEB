@@ -178,9 +178,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#subir').attr('disabled','disabled');    
             $('input[type="file"]').change(function(e){
-                alert('The file name is : "' + e.target.files[0].name);
                 const file = document.getElementById("file");
                 const label = document.getElementById("imagen");
                 var apiURL = 'https://api-imgur.herokuapp.com/upload';
@@ -200,7 +198,7 @@
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 settings.data = formData;
-                
+                $('#subir').attr('disabled','disabled');    
                 $.ajax(settings).done(function(response) {
                     $('#subir').removeAttr('disabled');
                     //console.log(response);
