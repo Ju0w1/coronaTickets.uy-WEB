@@ -169,7 +169,7 @@
 
             </div>
             <div class="form-register mt-5 d-flex justify-content-md-center align-items-center ">
-                <button type="submit" class="btn btn-outline-secondary rounded-pill ">
+                <button type="submit" id="subir" class="btn btn-outline-secondary rounded-pill ">
                     CREAR
                 </button>
             </div>
@@ -178,6 +178,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#subir').attr('disabled','disabled');    
             $('input[type="file"]').change(function(e){
                 alert('The file name is : "' + e.target.files[0].name);
                 const file = document.getElementById("file");
@@ -199,8 +200,9 @@
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 settings.data = formData;
-
+                
                 $.ajax(settings).done(function(response) {
+                    $('#subir').removeAttr('disabled');
                     //console.log(response);
                     var lab = $.parseJSON(response);
                     //console.log(lab.data.url);
