@@ -43,6 +43,8 @@
    <br>
     <%
         Map<String, Usuario> usuarios = (Map<String, Usuario>) request.getAttribute("usuarios");
+        boolean tipoUser[] = (boolean[]) request.getAttribute("tipoUser");
+        
         String mensaje = (String) request.getAttribute("mensaje");
         System.out.println(mensaje);
         if(mensaje.equals("Vacio")){
@@ -64,51 +66,45 @@
                <div class="card-body no-padding">
                     <!--USUARIO-->
                     <%
-                            //###########################################
-                        int tamanio = usuarios.size();
-                        int indice = 0;
-                        int mitad = tamanio/2;
-                            //###########################################
+                        int i = 0;
                         for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
-                            String key = entry.getKey();
-                            Usuario value = entry.getValue();
-                    %>
-                    <div class="item d-flex align-items-center">
-                       <div class="image"><img src=<%= value.getImagen()%> alt="fotoPerfil"
-                            class="img-fluid rounded-circle"></div>
-                       <div class="text"><a href="#">
-                                <form action="/CoronaTickets-Web/Usuario" method="post">
-                                    <h3 class="h5" value="<%= key%>"><%= key%></h3>
-                                    <%
-                                        nick=key;
-                                        /*nombre=value.getNombre();
-                                        apellido=value.getApellido();
-                                        email=value.getEmail();
-                                        imagen=value.getImagen();
-                                        nacimiento=value.getNacimiento().getDia() + "/" + value.getNacimiento().getMes() + "/" + value.getNacimiento().getAnio();*/
-                                        //Artista art = (Artista) value;
-                                        
-                                        //web=art.getLinkWeb();
-                                        //desc=art.getDescripcion();
-                                        //bio=art.getBiografia();
-                                        //concat=nick+","+nombre+","+apellido+","+email+","+imagen+","+nacimiento+","+web+","+desc+","+bio;
-                                        //concat=nick+","+nombre+","+apellido+","+email+","+imagen+","+nacimiento;
-                                    %>
-                                    <input type="hidden" name="data" value="<%=nick%>" />
-                                    <input type="submit" name="submit" value="Ver"/>
-                                </form>
-                           </a><small><%= value.getEmail()%></small>
-                       </div>
-                    </div>
-                    <%
-                        //###########################################
-                        indice++;
-                        if(mitad == indice){
-                            break;
+                            if(tipoUser[i]){
+                                String key = entry.getKey();
+                                Usuario value = entry.getValue();
+                        %>
+                        <div class="item d-flex align-items-center">
+                           <div class="image">
+                                <%
+                                    if(value.getImagen().equals("")){ //NO TIENE IMAGEN
+                                %>
+                                    <img src="https://imgur.com/mwpO9Ct.png" alt="fotoPerfil" class="img-fluid rounded-circle">
+                                <%  }
+                                    else {
+                                %>
+                                    <img src="<%=value.getImagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
+                                <%
+                                    }
+                                %>
+                           </div>
+                           <div class="text">
+                                    <form action="/CoronaTickets-Web/Usuario" method="post">
+                                        <br>
+                                        <button style="border:none; background-color: transparent;">
+                                            <h3 class="h4"><%= key%></h3>
+                                        </button>
+                                        <%
+                                            nick=key;
+                                        %>
+                                        <input type="hidden" name="data" value="<%=nick%>" />
+                                    </form>
+                               <pre><small> <%=value.getEmail()%></small>
+                           </div>
+                        </div>
+                        <%
+                            }
+                            i++;
                         }
-                        // ##########################################
-                    }
-                    %> 
+                        %>
                </div>
             </div>
          </div>
@@ -122,35 +118,48 @@
                <div class="card-body no-padding">
                   <!--USUARIO-->
                   <%
-                        //###########################################
-                      for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+                    i=0;
+                    for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
                         String key = entry.getKey();
                         Usuario value = entry.getValue();
-                        indice--;
-                        if(indice >= 0){
-
+                        if(tipoUser[i]){
+                            
                         } else {
                         //###########################################
                     %>
                   
                   <div class="item d-flex align-items-center">
-                       <div class="image"><img src=<%= value.getImagen()%> alt="fotoPerfil"
-                            class="img-fluid rounded-circle"></div>
-                       <div class="text"><a href="#">
-                                <form action="/CoronaTickets-Web/Usuario" method="post">
-                                    <h3 class="h5" value="<%= key%>"><%= key%></h3>
-                                    <%
-                                        nick=key;
-                                    %>
-                                    <input type="hidden" name="data" value="<%=nick%>" />
-                                    <input type="submit" name="submit" value="Ver"/>
-                                </form>
-                           </a><small><%= value.getEmail()%></small>
+                       <div class="image">
+                           <%
+                                if(value.getImagen().equals("")){ //NO TIENE IMAGEN
+                            %>
+                                <img src="https://imgur.com/mwpO9Ct.png" alt="fotoPerfil" class="img-fluid rounded-circle">
+                            <%  }
+                                else {
+                            %>
+                                <img src="<%=value.getImagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
+                            <%
+                                }
+                            %>
+                       </div>
+                       <div class="text">
+                           <br>     
+                           <form action="/CoronaTickets-Web/Usuario" method="post">
+                                <button style="border:none; background-color: transparent;">
+                                    <h3 class="h4"><%= key%></h3>
+                                </button>
+                                <%
+                                    nick=key;
+                                %>
+                                <input type="hidden" name="data" value="<%=nick%>" />
+                            </form>
+                           <pre><small> <%= value.getEmail()%></small>
                        </div>
                     </div>
                    <%
                         //###########################################
                         }
+                        i++;
                     }
                         // ##########################################
                     %> 

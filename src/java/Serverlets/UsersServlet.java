@@ -22,6 +22,7 @@ import Logica.Fabrica;
 import Logica.Interfaz.IControladorPaquete;
 import Logica.Interfaz.IControladorUsuario;
 import java.util.HashSet;
+import javax.servlet.http.HttpSession;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 
 /**
@@ -47,6 +48,21 @@ public class UsersServlet extends HttpServlet {
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.obtenerUsuarios();
+        boolean tipoUser[] = new boolean[usuarios.size()];
+        int cont=0;
+        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+            String key = entry.getKey();
+            if (ICU.obtenerArtistaPorNick(key)!=null){ //Artista = true
+                tipoUser[cont]=true;
+            } else { //Espectador = false
+                tipoUser[cont]= false;
+            }
+            cont++;
+        }
+        request.setAttribute("tipoUser", tipoUser);
+        
+        int id=ICU.getIdEspectadorPorNick("asd");
+        
         String respuesta;
         if(usuarios.isEmpty()){
             System.out.println("NO HAY USERS");
@@ -90,23 +106,39 @@ public class UsersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String nickname = request.getParameter("data");
-        String[] datos = nickname.split(",");
-        String nick = datos[0];
+        HttpSession objSesion = request.getSession();
+        //String[] datos = nickname.split(",");
+        //String nick = datos[0];
+        //String usuario = objSesion.getAttribute("nickname").toString();
         
-        if (ICU.obtenerArtistaPorNick(nick)==null){
+        if (ICU.obtenerArtistaPorNick(nickname)==null){
             System.out.println("NO ES ARTISTA");
-            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+            Usuario espect = ICU.obtenerEspectadorPorNick(nickname);
             System.out.println("ES ESPECTADOR");
             request.setAttribute("Espectador", espect);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-            view.forward(request, response);
+            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
+                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
+                view.forward(request, response);
+            } else {
+                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
+                view.forward(request, response);
+            }
         } else {
-            Artista art=ICU.obtenerArtistaPorNick(nick);
+            Artista art=ICU.obtenerArtistaPorNick(nickname);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
-            
             request.setAttribute("Artista", art);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-            view.forward(request, response);
+            
+            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
+                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
+                view.forward(request, response);
+            } else {
+                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
+                view.forward(request, response);
+            }
         }
         //processRequest(request, response);
     }
