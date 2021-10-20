@@ -9,10 +9,12 @@ import Logica.Fabrica;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
+import Logica.Clases.Paquete;
 import Logica.Clases.Usuario;
 
 import Logica.Interfaz.IControladorEspectaculo;
 import Logica.Interfaz.IControladorFuncion;
+import Logica.Interfaz.IControladorPaquete;
 
 import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,7 +49,7 @@ public class UserDetalleServlet extends HttpServlet {
     Fabrica fabrica = Fabrica.getInstance();
     IControladorUsuario ICU = fabrica.getIControladorUsuario();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-    
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -79,24 +82,7 @@ public class UserDetalleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         String nick = request.getParameter("data");
-//        ServletContext context = getServletContext( );
-//        context.log(user);
-//        String[] datos = user.split(",");
-        //int size = datos.length;
-//        String nick = datos[0];           request.setAttribute("nick", nick);
-//        String nombre = datos[1];      request.setAttribute("nombre", nombre);
-//        String apellido = datos[2];      request.setAttribute("apellido", apellido);
-//        String email = datos[3];         request.setAttribute("email", email);
-//        String imagen = datos[4];        request.setAttribute("imagen", imagen);
-//        String nacimiento = datos[5];            request.setAttribute("nacimiento", nacimiento);
-        //String imagen = datos[6];           request.setAttribute("imagen", imagen);
-        /*if(size<7){
-            String web = datos[0];           request.setAttribute("web", web);
-            String desc = datos[1];      request.setAttribute("desc", desc);
-            String bio = datos[2];      request.setAttribute("bio", bio);   
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-            view.forward(request, response);
-        } else{*/
+        HttpSession objSesion = request.getSession();
         
         if (ICU.obtenerArtistaPorNick(nick)==null){
             System.out.println("NO ES ARTISTA");
@@ -105,30 +91,60 @@ public class UserDetalleServlet extends HttpServlet {
             request.setAttribute("Espectador", espect);
             //IControladorFuncion ICF=fabrica.getIControladorFuncion();
             Map<String, Funcion> funciones = ICE.getRegistroDeFuncionesDeUsuarioPorNick(nick);
-            //
+            int idEspectador = ICU.getIdEspectadorPorNick(nick);
+            Map<String, Paquete> paquetesRegistrado = ICP.getPaquetesQueComproUsuario(idEspectador);
+            request.setAttribute("paquetes", paquetesRegistrado);
+            
             request.setAttribute("Funciones", funciones);
             if (funciones.isEmpty()){
                 System.out.println("FUNCIONES VACIAS");
             } else {
                 System.out.println("SI HAY FUNCIONES");
             }
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-            view.forward(request, response);
-        } else {
+            if(objSesion.getAttribute("nickname")==null){
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
+                view.forward(request, response);
+            } else {
+                if(objSesion.getAttribute("nickname").toString().equals(nick)){
+                    System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
+                    view.forward(request, response);
+                } else {
+                    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
+                    view.forward(request, response);
+                }
+            }
+        } else { 
             Artista art=ICU.obtenerArtistaPorNick(nick);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
             request.setAttribute("Artista", art);
-            Map<String, Espectaculo> espectaculos = ICE.obtenerEspectaculosAceptadosDeArtistaPorNick(nick);
-            request.setAttribute("Espectaculos", espectaculos);
-            if (espectaculos.isEmpty()){
+            Map<String, Espectaculo> espectaculosA = ICE.obtenerEspectaculosAceptadosDeArtistaPorNick(nick);
+            Map<String, Espectaculo> espectaculosI = ICE.obtenerEspectaculosIngresadosDeArtistaPorNick(nick);
+            Map<String, Espectaculo> espectaculosR = ICE.obtenerEspectaculosRechazadosDeArtistaPorNick(nick);
+            
+            request.setAttribute("EspectaculosA", espectaculosA);
+            request.setAttribute("EspectaculosI", espectaculosI);
+            request.setAttribute("EspectaculosR", espectaculosR);
+            if (espectaculosA.isEmpty()){
                 System.out.println("ESPECTACULOS VACIOS");
             }
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-            view.forward(request, response);
+            if(objSesion.getAttribute("nickname")==null){
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
+                    view.forward(request, response);
+            } else {
+                if(objSesion.getAttribute("nickname").toString().equals(nick)){
+                    System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
+                    view.forward(request, response);
+                } else {
+                    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
+                    view.forward(request, response);
+                }
+            }
         }
-//        RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-//        view.forward(request, response);
-        //}
+
     }
 
     /**

@@ -28,11 +28,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
   </script>
-  <script>
-    $(function () {
-      $("#header").load("Pages/Common/Header2.jsp");
-    });
-  </script>
+
 </head>
 <body style="background-color: rgb(230, 232, 240);">
     <%
@@ -71,7 +67,17 @@
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
                 <!-- IMAGEN -->
+                <%
+                    if(imagen.equals("")){ //NO TIENE IMAGEN
+                %>
+                    <img src="https://imgur.com/mwpO9Ct.png" alt="Admin" class="rounded-circle" width="150">
+                <% }
+                    else {
+                %>
                 <img src="<%=imagen%>" alt="Admin" class="rounded-circle" width="150">
+                <%
+                    }
+                %>
                 <div class="mt-3">
                   <h4><%=nick%></h4>
                   <p class="text-secondary mb-1">Espectador</p>

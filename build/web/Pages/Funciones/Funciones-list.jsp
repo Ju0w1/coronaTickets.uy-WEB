@@ -39,11 +39,7 @@
     <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"> </script>
-    <script>
-        $(function () {
-            $("#header").load("Pages/Common/Header2.jsp");
-        });
-    </script>
+
     <script>
         function activa_boton(campo,boton){
             $("#boton").click();

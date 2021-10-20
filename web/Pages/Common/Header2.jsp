@@ -59,7 +59,11 @@
                         src="
                         <%
                             imgPerfil = objSesion.getAttribute("imagen").toString();
+                            if(imgPerfil.equals("")){
+                                out.print("https://imgur.com/mwpO9Ct.png");
+                            } else {
                             out.print(imgPerfil);
+                            }
                         %>
                         "
                         class="rounded-circle z-depth-0"
