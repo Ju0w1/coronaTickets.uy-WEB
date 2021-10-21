@@ -93,7 +93,7 @@ public class RegistroArtistaServerlet extends HttpServlet {
         String url = request.getParameter("inputUrl");
         if (ICU.addArtista(nickname, descripcion, biografia, url) == true) {
             objSesion.setAttribute("tipo", "artista");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("home");
             view.forward(request, response);
         } else {
             objSesion.setAttribute("tipo", "error");
