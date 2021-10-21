@@ -111,8 +111,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="d-flex justify-content-around">
-                                    <button type="submit" class="btn btn-outline-secondary">Espectador</button>
-                                    <button type="submit" class="btn btn-outline-secondary">Artista</button> 
+                                    <button type="submit" class="btn btn-outline-secondary" name="registrar" value="espectador">Espectador</button>
+                                    <button type="submit" class="btn btn-outline-secondary" name="registrar" value="artista">Artista</button> 
                                 </div>
                             </div>
                         </div>

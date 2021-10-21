@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,8 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Registro", urlPatterns = {"/registro"})
 public class RegistroServerlet extends HttpServlet {
+
     Fabrica fabrica = Fabrica.getInstance();
     IControladorUsuario ICU = fabrica.getIControladorUsuario();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,17 +80,41 @@ public class RegistroServerlet extends HttpServlet {
         String nacimiento = request.getParameter("inputNacimiento");
         String imagen = request.getParameter("urlImagen");
         
-        if (ICU.addEspectador(nickname,password1,email,nombre,apellido,nacimiento,imagen)){
-            request.setAttribute("message", "Registrado con éxito, Bienvenido");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
-            view.forward(request, response);
-        }
-        else {
+        HttpSession objSesion = request.getSession();
+
+        if (ICU.addEspectador(nickname, password1, email, nombre, apellido, nacimiento, imagen)) {
+            objSesion.setAttribute("nickname", nickname);
+            objSesion.setAttribute("nombre", nombre);
+            objSesion.setAttribute("apellido", apellido);
+            objSesion.setAttribute("mail", email);
+            objSesion.setAttribute("nacimiento", nacimiento);
+            objSesion.setAttribute("imagen", imagen);
+            
+
+            String accion = request.getParameter("registrar");
+            if (accion == null) { //No presionó ningun botón pero se ejecutó el submit...
+                request.setAttribute("error", "Revisa tus datos!");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                view.forward(request, response);
+            } else if (accion.equals("espectador")) {//Presionó el botón de registrarse como espectador
+                objSesion.setAttribute("tipo", "espectador");
+                request.setAttribute("message", "Registrado con éxito, Bienvenido");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+                view.forward(request, response);
+            } else if (accion.equals("artista")) {//Presionó el botón de registrarse como artista
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registroArtista.jsp");
+                view.forward(request, response);
+            } else { //El código HTML fue alterado
+                request.setAttribute("error", "Revisa tus datos!");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                view.forward(request, response);
+            }
+        } else {
             request.setAttribute("error", "Revisa tus datos!");
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
             view.forward(request, response);
         }
-        
+
         //processRequest(request, response);
     }
 
