@@ -75,7 +75,7 @@ public class RegistroServerlet extends HttpServlet {
         String nombre = request.getParameter("inputNombre");
         String apellido = request.getParameter("inputApellido");
         String nacimiento = request.getParameter("inputNacimiento");
-        String imagen = request.getParameter("inputImagenPerfil");
+        String imagen = request.getParameter("urlImagen");
         
         if (ICU.addEspectador(nickname,password1,email,nombre,apellido,nacimiento,imagen)){
             request.setAttribute("message", "Registrado con éxito, Bienvenido");

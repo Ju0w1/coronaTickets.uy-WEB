@@ -89,8 +89,8 @@ public class AltaEspectaculo extends HttpServlet {
         String[] categorias = request.getParameterValues("categoria");
         
         ServletContext context = getServletContext( );
-        context.log(categorias[0]);
-        context.log(categorias[1]);
+        //context.log(categorias[0]);
+        //context.log(categorias[1]);
         
         int especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
         int especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
