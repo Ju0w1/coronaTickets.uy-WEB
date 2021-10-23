@@ -79,7 +79,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="AltaEspectaculo">Alta espectáculo</a></li>
                             <li><a class="dropdown-item" href="AltaPaquete">Crear paquete de espectáculos</a></li>
-                            <li><a class="dropdown-item" href="#">Alta función de espectáculo</a></li>
+                            <li><a class="dropdown-item" href="AltaFuncion">Alta función de espectáculo</a></li>
                             <li><a class="dropdown-item" href="#">Agregar espectáculo a paquete</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>

@@ -98,7 +98,7 @@ public class AltaEspectaculo extends HttpServlet {
         double costo = Double.parseDouble(request.getParameter("inputCosto"));
         String urlImagen = request.getParameter("urlImagen");
         
-        ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "v", urlImagen, categorias);
+        ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
         processRequest(request, response);
     }
 

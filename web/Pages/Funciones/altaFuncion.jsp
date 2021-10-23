@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="Logica.Clases.Espectaculo"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Plataforma"%>
 <%@page import="Logica.Clases.Categoria"%>
@@ -27,13 +29,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" type="text/css" href="../malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" />
+    
+    
     <!--<link rel="stylesheet" href="../malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" />-->
     
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="../malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" crossorigin="anonymous"></script>
+    
+    <link href="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -42,17 +46,14 @@
         .custom-scrollbar-css {
           overflow-y: scroll;
         }
-
         /* scrollbar width */
         .custom-scrollbar-css::-webkit-scrollbar {
           width: 5px;
         }
-
         /* scrollbar track */
         .custom-scrollbar-css::-webkit-scrollbar-track {
           background: #eee;
         }
-
         /* scrollbar handle */
         .custom-scrollbar-css::-webkit-scrollbar-thumb {
           border-radius: 1rem;
@@ -86,19 +87,37 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <div class="form-group ">
+                    <select class="form-select" name="espectaculo" aria-label="Espectaculos">
+                        <option selected>Espectaculos</option>
+                        <%
+                            int i=0;
+                             Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+                            if(espectaculos == null){
+                                System.out.println("VACIO");
+                            }else{
+                                for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                    String key = entry.getKey();
+                        %>
+                        <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                        <%
+                                    i++;
+                                }
+                            }
+                        %>
+                    </select>
+                    <div class="form-group mt-2">
                         <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre">
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de función</label>
                         <div class="col-sm-7">
-                            <input type="date" class="form-control rounded-pill" id="inputNombre" value="">
+                            <input type="date" class="form-control rounded-pill" id="inputFechaFuncion" name="inputFechaFuncion" value="">
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="input-group ">
                             <label for="inputHora" class="col-sm-5 col-form-label">Hora de inicio</label>
-                            <input type="time" class="form-control rounded-pill mb-2 " id="inputHora" name="inputHora" placeholder="Hora de inicio">
+                            <input type="time" class="form-control rounded-pill mb-2 " id="inputHora" name="inputHoraInicio" placeholder="Hora de inicio">
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill" style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-clock "></i>
@@ -111,7 +130,7 @@
                         <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
                         <input id="labelImagen" name="urlImagen" type="hidden" value="">
                         <div class="input-group">
-                            <input type="file" class="form-control rounded-pill mb-2 " id="inputFile"  name="inputFile" placeholder="">
+                            <input type="file" class="form-control rounded-pill mb-2 " id="inputFile" name="inputFile" placeholder="">
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-link-45deg "></i>
@@ -130,198 +149,31 @@
                         
                     </div>
                     <div class="container custom-scrollbar-js" id="content-3">
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="form-group d-flex justify-content-md-center align-items-center">
-                                <label class="col checkbox-inline" for="checkboxes-0">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                    Artista 1
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-1">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                    Artista 2
-                                </label>
-                                <label class="col checkbox-inline" for="checkboxes-2">
-                                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                    Artista 3
-                                </label>
-                            </div>
-                        </div>
+                        <%
+                            ArrayList<String> artistas = (ArrayList<String>) request.getAttribute("artistas");
+                            if(artistas == null){
+                                System.out.println("VACIO");
+                            }else{
+                                Object[] artistasNicks =  artistas.toArray();
+                                System.out.println("Prueba de objeto:" + artistasNicks[0].toString());
+                                for (String artista: artistas){
+                                    if(!artista.equals(objSesion.getAttribute("nickname"))){
+                                    
+                        %>
+                                        <div class="row ">
+                                            <div class="form-check ms-3">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    <input class="form-check-input" name="artista" type="checkbox" value="<%=artista%>" >
+                                                    <%=artista%>
+                                                </label>
+                                            </div>
+                                        </div>
+                                                
+                        <%
+                                    }                         
+                                }
+                            }
+                        %>                        
                     </div>
                     
                     
@@ -337,9 +189,10 @@
 
         </form>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         
-
         $(document).ready(function() {
             $("#content-3").mCustomScrollbar({
               theme: "inset-3-dark"
