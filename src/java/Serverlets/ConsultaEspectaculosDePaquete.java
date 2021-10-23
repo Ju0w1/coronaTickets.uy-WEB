@@ -58,7 +58,6 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 String nombreEspectaculo = request.getParameter("espectaculo");
-                
                 Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
                 ServletContext context = getServletContext( );
                 context.log(espec.getNombre());
