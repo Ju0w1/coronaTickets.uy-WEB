@@ -115,7 +115,7 @@ public class UserDetalleServlet extends HttpServlet {
                     view.forward(request, response);
                 }
             }
-        } else { 
+        } else {
             Artista art=ICU.obtenerArtistaPorNick(nick);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
             request.setAttribute("Artista", art);

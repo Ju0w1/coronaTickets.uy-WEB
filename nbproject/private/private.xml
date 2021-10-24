@@ -3,11 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Paquetes/consultaPaquete.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/RegistroArtistaServerlet.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/Header2.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/AltaEspectaculo.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/LoginServerlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UserDetalleServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/HomeServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/RegistroArtistaServerlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/FuncionesServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funcion.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users-list.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaPaquete.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista-yourself.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaFuncion.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/PruebaServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funciones-list.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador-yourself.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/prueba.jsp</file>
         </group>
     </open-files>
 </project-private>
