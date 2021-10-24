@@ -270,50 +270,50 @@
                                         i = 0;
                                         for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
                                             String key = entry.getKey();
-                                        Paquete value = entry.getValue();
-                                        String nombrep =value.getNombre();
-                                        String desc = value.getDescripcion();
-                                        
-                                        String mes1;
-                                        if(value.getFecha_Inicio().getMes()<10){
-                                           mes1 = "0"+value.getFecha_Inicio().getMes();
-                                        }else{
-                                           mes1 = Integer.toString(value.getFecha_Inicio().getMes());
-                                        }
-                                        String dia1;
-                                        if(value.getFecha_Inicio().getDia()<10){
-                                           dia1 = "0"+value.getFecha_Inicio().getDia();
-                                        }else{
-                                           dia1 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        String mes2;
-                                        if(value.getFecha_Fin().getMes()<10){
-                                           mes2 = "0"+value.getFecha_Fin().getMes();
-                                        }else{
-                                           mes2 = Integer.toString(value.getFecha_Fin().getMes());
-                                        }
-                                        String dia2;
-                                        if(value.getFecha_Fin().getDia()<10){
-                                           dia2 = "0"+value.getFecha_Fin().getDia();
-                                        }else{
-                                           dia2 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        
-                                        String fechaIni = value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
-                                        String fechaFin = value.getFecha_Fin().getAnio()+"-"+mes2+"-"+dia2;
-                                        //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
-                                        
-                                        float descuento = value.getDescuento();
-                                        float costop = value.getCosto();
-                                        String urlImagenp = value.getUrl();
-                                        String concat = nombrep+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costop)+","+urlImagenp;
+                                            Paquete value = entry.getValue();
+                                            String nombrep = value.getNombre();
+                                            String desc = value.getDescripcion();
+
+                                            String mes1;
+                                            if (value.getFecha_Inicio().getMes() < 10) {
+                                                mes1 = "0" + value.getFecha_Inicio().getMes();
+                                            } else {
+                                                mes1 = Integer.toString(value.getFecha_Inicio().getMes());
+                                            }
+                                            String dia1;
+                                            if (value.getFecha_Inicio().getDia() < 10) {
+                                                dia1 = "0" + value.getFecha_Inicio().getDia();
+                                            } else {
+                                                dia1 = Integer.toString(value.getFecha_Inicio().getDia());
+                                            }
+                                            String mes2;
+                                            if (value.getFecha_Fin().getMes() < 10) {
+                                                mes2 = "0" + value.getFecha_Fin().getMes();
+                                            } else {
+                                                mes2 = Integer.toString(value.getFecha_Fin().getMes());
+                                            }
+                                            String dia2;
+                                            if (value.getFecha_Fin().getDia() < 10) {
+                                                dia2 = "0" + value.getFecha_Fin().getDia();
+                                            } else {
+                                                dia2 = Integer.toString(value.getFecha_Inicio().getDia());
+                                            }
+
+                                            String fechaIni = value.getFecha_Inicio().getAnio() + "-" + mes1 + "-" + dia1;
+                                            String fechaFin = value.getFecha_Fin().getAnio() + "-" + mes2 + "-" + dia2;
+                                            //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+
+                                            float descuento = value.getDescuento();
+                                            float costop = value.getCosto();
+                                            String urlImagenp = value.getUrl();
+                                            String concat = nombrep + "," + desc + "," + fechaIni + "," + fechaFin + "," + Float.toString(descuento) + "," + Float.toString(costop) + "," + urlImagenp;
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="hidden" value="<%= concat%>" name="ver_mas">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -326,7 +326,7 @@
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="hidden" value="<%= concat%>" name="ver_mas">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -336,6 +336,7 @@
                                             }
                                         }
                                     %>
+
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -346,15 +347,30 @@
                                     <span class="visually-hidden">Next</span>
                                 </button>
                             </div>
-                        </div>
+                        </div>   
                     </div>
-                    <div class="row mt-3">
+                    <div class="row mt-3" style="margin-bottom: 20px; position: center;">
                         <div class="col-12 d-flex justify-content-md-center">
                             <a href="home">
-                                <button class="btn btn-outline-secondary rounded-pill ">
+                                <button class="btn btn-outline-secondary rounded-pill" style="margin-right: 10px; margin-left: 10px;">
                                     VOLVER
                                 </button>
                             </a>
+                            <%
+                                    String tipoUsuario = objSesion.getAttribute("tipo").toString();
+                                    if (tipoUsuario.equals("espectador")) {
+                                %>
+                                <%
+                                } else {
+                                %>
+                                <a href="/CoronaTickets-Web/AltaEspectaculo">
+                                    <button class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
+                                        CREAR ESPECTÁCULO
+                                    </button>
+                                </a>
+                                <%
+                                    }
+                                %>
                         </div>
                     </div>
                 </div>
