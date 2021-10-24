@@ -70,7 +70,7 @@ public class ConsultaPaquete extends HttpServlet {
             context.log(paquete);
             String[] datos = paquete.split(",");
             String nombre = datos[0];           request.setAttribute("nombre", nombre);
-            String descripcion = datos[1];      request.setAttribute("desc", descripcion);
+            String descripcion = datos[1];      request.setAttribute("descripcion", descripcion);
             String fechaInicio = datos[2];      request.setAttribute("fechaIni", fechaInicio);
             String fechaFin = datos[3];         request.setAttribute("fechaFin", fechaFin);
             String descuento = datos[4];        request.setAttribute("descuento", descuento);

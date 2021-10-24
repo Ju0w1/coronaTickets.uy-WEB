@@ -132,14 +132,25 @@
                                     for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
                                         String key = entry.getKey();
                                         Espectaculo value = entry.getValue();
+                                        String nombre = value.getNombre();
+                                        String artista = Integer.toString(value.getArtista());
+                                        String descripcion = value.getDescripcion();
+                                        String especmax = Integer.toString(value.getMax());
+                                        String especmin = Integer.toString(value.getMin());
+                                        String url = value.getUrl();
+                                        String costo = Double.toString(value.getCosto());
+                                        String duracion = Double.toString(value.getDuracion());
+                                        String fecha = value.getFecha().toString();
+                                        String urlImagen = value.getUrlIamgen();
+                                        String concat = nombre+","+artista+","+descripcion+","+especmax+","+especmin+","+url+","+costo+","+duracion+","+fecha+","+urlImagen;
                             %>
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
                                         <img src="<%= value.getUrlIamgen()%>" id="<%= key%>" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
-                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="" name="ver_mas">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
+                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
