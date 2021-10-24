@@ -4,6 +4,7 @@
     Author     : pabli
 --%>
 
+<%@page import="Logica.Clases.Paquete"%>
 <%@page import="Logica.Clases.Funcion"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Categoria"%>
@@ -54,8 +55,10 @@
             String fecha = (String) request.getAttribute("fecha");
             String urlImagen = (String) request.getAttribute("urlImagen");
             Map<String, Funcion> funciones = new HashMap<>();
+            Map<String, Paquete> paquetes = new HashMap<>();
             Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
             funciones = (Map<String, Funcion>) request.getAttribute("funcionesDeEspec");
+            paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
 
 
         %>
@@ -169,12 +172,11 @@
                             <img style="max-height:100%; max-width:100%;object-fit: contain;" src="">
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
-                            <label for="inputNombre" class="col-sm-2 col-form-label">Funciones</label>   
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Funciones:</label>   
                         </div>
                         <div class="w-100 d-flex justify-content-md-center align-items-center">
 
                             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-
                                 <div class="carousel-indicators">
                                     <%
                                         int i = 0;
@@ -202,7 +204,7 @@
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:100%; max-width:100%;">
+                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
@@ -215,7 +217,7 @@
                                     } else {
                                     %>
                                     <div class="carousel-item">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:100%; max-width:100%;">
+                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
@@ -228,11 +230,6 @@
                                             }
                                         }
                                     %>
-
-
-
-
-
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -244,7 +241,112 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Paquetes:</label>   
+                        </div>
+                        <div class="w-100 d-flex justify-content-md-center align-items-center">
 
+                            <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <%
+                                        i = 0;
+                                        for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                            if (i == 0) {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <%
+                                        i++;
+                                    } else {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="<%=i%>" aria-label="Slide 2"></button>
+                                    <%
+                                                i++;
+                                            }
+                                        }
+                                    %>
+                                </div>
+                                <div class="carousel-inner">
+                                    <%
+                                        i = 0;
+                                        for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                            String key = entry.getKey();
+                                        Paquete value = entry.getValue();
+                                        String nombrep =value.getNombre();
+                                        String desc = value.getDescripcion();
+                                        
+                                        String mes1;
+                                        if(value.getFecha_Inicio().getMes()<10){
+                                           mes1 = "0"+value.getFecha_Inicio().getMes();
+                                        }else{
+                                           mes1 = Integer.toString(value.getFecha_Inicio().getMes());
+                                        }
+                                        String dia1;
+                                        if(value.getFecha_Inicio().getDia()<10){
+                                           dia1 = "0"+value.getFecha_Inicio().getDia();
+                                        }else{
+                                           dia1 = Integer.toString(value.getFecha_Inicio().getDia());
+                                        }
+                                        String mes2;
+                                        if(value.getFecha_Fin().getMes()<10){
+                                           mes2 = "0"+value.getFecha_Fin().getMes();
+                                        }else{
+                                           mes2 = Integer.toString(value.getFecha_Fin().getMes());
+                                        }
+                                        String dia2;
+                                        if(value.getFecha_Fin().getDia()<10){
+                                           dia2 = "0"+value.getFecha_Fin().getDia();
+                                        }else{
+                                           dia2 = Integer.toString(value.getFecha_Inicio().getDia());
+                                        }
+                                        
+                                        String fechaIni = value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
+                                        String fechaFin = value.getFecha_Fin().getAnio()+"-"+mes2+"-"+dia2;
+                                        //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+                                        
+                                        float descuento = value.getDescuento();
+                                        float costop = value.getCosto();
+                                        String urlImagenp = value.getUrl();
+                                        String concat = nombrep+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costop)+","+urlImagenp;
+                                            if (i == 0) {
+                                    %>
+                                    <div class="carousel-item active">
+                                        <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
+                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                        i++;
+                                    } else {
+                                    %>
+                                    <div class="carousel-item">
+                                        <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
+                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                                i++;
+                                            }
+                                        }
+                                    %>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-md-center">

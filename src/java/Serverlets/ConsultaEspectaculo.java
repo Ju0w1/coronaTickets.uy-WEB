@@ -8,8 +8,10 @@ package Serverlets;
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
+import Logica.Clases.Paquete;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
+import Logica.Interfaz.IControladorPaquete;
 import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,6 +43,7 @@ public class ConsultaEspectaculo extends HttpServlet {
     Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -93,12 +96,13 @@ public class ConsultaEspectaculo extends HttpServlet {
         Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
         Espectaculo espcSeleccionado = escp.get(datos[0]);
         Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategorias();
-        
+
         String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
-        
+
         Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(datos[0]);
-        request.setAttribute("funcionesDeEspec", funcionesDeEspec); 
-        
+        Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaqueteDeEspectaculo(datos[0]);
+        request.setAttribute("funcionesDeEspec", funcionesDeEspec);
+        request.setAttribute("paquetes", paquetes);
 
         String nombre = datos[0];
         request.setAttribute("nombre", nombre);
