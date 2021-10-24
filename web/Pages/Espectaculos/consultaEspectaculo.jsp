@@ -158,8 +158,9 @@
                                 %>
 
                             </div>
-
-
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Funciones</label>   
                         </div>
 
                         <!--<div class="w-100 h-50 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>-->
