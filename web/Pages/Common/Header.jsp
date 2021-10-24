@@ -29,7 +29,7 @@
                     </div>
                     
                 </li>
-                <li class="nav-item dropdown" style="margin-right: 40px;">
+                <!--<li class="nav-item dropdown" style="margin-right: 40px;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>Plataformas</strong>
                     </a>
@@ -50,7 +50,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
+                </li>-->
             </ul>
         </div>
         <form method="get" action="/CoronaTickets-Web/Pages/Login/login.jsp"> 

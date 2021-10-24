@@ -27,7 +27,7 @@
                         </span>
                     </div>
                 </li>
-                <li class="nav-item dropdown" style="margin-right: 40px;">
+                <!--<li class="nav-item dropdown" style="margin-right: 40px;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>Plataformas</strong>
                     </a>
@@ -48,7 +48,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
+                </li>-->
 
             </ul>
         </div>
@@ -77,10 +77,13 @@
                     if(tipoUsuario.equals("artista")){
                 %>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="Usuario">Perfil</a></li>
+                            <li><a class="dropdown-item" href="users">Listar usuarios</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="AltaEspectaculo">Alta espectáculo</a></li>
                             <li><a class="dropdown-item" href="AltaPaquete">Crear paquete de espectáculos</a></li>
                             <li><a class="dropdown-item" href="AltaFuncion">Alta función de espectáculo</a></li>
-                            <li><a class="dropdown-item" href="#">Agregar espectáculo a paquete</a></li>
+                            <li><a class="dropdown-item" href="AgregarEspectaculo">Agregar espectáculo a paquete</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
                         </ul>
@@ -88,6 +91,9 @@
                     }else if(tipoUsuario.equals("espectador")){
                 %>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="Usuario">Perfil</a></li>
+                            <li><a class="dropdown-item" href="users">Listar usuarios</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Compra de paquete de espectáculo</a></li>
                             <li><a class="dropdown-item" href="#">Registro función de espectáculo</a></li>
                             <li><hr class="dropdown-divider"></li>
