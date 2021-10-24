@@ -221,7 +221,7 @@
                 $('#subir').attr('disabled','disabled');    
                 $.ajax(settings).done(function(response) {
                     $('#subir').removeAttr('disabled');
-                    //console.log(response);
+                    console.log(response);
                     var lab = $.parseJSON(response);
                     //console.log(lab.data.url);
                     //$label.val = response.data.link;

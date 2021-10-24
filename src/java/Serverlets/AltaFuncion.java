@@ -134,7 +134,7 @@ public class AltaFuncion extends HttpServlet {
         DTFecha fechaCreado = new DTFecha(Integer.parseInt(fechaCr[2]),Integer.parseInt(fechaCr[1]),Integer.parseInt(fechaCr[0]));
         
         //addFuncion(String nombreEspec, String nombre, DTFecha fecha_registro, DTTimeStamp hora_inicio, DTFecha fecha_comienzo, Map <String,Artista> artistas) 
-        ICF.addFuncion(nombreEspectaculo, nombre, fechaCreado, hora, fechaFun, artistasAgregar);
+        ICF.addFuncionWEB(nombreEspectaculo, nombre, fechaCreado, hora, fechaFun, artistasAgregar, imagen);
         processRequest(request, response);
     }
 
