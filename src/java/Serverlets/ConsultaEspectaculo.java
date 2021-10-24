@@ -91,7 +91,7 @@ public class ConsultaEspectaculo extends HttpServlet {
         context.log(datos[0]);
         Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
         Espectaculo espcSeleccionado = escp.get(datos[0]);
-        Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategoria();
+        Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategorias();
         
         String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
 
