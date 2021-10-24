@@ -5,18 +5,24 @@
  */
 package Serverlets;
 
+import Logica.Clases.Espectaculo;
+import Logica.Clases.Paquete;
 import Logica.Clases.Plataforma;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
+import Logica.Interfaz.IControladorPaquete;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,6 +42,7 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
      */
     Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,13 +50,9 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
 //        request.setAttribute("paquete", "Paquete");
 //        request.setAttribute("plataforma", "Plataforma");
         
-        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
-        
-        try (PrintWriter out = response.getWriter()) {
-            request.setAttribute("plataformas", plataformas);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
-            view.forward(request, response);
-        }
+//        try (PrintWriter out = response.getWriter()) {
+//            
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +67,35 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession objSesion = request.getSession();
+        String user = (String) objSesion.getAttribute("nickname");
+        //OBTENIENDO DATOS DEL JSP
+        
+        String paquete = request.getParameter("paquete");
+        String plataforma = request.getParameter("plataforma");
+        
+        ServletContext context = getServletContext();
+        context.log("paquete:"+paquete);
+        context.log("plataforma:"+plataforma);
+        
+        if(paquete == null || plataforma == null){
+            Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
+            Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetes();
+            request.setAttribute("plataformas", plataformas);
+            request.setAttribute("paquetes", paquetes);
+            
+        }else{
+            context.log("entra:");
+            ArrayList<String> espectaculos = (ArrayList<String>) ICE.obtenerEspectaculosDeArtistaQueNoEstanEnPaquete(paquete, plataforma, user);
+            request.setAttribute("espectaculos", espectaculos);
+            request.setAttribute("plataforma", plataforma);
+            request.setAttribute("paquete", paquete);
+        }
+        
+        RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+        view.forward(request, response);
+        
+       
     }
 
     /**
@@ -78,7 +109,19 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+            String paquete = request.getParameter("paquetePost");
+            String espectaculo = request.getParameter("espectaculo");
+            
+            ServletContext context = getServletContext();
+            context.log("METODO POST");
+            context.log("paquete:"+paquete);
+            context.log("espectaculo:"+espectaculo);
+            
+            ICP.AgregarEspPaq(espectaculo, paquete);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+            view.forward(request, response);
+       // processRequest(request, response);
     }
 
     /**

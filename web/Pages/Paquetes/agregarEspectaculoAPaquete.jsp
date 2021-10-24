@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
 <%@page import="Logica.Clases.Plataforma"%>
 <%@page import="Logica.Clases.Paquete"%>
@@ -47,8 +49,11 @@
     %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
         <%
-            
-                if(request.getAttribute("paquete") == null && request.getAttribute("espectaculo") == null){
+                
+                String paq = (String) request.getAttribute("paquete");
+
+                
+                if(request.getParameter("paquete") == null || request.getParameter("paquete") == null){
 
         %>  
                     <form name="agregarEspectaculo" method="GET" action="/CoronaTickets-Web/AgregarEspectaculo">
@@ -58,11 +63,24 @@
                         <div class="row d-flex justify-content-md-center align-items-center">
                             <div class="col-6">
                                 <div class="row">
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select" name="paquete" aria-label="Paquetes">
                                         <option selected>Paquetes</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <%
+                                            int j=0;
+                                            Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
+                                            if(paquetes == null){
+                                                System.out.println("VACIO");
+                                            }else{
+                                                for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                                    String key = entry.getKey();
+                                                    Paquete value = entry.getValue();
+                                        %>
+                                        <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                                        <%
+                                                    j++;
+                                                }
+                                            }
+                                        %>
                                     </select>
                                 </div>
                                 <div class="row mt-4">
@@ -78,7 +96,7 @@
                                                     String key = entry.getKey();
                                                     Plataforma value = entry.getValue();
                                         %>
-                                        <option value="<%=i%>" id="<%=key%>"><%=key%></option>
+                                        <option value="<%=key%>" id="<%=key%>"><%=key%></option>
                                         <%
                                                     i++;
                                                 }
@@ -92,7 +110,7 @@
 
                         </div>
                         <div class="form-register mt-5 d-flex justify-content-md-center align-items-center ">
-                            <button type="submit " class="btn btn-outline-secondary rounded-pill ">
+                            <button type="submit" class="btn btn-outline-secondary rounded-pill ">
                                 BUSCAR
                             </button>
                         </div>
@@ -101,23 +119,34 @@
                 }else{
         %> 
                     <form name="agregarEspectaculo2" method="POST" action="/CoronaTickets-Web/AgregarEspectaculo">
+                        <input id="labelImagen" name="paquetePost" type="hidden" value="<%=paq%>">
                         <div style="width: 80vh;" class="form-register ">
                             <h1 class="mb-5">AGREGAR ESPECTÁCULO A PAQUETE</h1>
                         </div>
                         <div class="row d-flex justify-content-md-center align-items-center">
                             <div class="col-6">
                                 <div class="row">
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select" name="espectaculo" aria-label="Default select example">
                                         <option selected>Espectáculo</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <%
+                                            ArrayList<String> espectaculos = (ArrayList<String>) request.getAttribute("espectaculos");
+                                            if(espectaculos == null){
+                                                System.out.println("VACIO");
+                                            }else{
+                                                for (String espectaculo: espectaculos){
+                                        %>
+                                        <option value="<%=espectaculo%>" ><%=espectaculo%></option>
+                                        <%
+
+                                                }
+                                            }
+                                        %>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-register mt-5 d-flex justify-content-md-center align-items-center ">
-                            <button type="submit " class="btn btn-outline-secondary rounded-pill ">
+                            <button type="submit" class="btn btn-outline-secondary rounded-pill ">
                                 AGREGAR
                             </button>
                         </div>
