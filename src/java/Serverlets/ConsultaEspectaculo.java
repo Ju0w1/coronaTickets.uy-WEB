@@ -9,6 +9,7 @@ import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
+import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class ConsultaEspectaculo extends HttpServlet {
      */
     Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    IControladorUsuario ICU = fabrica.getIControladorUsuario();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -90,11 +92,12 @@ public class ConsultaEspectaculo extends HttpServlet {
         Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
         Espectaculo espcSeleccionado = escp.get(datos[0]);
         Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategoria();
-        request.setAttribute("categorias", categoriasMap);
+        
+        String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
 
         String nombre = datos[0];
         request.setAttribute("nombre", nombre);
-        String artista = datos[1];
+        //String artista = datos[1];
         request.setAttribute("artista", artista);
         String descripcion = datos[2];
         request.setAttribute("descripcion", descripcion);
@@ -112,6 +115,7 @@ public class ConsultaEspectaculo extends HttpServlet {
         request.setAttribute("fecha", fecha);
         String urlImagen = datos[9];
         request.setAttribute("urlImagen", urlImagen);
+        request.setAttribute("categorias", categoriasMap);
         RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculo.jsp");
         view.forward(request, response);
     }

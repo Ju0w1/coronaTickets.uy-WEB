@@ -59,19 +59,8 @@
                 <div class="row">
                     <div class="col-12 d-flex justify-content-md-center">
                         <h1 class="mb-5">DETALLES DEL ESPECTÁCULO</h1>
-                        categorias
                     </div>
-                    <%
-                        if (urlImagen.equals("")) {
-                    %>
 
-                    <%
-                    } else {
-                    %>
-                    <img src="<%=urlImagen%>" class="rounded mx-auto d-block" style="max-height: 150px; max-width:  150px; border-radius: 50%;">
-                    <%
-                        }
-                    %>
                 </div>
 
                 <div class="row">
@@ -114,6 +103,24 @@
                                     <input type="number" class="form-control" id="inputNombre" placeholder="<%=especmax%>" readonly>
                                 </div>
                             </div>
+
+                            <%
+                                if (urlImagen.equals("")) {
+                            %>
+
+                            <%
+                            } else {
+                            %>
+                            <div class="form-group row mb-2 justify-content-between">
+                                <label for="inputNombre" class="col-sm-8 col-form-label">Imagen</label>
+
+                                <div class="w-100 d-flex justify-content-md-center align-items-center">
+                                    <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=urlImagen%>">
+                                </div>
+                            </div>
+                            <%
+                                }
+                            %>
                         </form>
 
                     </div>
@@ -138,7 +145,7 @@
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Categorías</label>
-                            <div class="col-sm-50">
+                            <div class="col-sm-50" >
 
                                 <%
                                     for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
