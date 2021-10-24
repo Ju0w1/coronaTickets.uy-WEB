@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="Logica.Clases.Funcion"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Categoria"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
@@ -51,7 +53,11 @@
             String duracion = (String) request.getAttribute("duracion");
             String fecha = (String) request.getAttribute("fecha");
             String urlImagen = (String) request.getAttribute("urlImagen");
+            Map<String, Funcion> funciones = new HashMap<>();
             Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+            funciones = (Map<String, Funcion>) request.getAttribute("funcionesDeEspec");
+
+
         %>
 
         <div class="d-flex justify-content-md-center align-items-center mt-5">
@@ -159,33 +165,98 @@
 
                             </div>
                         </div>
-                        <div class="form-group row mb-2 justify-content-between">
-                            <label for="inputNombre" class="col-sm-2 col-form-label">Funciones</label>   
-                        </div>
-
-                        <!--<div class="w-100 h-50 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>-->
-
                         <div class="w-100 d-flex justify-content-md-center align-items-center">
                             <img style="max-height:100%; max-width:100%;object-fit: contain;" src="">
                         </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Funciones</label>   
+                        </div>
                         <div class="w-100 d-flex justify-content-md-center align-items-center">
 
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+
+                                <div class="carousel-indicators">
+                                    <%
+                                        int i = 0;
+                                        for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                                            if (i == 0) {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <%
+                                        i++;
+                                    } else {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=i%>" aria-label="Slide 2"></button>
+                                    <%
+                                                i++;
+                                            }
+                                        }
+                                    %>
+                                </div>
+                                <div class="carousel-inner">
+                                    <%
+                                        i = 0;
+                                        for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                                            String key2 = entry.getKey();
+                                            Funcion value2 = entry.getValue();
+                                            if (i == 0) {
+                                    %>
+                                    <div class="carousel-item active">
+                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:100%; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
+                                                <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                        i++;
+                                    } else {
+                                    %>
+                                    <div class="carousel-item">
+                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:100%; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
+                                                <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                                i++;
+                                            }
+                                        }
+                                    %>
+
+
+
+
+
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
 
                     </div>
-
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12 d-flex justify-content-md-center">
-                        <a href="home">
-                            <button class="btn btn-outline-secondary rounded-pill ">
-                                VOLVER
-                            </button>
-                        </a>
+                    <div class="row mt-3">
+                        <div class="col-12 d-flex justify-content-md-center">
+                            <a href="home">
+                                <button class="btn btn-outline-secondary rounded-pill ">
+                                    VOLVER
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
     </body>
 

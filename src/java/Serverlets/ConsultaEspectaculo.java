@@ -7,6 +7,7 @@ package Serverlets;
 
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
+import Logica.Clases.Funcion;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
 import Logica.Interfaz.IControladorUsuario;
@@ -94,6 +95,10 @@ public class ConsultaEspectaculo extends HttpServlet {
         Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategorias();
         
         String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
+        
+        Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(datos[0]);
+        request.setAttribute("funcionesDeEspec", funcionesDeEspec); 
+        
 
         String nombre = datos[0];
         request.setAttribute("nombre", nombre);
