@@ -50,31 +50,7 @@
             $("#boton2").click();
         }
     </script> 
-    <!--
-    <script>
-    $(document).ready(function () {
-        $('.doAction').click(function () {
-            var rel = parseInt($('.doAction:checked').attr('rel'));
 
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                cache: false,
-                data: {
-                    itemID: rel
-                }
-                url: '/ajax.php',
-                success: function (data) {
-                    if(!data.answer) {
-                        alert('Error');
-                    }
-                }
-            });
-        });
-    });    
-        
-    </script>
--->
 </head>
 
 <body>
@@ -90,13 +66,6 @@
         <%}
     %>
     <div id="header"></div>
-    <!--
-    <input class="doAction" type="radio" name="ra1" rel="1" />
-    <input class="doAction" type="radio" name="ra1" rel="2" />
-    <input class="doAction" type="radio" name="ra1" rel="3" />
-    <input class="doAction" type="radio" name="ra1" rel="4" />
-    <input class="doAction" type="radio" name="ra1" rel="5" />
-    -->
     <div class="resultado"></div>
     <br>
     <h3 style="text-align: center;">
