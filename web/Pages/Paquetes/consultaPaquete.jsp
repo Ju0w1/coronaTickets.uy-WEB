@@ -143,8 +143,9 @@
                                 <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ComprarPaquete">
                                     <input type="hidden" name="nickname" value="<%=nombre%>" />
                                     <button class="btn btn-outline-secondary rounded-pill disabled">
-                                        COMPRADO
+                                        COMPRADO  <i class="bi bi-check2-circle"></i>
                                     </button>
+                                   
                                 </form>
                                 <%
                                     }
