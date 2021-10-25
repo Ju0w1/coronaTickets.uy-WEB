@@ -4,6 +4,8 @@
     Author     : pabli
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.util.Date"%>
 <%@page import="Logica.Clases.Paquete"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,11 +19,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <!-- CSS only -->
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
         <style>
             body {
                 font-family: 'Montserrat', sans-serif;
@@ -34,10 +36,10 @@
             HttpSession objSesion = request.getSession();
             String usuario;
             String imgPerfil;
-        if (objSesion.getAttribute("nickname") != null) {%>
-            <%@include file="/Pages/Common/Header2.jsp" %>
+            if (objSesion.getAttribute("nickname") != null) {%>
+        <%@include file="/Pages/Common/Header2.jsp" %>
         <%} else {%>
-            <%@include file="/Pages/Common/Header.jsp" %>
+        <%@include file="/Pages/Common/Header.jsp" %>
         <%}%>
         <%
             /*Paquete paqSeleccionado = (Paquete) objSesion.getAttribute("paqueteSeleccionado");
@@ -52,10 +54,13 @@
             String descuento = (String) request.getAttribute("descuento");
             String costo = (String) request.getAttribute("costo");
             String imagen = (String) request.getAttribute("imagen");
+            String nickname = (String) objSesion.getAttribute("nickname");
+            Map<String, Paquete> paquetes2 = new HashMap<>();
+            paquetes2 = (Map<String, Paquete>) request.getAttribute("paquetes2");
             //2013-01-08
             objSesion.setAttribute("nombrePaquete", nombre);
-            
-            
+
+
         %>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container" style="width: 100vh;">
@@ -71,68 +76,91 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
-                            <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputNombre" placeholder="<%=nombre%>" readonly>
-                                </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=nombre%>" readonly>
                             </div>
-                            <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
-                                <div class="col-sm-8">
-                                    <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=descripcion%>" rows="2 " readonly></textarea>
-                                </div>
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=descripcion%>" rows="2 " readonly></textarea>
                             </div>
-                            <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de inicio</label>
-                                <div class="col-sm-8">
-                                    <input type="date" class="form-control" id="inputNombre" value="<%=fechaIni%>" placeholder="" readonly>
-                                </div>
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de inicio</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputNombre" value="<%=fechaIni%>" placeholder="" readonly>
                             </div>
-                            <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de fin</label>
-                                <div class="col-sm-8">
-                                    <input type="date" class="form-control" id="inputNombre" value="<%=fechaFin%>" placeholder="" readonly>
-                                </div>
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de fin</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputNombre" value="<%=fechaFin%>" placeholder="" readonly>
                             </div>
-                            <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-2 col-form-label">Descuento</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="inputNombre" placeholder="<%=descuento%>" readonly>
-                                </div>
+                        </div>
+                        <div class="form-group row mb-2 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Descuento</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=descuento%>" readonly>
                             </div>
-                            <div class="form-group row mb-4 justify-content-between">
-                                <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
-                                </div>
+                        </div>
+                        <div class="form-group row mb-4 justify-content-between">
+                            <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
                             </div>
-                            <div class="form-group row justify-content-center">
-                                <div class="btn-group" role="group" aria-label="Basic example">
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
                                     <button type="submit" class="btn btn-secondary rounded-pill me-3">Ver espectáculos</button>
-                                    <%
-                                        String tipoUsuario = objSesion.getAttribute("tipo").toString();
-                                        if(tipoUsuario.equals("espectador")){
-                                    %>
-                                    
-                                    <a href="">
-                                        <button class="btn btn-outline-secondary rounded-pill ">
-                                            COMPRAR
-                                        </button>
-                                    </a>
-                                    <%
-                                        }else{
-                                    %>
-                                        <a class="btn btn-outline-secondary rounded-pill " href="AltaPaquete">CREAR PAQUETE</a>
-                                        
-                                    <%
+                                </form>
+
+                                <%
+                                    String tipoUsuario = objSesion.getAttribute("tipo").toString();
+                                    if (tipoUsuario.equals("espectador")) {
+                                        boolean isPaqueteComprado = false;
+                                        for (Map.Entry<String, Paquete> entry : paquetes2.entrySet()) {
+                                            String key2 = entry.getKey();
+                                            Paquete value2 = entry.getValue();
+                                            if (value2.getNombre().equals(nombre)) {
+                                                isPaqueteComprado = true;
+                                            }
                                         }
-                                    %>
-                                </div>
+                                        if (isPaqueteComprado == false) {
+                                %>
+                                <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ComprarPaquete">
+                                    <input type="hidden" name="nickname" value="<%=nombre%>" />
+                                    <button class="btn btn-outline-secondary rounded-pill ">
+                                        COMPRAR
+                                    </button>
+                                </form>
+                                <%
+                                } else {
+                                %>
+                                <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ComprarPaquete">
+                                    <input type="hidden" name="nickname" value="<%=nombre%>" />
+                                    <button class="btn btn-outline-secondary rounded-pill disabled">
+                                        COMPRAR
+                                    </button>
+                                </form>
+                                <%
+                                    }
+                                %>
+                                <%
+                                } else {
+                                %>
+                                <a class="btn btn-outline-secondary rounded-pill " href="AltaPaquete">CREAR PAQUETE</a>
+
+                                <%
+                                    }
+                                %>
                             </div>
-                                
-                        </form>
+                        </div>
+
+
                     </div>
                 </div>
                 <div class="row mt-5">
