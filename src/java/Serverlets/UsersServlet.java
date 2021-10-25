@@ -61,8 +61,6 @@ public class UsersServlet extends HttpServlet {
         }
         request.setAttribute("tipoUser", tipoUser);
         
-        int id=ICU.getIdEspectadorPorNick("asd");
-        
         String respuesta;
         if(usuarios.isEmpty()){
             System.out.println("NO HAY USERS");
