@@ -95,6 +95,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center" id="spinner-border">
+                </div>
+                
                 <div class="form-register d-flex justify-content-md-center align-items-center">
                     <button type="button" id="subir" onclick="abrirModal" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#myModal">
                         Registrate
@@ -144,10 +147,13 @@
                     formData.append('file', e.target.files[0]);
                     settings.data = formData;
                     $('#subir').attr('disabled', 'disabled');
+                    $("#spinner-border").append('<div class="spinner-border mb-4" role="status"><span class="visually-hidden">Loading...</span></div>');
                     $.ajax(settings).done(function (response) {
                         $('#subir').removeAttr('disabled');
                         //console.log(response);
                         var lab = $.parseJSON(response);
+                        $(".visually-hidden").remove();
+                        $(".spinner-border").remove();
                         //console.log(lab.data.url);
                         //$label.val = response.data.link;
                         //$("#labelImagen").text(lab.data.url);

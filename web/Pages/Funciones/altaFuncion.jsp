@@ -80,7 +80,6 @@
             <%}
         %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
-        
         <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaFuncion" >
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE FUNCIÓN</h1>
@@ -175,8 +174,8 @@
                             }
                         %>                        
                     </div>
-                    
-                    
+                    <div class="d-flex justify-content-center" id="spinner-border">
+                    </div>
                 </div>
 
 
@@ -197,7 +196,6 @@
             $("#content-3").mCustomScrollbar({
               theme: "inset-3-dark"
             });
-            
             $('input[type="file"]').change(function(e){
                 const file = document.getElementById("file");
                 const label = document.getElementById("imagen");
@@ -218,9 +216,12 @@
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 settings.data = formData;
-                $('#subir').attr('disabled','disabled');    
+                $('#subir').attr('disabled','disabled');  
+                $("#spinner-border").append('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
                 $.ajax(settings).done(function(response) {
                     $('#subir').removeAttr('disabled');
+                    $(".visually-hidden").remove();
+                    $(".spinner-border").remove();
                     console.log(response);
                     var lab = $.parseJSON(response);
                     //console.log(lab.data.url);

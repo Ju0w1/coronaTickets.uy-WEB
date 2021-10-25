@@ -101,6 +101,10 @@
 
 
             </div>
+            
+            <div class="d-flex justify-content-center" id="spinner-border">
+            </div>
+            
             <div class="form-register mt-5 d-flex justify-content-md-center align-items-center ">
                 <button type="submit" id="subir" class="btn btn-outline-secondary rounded-pill ">
                     CREAR
@@ -131,11 +135,14 @@
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 settings.data = formData;
-                $('#subir').attr('disabled','disabled');    
+                $('#subir').attr('disabled','disabled');
+                $("#spinner-border").append('<div class="spinner-border mb-3 mt-3" role="status"><span class="visually-hidden">Loading...</span></div>');
                 $.ajax(settings).done(function(response) {
                     $('#subir').removeAttr('disabled');
                     //console.log(response);
                     var lab = $.parseJSON(response);
+                    $(".visually-hidden").remove();
+                        $(".spinner-border").remove();
                     //console.log(lab.data.url);
                     //$label.val = response.data.link;
                     //$("#labelImagen").text(lab.data.url);
