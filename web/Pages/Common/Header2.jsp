@@ -74,10 +74,18 @@
                 </a>
                 <%
                     String tipoUsuario = objSesion.getAttribute("tipo").toString();
+                    String nick = objSesion.getAttribute("nickname").toString();
                     if(tipoUsuario.equals("artista")){
                 %>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="Usuario">Perfil</a></li>
+                            <li>
+                                <form action="/CoronaTickets-Web/Usuario" method="post">
+                                    <button type="submit" class="dropdown-item">
+                                         Perfil
+                                    </button>
+                                    <input type="hidden" name="data" value="<%=nick%>" />
+                                </form>
+                            </li>
                             <li><a class="dropdown-item" href="users">Listar usuarios</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="AltaEspectaculo">Alta espectáculo</a></li>
@@ -91,7 +99,14 @@
                     }else if(tipoUsuario.equals("espectador")){
                 %>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="Usuario">Perfil</a></li>
+                            <li>
+                                <form action="/CoronaTickets-Web/Usuario" method="post">
+                                    <button type="submit" class="dropdown-item">
+                                         Perfil
+                                    </button>
+                                    <input type="hidden" name="data" value="<%=nick%>" />
+                                </form>
+                            </li>
                             <li><a class="dropdown-item" href="users">Listar usuarios</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Compra de paquete de espectáculo</a></li>
