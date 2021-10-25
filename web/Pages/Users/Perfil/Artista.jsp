@@ -27,9 +27,6 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
   </script>
-
-</head>
-<body style="background-color: rgb(230, 232, 240);">
     <%
         HttpSession objSesion = request.getSession();
         String usuario;
@@ -54,11 +51,28 @@
         String bio = espect.getBiografia();
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
+        boolean losigo = true;
         
+        if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
+            losigo = true;
+            System.out.println("SI LO SIGO");
+        } else {
+            System.out.println("NO LO SIGO");
+            losigo = false;
+        }
+        
+        //System.out.println("Losigo::::" + losigo);
         Map<String, Espectaculo> espectaculosAceptados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosA");
-        
+        boolean login = false;
+        if (request.getAttribute("login")!=null){
+            login = true;
+        }
         
     %>
+
+    
+</head>
+<body style="background-color: rgb(230, 232, 240);">
                     
   <div id="header"></div>
   <div class="container">
@@ -82,11 +96,35 @@
                     }
                 %>
                 <div class="mt-3">
-                  <h4><%=nick%></h4>
-                  <p class="text-secondary mb-1">Artista</p>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b><%=seguidores%></b></a></label>
-                  <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b><%=seguidos%></b></a> </label>
-                  <button class="btn btn-primary">Seguir <!-- O dejar de seguir --></button>
+                    <h4><%=nick%></h4>
+                    <p class="text-secondary mb-1">Artista</p>
+                    <label> <a style="color: black; text-decoration: none;" href="#">Seguidores <b><%=seguidores%></b></a></label>
+                    <label> <a style="color: black; text-decoration: none;" href="#">Seguidos <b><%=seguidos%></b></a> </label>
+                    <%
+                        if(login==false){
+                            if(losigo == true){
+
+                            %>    
+                                <form action="/CoronaTickets-Web/User" method="post">
+                                    <button type="submit" class="btn btn-primary" >Dejar de seguir</button>
+                                    <input type="hidden" name="data" value="<%=nick%>" />
+                                    <input type="hidden" name="user" value="<%=nick%>" />
+                                    <input type="hidden" name="yo" value="<%=objSesion.getAttribute("nickname")%>" />
+                                </form>
+                            <%  
+                            } else {
+                            %>    
+                                <form action="/CoronaTickets-Web/User" method="post">
+                                    <button type="submit" class="btn btn-primary" >Seguir</button>
+                                    <input type="hidden" name="data" value="<%=nick%>" />
+                                    <input type="hidden" name="user2" value="<%=nick%>" />
+                                    <input type="hidden" name="yo2" value="<%=objSesion.getAttribute("nickname")%>" />
+                                </form>
+                                
+                            <%  
+                            }
+                        }
+                    %> 
                 </div>
               </div>
             </div>

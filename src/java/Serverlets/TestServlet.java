@@ -5,24 +5,19 @@
  */
 package Serverlets;
 
-import Logica.Fabrica;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
 import Logica.Clases.Paquete;
 import Logica.Clases.Usuario;
-
+import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
-import Logica.Interfaz.IControladorFuncion;
 import Logica.Interfaz.IControladorPaquete;
-
 import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,9 +29,12 @@ import javax.servlet.http.HttpSession;
  *
  * @author milto
  */
-@WebServlet(name = "Usuario", urlPatterns = {"/Usuario"})
-public class UserDetalleServlet extends HttpServlet {
-
+@WebServlet(name = "User", urlPatterns = {"/User"})
+public class TestServlet extends HttpServlet {
+ Fabrica fabrica = Fabrica.getInstance();
+    IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,15 +44,11 @@ public class UserDetalleServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
-    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-    IControladorPaquete ICP = fabrica.getIControladorPaquete();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            
         }
     }
 
@@ -70,6 +64,7 @@ public class UserDetalleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -82,9 +77,19 @@ public class UserDetalleServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String nick = request.getParameter("data");
+        
+            System.out.println("USERRRRRRRRRRRRRRRRR" + nick);
         HttpSession objSesion = request.getSession();
+        if(request.getParameter("user")!=null){
+            System.out.println("DEJAR DE SEGUIRRRRRRR");
+           ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
+        }
+        if(request.getParameter("user2")!=null){
+            System.out.println("SEGUIRRRRRRR");
+           ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
+        }
         
         if (ICU.obtenerArtistaPorNick(nick)==null){
             System.out.println("NO ES ARTISTA");
@@ -108,13 +113,7 @@ public class UserDetalleServlet extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
                     view.forward(request, response);
                 } else {
-//                    if(ICU.loSigo(objSesion.getAttribute("nickname").toString(), nick)){
-//                        request.setAttribute("losigo", true);
-//                    } else {
-//                        request.setAttribute("losigo", false);
-//                    }
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-                    //processRequest(request, response);
                     view.forward(request, response);
                 }
             }
