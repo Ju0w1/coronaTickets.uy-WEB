@@ -6,8 +6,12 @@
 package Serverlets;
 
 import Logica.Clases.Paquete;
+import Logica.Fabrica;
+import Logica.Interfaz.IControladorEspectaculo;
+import Logica.Interfaz.IControladorPaquete;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +27,11 @@ import javax.servlet.http.*;
 @WebServlet(name = "ConsultaPaquete", urlPatterns = {"/Paquete"})
 public class ConsultaPaquete extends HttpServlet {
 
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,6 +85,9 @@ public class ConsultaPaquete extends HttpServlet {
             String descuento = datos[4];        request.setAttribute("descuento", descuento);
             String costo = datos[5];            request.setAttribute("costo", costo);
             String imagen = datos[6];           request.setAttribute("imagen", imagen);
+            int id= ICP.getIdUsuario(nombre);
+            Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
+            request.setAttribute("paquetes2", paquetes);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/consultaPaquete.jsp");
             view.forward(request, response);
 
