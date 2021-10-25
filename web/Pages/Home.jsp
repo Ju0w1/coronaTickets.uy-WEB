@@ -34,10 +34,33 @@
 
 
         <!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
+        <link href="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
         <style>
             body {
                 font-family: 'Montserrat', sans-serif;
+            }
+            /* Custom Scrollbar using CSS */
+            .custom-scrollbar-css {
+              overflow-y: scroll;
+            }
+            /* scrollbar width */
+            .custom-scrollbar-css::-webkit-scrollbar {
+              width: 5px;
+            }
+            /* scrollbar track */
+            .custom-scrollbar-css::-webkit-scrollbar-track {
+              background: #eee;
+            }
+            /* scrollbar handle */
+            .custom-scrollbar-css::-webkit-scrollbar-thumb {
+              border-radius: 1rem;
+              background-color: #00d2ff;
+              background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+            }
+
+            #content-3{
+                height: 20vh;
             }
         </style>
     </head>
@@ -56,7 +79,7 @@
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container w-75 ">
                     <div class="row ">
-                        <div class="col-6"  style="overflow-y: scroll; height: 85vh">
+                        <div class="col-6 " id="content-3" style="height: 85vh">
                             <h1>Paquetes</h1>
                             <%
                                 Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
@@ -122,7 +145,7 @@
                                 }
                             %> 
                         </div>
-                        <div class="col-6"  style="overflow-y: scroll; height: 85vh">
+                        <div class="col-6" id="content-4" style="height: 85vh">
                             <h1>Espectáculos</h1>
                             <%
                                 Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
@@ -168,9 +191,21 @@
                              
             </div>
         </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        
+        $(document).ready(function() {
+            $("#content-3").mCustomScrollbar({
+              theme: "inset-3-dark"
+            });
+            $("#content-4").mCustomScrollbar({
+              theme: "inset-3-dark"
+            });
+        });
+        
+    </script>  
+    
     </body>
 
     </html>
