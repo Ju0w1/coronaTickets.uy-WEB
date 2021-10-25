@@ -143,7 +143,7 @@
                                 <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ComprarPaquete">
                                     <input type="hidden" name="nickname" value="<%=nombre%>" />
                                     <button class="btn btn-outline-secondary rounded-pill disabled">
-                                        COMPRAR
+                                        COMPRADO
                                     </button>
                                 </form>
                                 <%
@@ -152,8 +152,9 @@
                                 <%
                                 } else {
                                 %>
+                                <form class="p-2">
                                 <a class="btn btn-outline-secondary rounded-pill " href="AltaPaquete">CREAR PAQUETE</a>
-
+                                </form>
                                 <%
                                     }
                                 %>

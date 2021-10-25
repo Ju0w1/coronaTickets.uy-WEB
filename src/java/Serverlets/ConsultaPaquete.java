@@ -85,7 +85,9 @@ public class ConsultaPaquete extends HttpServlet {
             String descuento = datos[4];        request.setAttribute("descuento", descuento);
             String costo = datos[5];            request.setAttribute("costo", costo);
             String imagen = datos[6];           request.setAttribute("imagen", imagen);
-            int id= ICP.getIdUsuario(nombre);
+            HttpSession objSesion = request.getSession();
+            String nickUsuario= (String) objSesion.getAttribute("nickname");
+            int id= ICP.getIdUsuario(nickUsuario);
             Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
             request.setAttribute("paquetes2", paquetes);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/consultaPaquete.jsp");
