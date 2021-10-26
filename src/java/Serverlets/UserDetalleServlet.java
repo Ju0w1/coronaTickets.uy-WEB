@@ -19,8 +19,13 @@ import Logica.Interfaz.IControladorPaquete;
 import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -85,7 +90,40 @@ public class UserDetalleServlet extends HttpServlet {
         throws ServletException, IOException {
         String nick = request.getParameter("data");
         HttpSession objSesion = request.getSession();
-        
+        if(request.getParameter("esEspectador")!=null){
+            String nuevaFecha = request.getParameter("fecha");
+            String[] datos = nuevaFecha.split("/");
+            Date date=Date.valueOf(datos[2]+ "-" + datos[1] + "-" + datos[0]);
+            String nuevaImagen = request.getParameter("urlImagen");
+            if(nuevaImagen.equals("")){
+                Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+                nuevaImagen= espect.getImagen();
+            }
+            String email = request.getParameter("email");
+            String nuevoNombre = request.getParameter("nombre");
+            String nuevoApellido = request.getParameter("apellido");
+            ICU.modificarUsuarioEspectador(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen);
+        }
+        if(request.getParameter("esArtista")!=null){
+            
+            String nuevaFecha = request.getParameter("fecha");
+            String[] datos = nuevaFecha.split("/");
+            Date date=Date.valueOf(datos[2]+ "-" + datos[1] + "-" + datos[0]);
+            String nuevaImagen = request.getParameter("urlImagen");
+            if(nuevaImagen.equals("")){
+                Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+                nuevaImagen= espect.getImagen();
+            }
+            String email = request.getParameter("email");
+            String nuevoNombre = request.getParameter("nombre");
+            String nuevoApellido = request.getParameter("apellido");
+            String nuevaDescripcion = request.getParameter("descripcion");
+            String nuevaBiografia = request.getParameter("bio");
+            System.out.println("Biografia que llega: " + nuevaBiografia);
+            String nuevoUrl=request.getParameter("sitio");
+            ICU.modificarUsuarioArtista(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen, nuevaDescripcion, nuevaBiografia, nuevoUrl);
+            //ICU.modificarUsuarioEspectador(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen);
+        }
         if (ICU.obtenerArtistaPorNick(nick)==null){
             System.out.println("NO ES ARTISTA");
             Usuario espect = ICU.obtenerEspectadorPorNick(nick);
