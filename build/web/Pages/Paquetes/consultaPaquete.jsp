@@ -91,25 +91,25 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de inicio</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputNombre" value="<%=fechaIni%>" placeholder="" readonly>
+                                <input type="date" class="form-control" id="" value="<%=fechaIni%>" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Fecha de fin</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputNombre" value="<%=fechaFin%>" placeholder="" readonly>
+                                <input type="date" class="form-control" id="" value="<%=fechaFin%>" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descuento</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=descuento%>" readonly>
+                                <input type="number" class="form-control" id="" placeholder="<%=descuento%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-4 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
+                                <input type="text" class="form-control" id="" value="<%=costo%>" placeholder="<%=costo%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row justify-content-center">
@@ -119,6 +119,7 @@
                                 </form>
 
                                 <%
+                                    if(objSesion.getAttribute("nickname") != null){
                                     String tipoUsuario = objSesion.getAttribute("tipo").toString();
                                     if (tipoUsuario.equals("espectador")) {
                                         boolean isPaqueteComprado = false;
@@ -158,11 +159,10 @@
                                 </form>
                                 <%
                                     }
+                                }
                                 %>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="row mt-5">
