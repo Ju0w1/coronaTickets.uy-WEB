@@ -23,10 +23,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
+        }
+        /* Custom Scrollbar using CSS */
+        .custom-scrollbar-css {
+          overflow-y: scroll;
+        }
+        /* scrollbar width */
+        .custom-scrollbar-css::-webkit-scrollbar {
+          width: 5px;
+        }
+        /* scrollbar track */
+        .custom-scrollbar-css::-webkit-scrollbar-track {
+          background: #eee;
+        }
+        /* scrollbar handle */
+        .custom-scrollbar-css::-webkit-scrollbar-thumb {
+          border-radius: 1rem;
+          background-color: #00d2ff;
+          background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+        }
+        
+        #content-3{
+            height: 10vh;
         }
     </style>
 </head>
@@ -88,7 +110,7 @@
                                     %>
                                 </select>
                             </div>
-                            <div class="col" style="height: 8vh; overflow-y: scroll;">
+                                <div class="col content-3" id="content-3">
                                 
                                     <%
                                     Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
@@ -101,7 +123,7 @@
 
                                 %>
 
-                                <div class="row">
+                                <div class="row ms-3">
                                     <div class="form-check">
                                         <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>" >
                                         <label class="form-check-label" for="flexCheckDefault">
@@ -179,8 +201,14 @@
         </form>
                                 
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
     <script type="text/javascript">
+        
         $(document).ready(function() {
+            $("#content-3").mCustomScrollbar({
+              theme: "inset-3-dark"
+            });
             $('input[type="file"]').change(function(e){
                 const file = document.getElementById("file");
                 const label = document.getElementById("imagen");
@@ -201,14 +229,14 @@
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 settings.data = formData;
-                $('#subir').attr('disabled','disabled'); 
+                $('#subir').attr('disabled','disabled');  
                 $("#spinner-border").append('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
                 $.ajax(settings).done(function(response) {
                     $('#subir').removeAttr('disabled');
-                    //console.log(response);
-                    var lab = $.parseJSON(response);
                     $(".visually-hidden").remove();
                     $(".spinner-border").remove();
+                    console.log(response);
+                    var lab = $.parseJSON(response);
                     //console.log(lab.data.url);
                     //$label.val = response.data.link;
                     //$("#labelImagen").text(lab.data.url);
@@ -217,7 +245,7 @@
             });
         });
         
-    </script>                            
+    </script>                                       
 </body>
 
 </html>
