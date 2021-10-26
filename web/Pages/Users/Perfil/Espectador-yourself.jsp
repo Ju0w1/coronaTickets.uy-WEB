@@ -124,7 +124,10 @@
                 <span class="text-secondary"><%=email%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                <button class="btn btn-outline-primary">Editar</button>
+                  <form action="/CoronaTickets-Web/EditUser" method="post">
+                    <input type="hidden" name="nick" value="<%=nick%>"/>
+                    <button type="submit" class="btn btn-outline-primary">Editar</button>
+                  </form>
               </li>
             </ul>
           </div>
