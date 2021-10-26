@@ -13,9 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true" %>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
-    <html>
+<html>
     <head>
 
         <meta charset="UTF-8">
@@ -32,7 +32,7 @@
 
 
         <!-- JavaScript Bundle with Popper -->
-        
+
         <link href="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css"/>
         <style>
             body {
@@ -40,21 +40,21 @@
             }
             /* Custom Scrollbar using CSS */
             .custom-scrollbar-css {
-              overflow-y: scroll;
+                overflow-y: scroll;
             }
             /* scrollbar width */
             .custom-scrollbar-css::-webkit-scrollbar {
-              width: 5px;
+                width: 5px;
             }
             /* scrollbar track */
             .custom-scrollbar-css::-webkit-scrollbar-track {
-              background: #eee;
+                background: #eee;
             }
             /* scrollbar handle */
             .custom-scrollbar-css::-webkit-scrollbar-thumb {
-              border-radius: 1rem;
-              background-color: #00d2ff;
-              background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+                border-radius: 1rem;
+                background-color: #00d2ff;
+                background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
             }
 
             #content-3{
@@ -63,147 +63,146 @@
         </style>
     </head>
     <%
-            HttpSession objSesion = request.getSession();
-            String usuario;
-            String imgPerfil;
-            if (objSesion.getAttribute("nickname") != null) {%>
-                <%@include file="/Pages/Common/Header2.jsp" %>
-            <%}
-            else{%>
-                <%@include file="/Pages/Common/Header.jsp" %>
-            <%}
-        %>
+        HttpSession objSesion = request.getSession();
+        String usuario;
+        String imgPerfil;
+        if (objSesion.getAttribute("nickname") != null) {%>
+    <%@include file="/Pages/Common/Header2.jsp" %>
+    <%} else {%>
+    <%@include file="/Pages/Common/Header.jsp" %>
+    <%}
+    %>
     <body>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container w-75 ">
-                    <div class="row ">
-                        <div class="col-6 " id="content-3" style="height: 85vh">
-                            <h1>Paquetes</h1>
-                            <%
-                                Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
-                                if(paquetes == null){
-                                    System.out.println("VACIO");
-                                }else{
-                                    for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
-                                        String key = entry.getKey();
-                                        Paquete value = entry.getValue();
-                                        String nombre =value.getNombre();
-                                        String desc = value.getDescripcion();
-                                        
-                                        String mes1;
-                                        if(value.getFecha_Inicio().getMes()<10){
-                                           mes1 = "0"+value.getFecha_Inicio().getMes();
-                                        }else{
-                                           mes1 = Integer.toString(value.getFecha_Inicio().getMes());
-                                        }
-                                        String dia1;
-                                        if(value.getFecha_Inicio().getDia()<10){
-                                           dia1 = "0"+value.getFecha_Inicio().getDia();
-                                        }else{
-                                           dia1 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        String mes2;
-                                        if(value.getFecha_Fin().getMes()<10){
-                                           mes2 = "0"+value.getFecha_Fin().getMes();
-                                        }else{
-                                           mes2 = Integer.toString(value.getFecha_Fin().getMes());
-                                        }
-                                        String dia2;
-                                        if(value.getFecha_Fin().getDia()<10){
-                                           dia2 = "0"+value.getFecha_Fin().getDia();
-                                        }else{
-                                           dia2 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        
-                                        String fechaIni = value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
-                                        String fechaFin = value.getFecha_Fin().getAnio()+"-"+mes2+"-"+dia2;
-                                        //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
-                                        
-                                        float descuento = value.getDescuento();
-                                        float costo = value.getCosto();
-                                        String urlImagen = value.getUrl();
-                                        String concat = nombre+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costo)+","+urlImagen;
-                            %>
-                            <div class="row ">
-                                <div class="container w-100 mt-3 mb-3">
-                                    <div class="card bg-dark text-white">
-                                        <img src="<%= value.getUrl()%>" id="<%= key%>" class="card-img">
-                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
-                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
-                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
-                                            </form>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <%
-                                    }
-                                }
-                            %> 
-                        </div>
-                        <div class="col-6" id="content-4" style="height: 85vh">
-                            <h1>Espectáculos</h1>
-                            <%
-                                Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
-                                if(espectaculos == null){
-                                    System.out.println("VACIO");
-                                }else{
-                                    for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
-                                        String key = entry.getKey();
-                                        Espectaculo value = entry.getValue();
-                                        String nombre = value.getNombre();
-                                        String artista = Integer.toString(value.getArtista());
-                                        String descripcion = value.getDescripcion();
-                                        String especmax = Integer.toString(value.getMax());
-                                        String especmin = Integer.toString(value.getMin());
-                                        String url = value.getUrl();
-                                        String costo = Double.toString(value.getCosto());
-                                        String duracion = Double.toString(value.getDuracion());
-                                        String fecha = value.getFecha().toString();
-                                        String urlImagen = value.getUrlIamgen();
-                                        String concat = nombre+","+artista+","+descripcion+","+especmax+","+especmin+","+url+","+costo+","+duracion+","+fecha+","+urlImagen;
-                            %>
-                            <div class="row ">
-                                <div class="container w-100 mt-3 mb-3">
-                                    <div class="card bg-dark text-white">
-                                        <img src="<%= value.getUrlIamgen()%>" id="<%= key%>" class="card-img">
-                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
-                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
-                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
-                                            </form>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <%
-                                    }
-                                }
+                <div class="row ">
+                    <div class="col-6 " id="content-3" style="height: 85vh">
+                        <h1>Paquetes</h1>
+                        <%
+                            Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
+                            if (paquetes == null) {
+                                System.out.println("VACIO");
+                            } else {
+                                for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                    String key = entry.getKey();
+                                    Paquete value = entry.getValue();
+                                    String nombre = value.getNombre();
+                                    String desc = value.getDescripcion();
 
-                            %> 
+                                    String mes1;
+                                    if (value.getFecha_Inicio().getMes() < 10) {
+                                        mes1 = "0" + value.getFecha_Inicio().getMes();
+                                    } else {
+                                        mes1 = Integer.toString(value.getFecha_Inicio().getMes());
+                                    }
+                                    String dia1;
+                                    if (value.getFecha_Inicio().getDia() < 10) {
+                                        dia1 = "0" + value.getFecha_Inicio().getDia();
+                                    } else {
+                                        dia1 = Integer.toString(value.getFecha_Inicio().getDia());
+                                    }
+                                    String mes2;
+                                    if (value.getFecha_Fin().getMes() < 10) {
+                                        mes2 = "0" + value.getFecha_Fin().getMes();
+                                    } else {
+                                        mes2 = Integer.toString(value.getFecha_Fin().getMes());
+                                    }
+                                    String dia2;
+                                    if (value.getFecha_Fin().getDia() < 10) {
+                                        dia2 = "0" + value.getFecha_Fin().getDia();
+                                    } else {
+                                        dia2 = Integer.toString(value.getFecha_Inicio().getDia());
+                                    }
+
+                                    String fechaIni = value.getFecha_Inicio().getAnio() + "-" + mes1 + "-" + dia1;
+                                    String fechaFin = value.getFecha_Fin().getAnio() + "-" + mes2 + "-" + dia2;
+                                    //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
+
+                                    float descuento = value.getDescuento();
+                                    float costo = value.getCosto();
+                                    String urlImagen = value.getUrl();
+                                    String concat = nombre + "," + desc + "," + fechaIni + "," + fechaFin + "," + Float.toString(descuento) + "," + Float.toString(costo) + "," + urlImagen;
+                        %>
+                        <div class="row ">
+                            <div class="container w-100 mt-3 mb-3">
+                                <div class="card bg-dark text-white">
+                                    <img src="<%= value.getUrl()%>" id="<%= key%>" class="card-img">
+                                    <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                        <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
+                                            <input type="hidden" value="<%= concat%>" name="ver_mas">
+                                            <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+                        <%
+                                }
+                            }
+                        %> 
                     </div>
-                             
+                    <div class="col-6" id="content-4" style="height: 85vh">
+                        <h1>Espectáculos</h1>
+                        <%
+                            Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+                            if (espectaculos == null) {
+                                System.out.println("VACIO");
+                            } else {
+                                for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                    String key = entry.getKey();
+                                    Espectaculo value = entry.getValue();
+                                    String nombre = value.getNombre();
+                                    String artista = Integer.toString(value.getArtista());
+                                    String descripcion = value.getDescripcion();
+                                    String especmax = Integer.toString(value.getMax());
+                                    String especmin = Integer.toString(value.getMin());
+                                    String url = value.getUrl();
+                                    String costo = Double.toString(value.getCosto());
+                                    String duracion = Double.toString(value.getDuracion());
+                                    String fecha = value.getFecha().toString();
+                                    String urlImagen = value.getUrlIamgen();
+                                    String concat = nombre + "," + artista + "," + descripcion + "," + especmax + "," + especmin + "," + url + "," + costo + "," + duracion + "," + fecha + "," + urlImagen;
+                        %>
+                        <div class="row ">
+                            <div class="container w-100 mt-3 mb-3">
+                                <div class="card bg-dark text-white">
+                                    <img src="<%= value.getUrlIamgen()%>" id="<%= key%>" class="card-img">
+                                    <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                        <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
+                                            <input type="hidden" value="<%= concat%>" name="ver_mas">
+                                            <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <%
+                                }
+                            }
+
+                        %> 
+                    </div>
+                </div>
+
             </div>
         </div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-        
-        $(document).ready(function() {
-            $("#content-3").mCustomScrollbar({
-              theme: "inset-3-dark"
+
+            $(document).ready(function () {
+                $("#content-3").mCustomScrollbar({
+                    theme: "inset-3-dark"
+                });
+                $("#content-4").mCustomScrollbar({
+                    theme: "inset-3-dark"
+                });
             });
-            $("#content-4").mCustomScrollbar({
-              theme: "inset-3-dark"
-            });
-        });
-        
-    </script>  
-    
+
+        </script>  
+
     </body>
 
-    </html>
+</html>
