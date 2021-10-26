@@ -23,8 +23,8 @@
     Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
     int i = 0;
     String[] concat = new String[paquetes.size() + espectaculos.size()];
-    int paqSize=paquetes.size();
-    int espSize=espectaculos.size();
+    int paqSize = paquetes.size();
+    int espSize = espectaculos.size();
 
 %>
 <style>
@@ -70,15 +70,19 @@
                 <li class="nav-item" style="margin-right: 40px;">
 
                     <div class="input-group" style="width: 400px;">
-                        <form autocomplete="off" name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" id="buscarform">
+                        <form autocomplete="off" name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" id="buscarform" style="display: flex; flex-direction: row;">
                             <div class="autocomplete" style="width:300px;">
-                                <input type="hidden" value="" name="ver_mas" id="selectedItem">
-                                <input class="form-control border-end-0 border rounded-pill" id="myInput" type="text" name="myCountry" placeholder="Country">
+                                <input type="hidden" value="" name="ver_mas" id="selectedItem" style="display: block;">
+                                <input class="form-control border-end-0 border rounded-pill" id="myInput" type="text" name="myCountry" placeholder="Paquetes, Espectáculos" style="display: block;">
                             </div>
-                            <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                            <span class="input-group-append">
+                                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill" style="margin-left: -40px; height: 37px" type="submit">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                            </span>
                         </form>
                     </div>
-
+                   
                 </li>
                 <!--<li class="nav-item dropdown" style="margin-right: 40px;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -328,8 +332,8 @@
                 isPaquete = true;
             }
         }
-        
-        for (let y = 0; y <<%=paqSize+espSize%>; y++) {
+
+        for (let y = 0; y <<%=paqSize + espSize%>; y++) {
             var arrayDeCadenas = valorconcat[y].split(",");
             console.log("Array" + arrayDeCadenas[0]);
             console.log("Selected:" + itemSeleccionado);
@@ -337,15 +341,15 @@
                 indexSeleccionado = y;
             }
         }
-        if(isPaquete==true){
+        if (isPaquete == true) {
             document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
-        console.log(valorconcat[indexSeleccionado]);
-    }else{
-        document.getElementById("buscarform").action = "/CoronaTickets-Web/Espectaculo";
-        document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
-        console.log(valorconcat[indexSeleccionado]);
-    }
-        
+            console.log(valorconcat[indexSeleccionado]);
+        } else {
+            document.getElementById("buscarform").action = "/CoronaTickets-Web/Espectaculo";
+            document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
+            console.log(valorconcat[indexSeleccionado]);
+        }
+
     }
 
     document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
