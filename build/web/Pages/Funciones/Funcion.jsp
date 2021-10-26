@@ -32,7 +32,7 @@
             <%@include file="/Pages/Common/Header2.jsp" %>
         <%}
         else{%>
-            <%@include file="/Pages/Common/Header.jsp" %>
+            <%@include file="/Pages/Common/HeaderSearch.jsp" %>
         <%}
         System.err.println("HOLAHOLAHOLAHOLAHOLAHOLAHOLA");
         Funcion funcion = (Funcion) request.getAttribute("funcion");
