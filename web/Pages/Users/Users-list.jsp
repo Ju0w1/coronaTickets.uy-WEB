@@ -36,7 +36,7 @@
             <%@include file="/Pages/Common/Header2.jsp" %>
         <%}
         else{%>
-            <%@include file="/Pages/Common/Header.jsp" %>
+            <%@include file="/Pages/Common/HeaderSearch.jsp" %>
         <%}
     %>
    <div id="header"></div>
