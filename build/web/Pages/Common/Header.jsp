@@ -15,6 +15,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <!DOCTYPE html>
+<%
+    Fabrica fabrica = Fabrica.getInstance();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();
+    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
+    Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
+    int i = 0;
+    String[] concat = new String[paquetes.size() + espectaculos.size()];
+
+%>
 <style>
 
     .autocomplete-items {
@@ -138,6 +148,7 @@
                         /*insert the value for the autocomplete text field:*/
                         inp.value = this.getElementsByTagName("input")[0].value;
                         itemSeleccionado = inp.value;
+                        testing();
                         /*close the list of autocompleted values,
                          (or any other open lists of autocompleted values:*/
                         closeAllLists();
@@ -205,22 +216,11 @@
         /*execute a function when someone clicks in the document:*/
         document.addEventListener("click", function (e) {
             closeAllLists(e.target);
-            document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
-        autocomplete(document.getElementById("myInput"), searchseleccionado);
+
         });
     }
 
-    <%
-        Fabrica fabrica = Fabrica.getInstance();
-        IControladorPaquete ICP = fabrica.getIControladorPaquete();
-        IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-        Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesV2();
-        Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
-        int i = 0;
-        String[] concat = new String[paquetes.size() + espectaculos.size()];
 
-
-    %>
 
     /*An array containing all the country names in the world:*/
     var searchseleccionado =
@@ -302,7 +302,7 @@
 
     //["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
     /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-   
+
     <%int h = 0;%>
     var valorconcat =
     <%for (h = 0; h < concat.length; h++) {%>
@@ -314,16 +314,22 @@
         }%>
     <%}%>
     ];
-        let indexSeleccionado;
-        for (let y = 0; y <<%=h%>; y++) {
-            var arrayDeCadenas = valorconcat[y].split(",");
-            if (itemSeleccionado == arrayDeCadenas[0]) {
-                indexSeleccionado = y;
+    let indexSeleccionado;
+    function testing(){
+    for (let y = 0; y <<%=h%>; y++) {
+        var arrayDeCadenas = valorconcat[y].split(",");
+        console.log("Array" + arrayDeCadenas[0]);
+        console.log("Selected:" + itemSeleccionado);
+        if (itemSeleccionado == arrayDeCadenas[0]) {
+            indexSeleccionado = y;
             }
         }
-        
         document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
-        autocomplete(document.getElementById("myInput"), searchseleccionado);
-    
+        console.log(valorconcat[indexSeleccionado]);
+    }
+
+    document.getElementById("selectedItem").value = valorconcat[indexSeleccionado]; //Único detalle a ver es el obtener el índice que seleccionó
+    autocomplete(document.getElementById("myInput"), searchseleccionado);
+
 </script>
 
