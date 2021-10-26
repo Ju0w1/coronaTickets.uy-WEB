@@ -357,20 +357,23 @@
                                 </button>
                             </a>
                             <%
+                                if (objSesion.getAttribute("tipo") != null) {
+
                                     String tipoUsuario = objSesion.getAttribute("tipo").toString();
                                     if (tipoUsuario.equals("espectador")) {
-                                %>
-                                <%
-                                } else {
-                                %>
-                                <a href="/CoronaTickets-Web/AltaEspectaculo">
-                                    <button class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
-                                        CREAR ESPECTÁCULO
-                                    </button>
-                                </a>
-                                <%
+                            %>
+                            <%
+                            } else {
+                            %>
+                            <a href="/CoronaTickets-Web/AltaEspectaculo">
+                                <button class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
+                                    CREAR ESPECTÁCULO
+                                </button>
+                            </a>
+                            <%
                                     }
-                                %>
+                                }
+                            %>
                         </div>
                     </div>
                 </div>

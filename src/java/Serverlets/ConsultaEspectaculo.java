@@ -50,15 +50,7 @@ public class ConsultaEspectaculo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ConsultaEspectaculo</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ConsultaEspectaculo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            processRequest(request, response);
         }
     }
 
@@ -96,7 +88,7 @@ public class ConsultaEspectaculo extends HttpServlet {
         Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
         Espectaculo espcSeleccionado = escp.get(datos[0]);
         Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategorias();
-
+        
         String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
 
         Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(datos[0]);

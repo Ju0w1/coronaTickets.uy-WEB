@@ -267,7 +267,7 @@
                               d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
                           </svg>
                           Plataforma</h6>
-                        <span class="text-secondary"><%=value.getPlataforma() %></span>
+                        <span class="text-secondary"><%=value.getPlataforma()%></span>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                         <!-- COSTO -->
