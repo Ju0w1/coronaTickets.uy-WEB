@@ -20,7 +20,7 @@
                 <li class="nav-item" style="margin-right: 40px;">
                     
                     <div class="input-group" style="width: 400px;">
-                        <input class="form-control border-end-0 border rounded-pill" value="Espectáculos, Paquetes" type="search" id="example-search-input">
+                        <input class="form-control border-end-0 border rounded-pill searchbar" value="Espectáculos, Paquetes" type="search" onkeyup="filter()" id="myInput">
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill" style="margin-left: -40px; height: 37px" type="button">
                                 <i class="bi bi-search"></i>

@@ -124,10 +124,11 @@
                                         String urlImagen = value.getUrl();
                                         String concat = nombre+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costo)+","+urlImagen;
                             %>
-                            <div class="row ">
+                            <div class="row">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
-                                        <img src="<%= value.getUrl()%>" id="<%= key%>" class="card-img">
+                                        <input type="hidden" id="nombrePaqueteLista" name="nombrePaqueteLista" class="nombrePaqueteLista" value="<%=nombre%>">
+                                        <img src="<%= value.getUrl()%>" id="" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
                                                 <input type="hidden" value="<%= concat %>" name="ver_mas">
@@ -192,7 +193,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
         <script type="text/javascript">
-        
+
         $(document).ready(function() {
             $("#content-3").mCustomScrollbar({
               theme: "inset-3-dark"
@@ -200,8 +201,23 @@
             $("#content-4").mCustomScrollbar({
               theme: "inset-3-dark"
             });
+            
+            
         });
-        
+        function filter() {
+            let input = document.querySelector('.searchbar').value //<-- Changed to querySelector
+            input = input.toLowerCase();
+            let cards = document.querySelectorAll('.card'); //<-- Changed to querySelectorAll with '.card' selector.
+            
+            //loop over cards and compare search with title.
+            cards.forEach((el) => {
+              let title = el.querySelector('.nombrePaqueteLista');
+              console.log(title);
+              var selectedValue = title.value.toLowerCase();
+              //console.log(selectedValue);
+              el.style.display = selectedValue.includes(input) ? "list-item" : "none";
+            });
+          }
     </script>  
     
     </body>
