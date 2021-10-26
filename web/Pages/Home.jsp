@@ -169,7 +169,8 @@
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
-                                        <img src="<%= value.getUrlIamgen()%>" id="<%= key%>" class="card-img">
+                                        <input type="hidden" id="nombrePaqueteLista" name="nombrePaqueteLista" class="nombrePaqueteLista" value="<%=nombre%>">
+                                        <img src="<%= value.getUrlIamgen()%>" id="<%=key%>" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
                                                 <input type="hidden" value="<%= concat %>" name="ver_mas">
@@ -208,11 +209,9 @@
             let input = document.querySelector('.searchbar').value //<-- Changed to querySelector
             input = input.toLowerCase();
             let cards = document.querySelectorAll('.card'); //<-- Changed to querySelectorAll with '.card' selector.
-            
             //loop over cards and compare search with title.
             cards.forEach((el) => {
               let title = el.querySelector('.nombrePaqueteLista');
-              console.log(title);
               var selectedValue = title.value.toLowerCase();
               //console.log(selectedValue);
               el.style.display = selectedValue.includes(input) ? "list-item" : "none";
