@@ -144,7 +144,7 @@
                     
                     <div class="row">
                         <h3 class="col-md-12 control-label text-center">
-                            Artitas
+                            Artistas invitados
                         </h3>
                         
                     </div>

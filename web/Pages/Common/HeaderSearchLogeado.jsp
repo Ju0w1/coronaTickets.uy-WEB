@@ -166,7 +166,6 @@
                             </li>
                             <li><a class="dropdown-item" href="users">Listar usuarios</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Compra de paquete de espectáculo</a></li>
                             <li><a class="dropdown-item" href="funciones">Registro función de espectáculo</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
