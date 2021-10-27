@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Users</title>
+        <title>CoronaTickets - Usuarios</title>
     </head>
     <body>
         <link rel="stylesheet" type="text/css" href="Users.css" />
