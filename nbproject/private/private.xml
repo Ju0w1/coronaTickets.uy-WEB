@@ -3,36 +3,48 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista-yourself.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/altaPaquete.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/altaFuncion.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/homeLogueado.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/login.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Header2.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users-list.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculo.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UserDetalleServlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/agregarEspectaculoAPaquete.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/registro.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Users.css</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Header.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/registroArtista.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador-yourself.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaPaquete.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/AltaEspectaculo.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ComprarPaquete.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/Footer.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/altaEspectaculo.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/prueba.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funciones-list.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/CerrarSesion.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/RegistroServerlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funcion.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/consultaPaquete.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Home.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/FuncionesServlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/HeaderSearchLogeado.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/HomeServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/LoginServerlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculosDePaquete.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/EditUser.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Common/HeaderSearch.jsp</file>
         </group>
     </open-files>
 </project-private>
