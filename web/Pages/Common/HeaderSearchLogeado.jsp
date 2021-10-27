@@ -4,6 +4,7 @@
     Author     : FederRodríguez
 --%>
 
+<link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
 <%@page import="Logica.Interfaz.IControladorEspectaculo"%>
 <%@page import="Logica.Interfaz.IControladorPaquete"%>
 <%@page import="Logica.Fabrica"%>

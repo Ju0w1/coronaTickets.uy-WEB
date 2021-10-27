@@ -18,6 +18,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
     <%
         //Map<String, Espectaculo> espectaculosAux;
         Map<String, Espectaculo> EspectAux = new HashMap<>();

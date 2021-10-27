@@ -15,6 +15,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>CoronaTickets - Editar Perfil</title>
         <link rel="stylesheet" href="EditUser.css">
