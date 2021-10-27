@@ -269,7 +269,7 @@
             float descuento = value.getDescuento();
             float costop = value.getCosto();
             String urlImagenp = value.getUrl();
-            concat[i] = nombrep + "," + desc + "," + fechaIni + "," + fechaFin + "," + Float.toString(descuento) + "," + Float.toString(costop) + "," + urlImagenp;
+            concat[i] = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
             if (i == 0) {
     %>
     ["<%=nombre%>",<%%>
@@ -297,7 +297,7 @@
             String duracion = Double.toString(value.getDuracion());
             String fecha = value.getFecha().toString();
             String urlImagen = value.getUrlIamgen();
-            concat[i] = nombre + "," + artista + "," + descripcion + "," + especmax + "," + especmin + "," + url + "," + costo + "," + duracion + "," + fecha + "," + urlImagen;
+            concat[i] = nombre + "@" + artista + "@" + descripcion + "@" + especmax + "@" + especmin + "@" + url + "@" + costo + "@" + duracion + "@" + fecha + "@" + urlImagen;
     %>
     "<%=nombre%>",
     <%
@@ -324,7 +324,7 @@
     var isPaquete = false;
     function testing() {
         for (let y = 0; y < <%=paqSize%>; y++) {
-            var arrayDeCadenas = valorconcat[y].split(",");
+            var arrayDeCadenas = valorconcat[y].split("@");
             console.log("Array" + arrayDeCadenas[0]);
             console.log("Selected:" + itemSeleccionado);
             if (itemSeleccionado == arrayDeCadenas[0]) {
@@ -334,7 +334,7 @@
         }
 
         for (let y = 0; y <<%=paqSize + espSize%>; y++) {
-            var arrayDeCadenas = valorconcat[y].split(",");
+            var arrayDeCadenas = valorconcat[y].split("@");
             console.log("Array" + arrayDeCadenas[0]);
             console.log("Selected:" + itemSeleccionado);
             if (itemSeleccionado == arrayDeCadenas[0]) {
