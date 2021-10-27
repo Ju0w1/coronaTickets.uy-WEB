@@ -95,8 +95,9 @@
                                                 for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
                                                     String key = entry.getKey();
                                                     Plataforma value = entry.getValue();
+                                                    
                                         %>
-                                        <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                                        <option value="<%=value.getNombre()%>" id="<%=key%>"><%=value.getNombre()%></option>
                                         <%
                                                     i++;
                                                 }

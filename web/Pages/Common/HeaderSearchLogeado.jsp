@@ -193,6 +193,7 @@
         var currentFocus;
         /*execute a function when someone writes in the text field:*/
         inp.addEventListener("input", function (e) {
+            console.log("Hola");
             var a, b, i, val = this.value;
             /*close any already open lists of autocompleted values*/
             closeAllLists();
@@ -222,6 +223,7 @@
                         /*insert the value for the autocomplete text field:*/
                         inp.value = this.getElementsByTagName("input")[0].value;
                         itemSeleccionado = inp.value;
+                        
                         testing();
                         /*close the list of autocompleted values,
                          (or any other open lists of autocompleted values:*/
@@ -234,6 +236,7 @@
         /*execute a function presses a key on the keyboard:*/
         inp.addEventListener("keydown", function (e) {
             var x = document.getElementById(this.id + "autocomplete-list");
+            console.log(x);
             if (x)
                 x = x.getElementsByTagName("div");
             if (e.keyCode == 40) {

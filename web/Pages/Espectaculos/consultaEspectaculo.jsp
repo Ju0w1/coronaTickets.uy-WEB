@@ -306,7 +306,7 @@
                                             float descuento = value.getDescuento();
                                             float costop = value.getCosto();
                                             String urlImagenp = value.getUrl();
-                                            String concat = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
+                                            String concat = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">

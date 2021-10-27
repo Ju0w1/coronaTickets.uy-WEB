@@ -90,6 +90,7 @@ public class UserDetalleServlet extends HttpServlet {
         throws ServletException, IOException {
         String nick = request.getParameter("data");
         HttpSession objSesion = request.getSession();
+        
         if(request.getParameter("esEspectador")!=null){
             String nuevaFecha = request.getParameter("fecha");
             String[] datos = nuevaFecha.split("/");
@@ -103,6 +104,7 @@ public class UserDetalleServlet extends HttpServlet {
             String nuevoNombre = request.getParameter("nombre");
             String nuevoApellido = request.getParameter("apellido");
             ICU.modificarUsuarioEspectador(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen);
+            objSesion.setAttribute("imagen", nuevaImagen);
         }
         if(request.getParameter("esArtista")!=null){
             
@@ -122,6 +124,7 @@ public class UserDetalleServlet extends HttpServlet {
             System.out.println("Biografia que llega: " + nuevaBiografia);
             String nuevoUrl=request.getParameter("sitio");
             ICU.modificarUsuarioArtista(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen, nuevaDescripcion, nuevaBiografia, nuevoUrl);
+            objSesion.setAttribute("imagen", nuevaImagen);
             //ICU.modificarUsuarioEspectador(nick, email, nuevoNombre, nuevoApellido, date, nuevaImagen);
         }
         if (ICU.obtenerArtistaPorNick(nick)==null){
