@@ -116,17 +116,18 @@ public class AltaFuncion extends HttpServlet {
         
         Map<String, Artista> artistasAgregar = new HashMap<>();
         
-        for (String artista : artistas) {
-            Artista a = ICU.obtenerArtistaPorNick(artista);
-            artistasAgregar.put(a.getNickname(), a);
+        if(artistas != null){
+            for (String artista : artistas) {
+                Artista a = ICU.obtenerArtistaPorNick(artista);
+                artistasAgregar.put(a.getNickname(), a);
+            }
+            ServletContext context = getServletContext();
+            for (Map.Entry<String, Artista> entry : artistasAgregar.entrySet()) {
+                String key = entry.getKey();
+                Artista value = entry.getValue();
+                context.log(value.getEmail());
+            }
         }
-        ServletContext context = getServletContext();
-        for (Map.Entry<String, Artista> entry : artistasAgregar.entrySet()) {
-            String key = entry.getKey();
-            Artista value = entry.getValue();
-            context.log(value.getEmail());
-        }
-        
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaC = date.format(formatter);

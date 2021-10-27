@@ -102,7 +102,7 @@
                                                 String key = entry.getKey();
                                                 Plataforma value = entry.getValue();
                                     %>
-                                    <option value="<%=i%>" id="<%=key%>"><%=key%></option>
+                                    <option value="<%=key%>" id="<%=key%>"><%=key%></option>
                                     <%
                                                 i++;
                                             }

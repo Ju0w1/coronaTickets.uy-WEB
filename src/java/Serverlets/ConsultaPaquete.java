@@ -77,7 +77,7 @@ public class ConsultaPaquete extends HttpServlet {
             String paquete = request.getParameter("ver_mas");
             ServletContext context = getServletContext( );
             context.log(paquete);
-            String[] datos = paquete.split(",");
+            String[] datos = paquete.split("@");
             String nombre = datos[0];           request.setAttribute("nombre", nombre);
             String descripcion = datos[1];      request.setAttribute("descripcion", descripcion);
             String fechaInicio = datos[2];      request.setAttribute("fechaIni", fechaInicio);

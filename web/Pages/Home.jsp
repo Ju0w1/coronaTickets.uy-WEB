@@ -122,7 +122,7 @@
                                         float descuento = value.getDescuento();
                                         float costo = value.getCosto();
                                         String urlImagen = value.getUrl();
-                                        String concat = nombre+","+desc+","+fechaIni+","+fechaFin+","+Float.toString(descuento)+","+Float.toString(costo)+","+urlImagen;
+                                        String concat = nombre+"@"+desc+"@"+fechaIni+"@"+fechaFin+"@"+Float.toString(descuento)+"@"+Float.toString(costo)+"@"+urlImagen;
                             %>
                             <div class="row">
                                 <div class="container w-100 mt-3 mb-3">
@@ -164,7 +164,7 @@
                                         String duracion = Double.toString(value.getDuracion());
                                         String fecha = value.getFecha().toString();
                                         String urlImagen = value.getUrlIamgen();
-                                        String concat = nombre+","+artista+","+descripcion+","+especmax+","+especmin+","+url+","+costo+","+duracion+","+fecha+","+urlImagen;
+                                        String concat = nombre+"@"+artista+"@"+descripcion+"@"+especmax+"@"+especmin+"@"+url+"@"+costo+"@"+duracion+"@"+fecha+"@"+urlImagen;
                             %>
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
@@ -206,10 +206,12 @@
             
         });
         function filter() {
+
             let input = document.querySelector('.searchbar').value //<-- Changed to querySelector
             input = input.toLowerCase();
             let cards = document.querySelectorAll('.card'); //<-- Changed to querySelectorAll with '.card' selector.
             //loop over cards and compare search with title.
+            console.log(cards);
             cards.forEach((el) => {
               let title = el.querySelector('.nombrePaqueteLista');
               var selectedValue = title.value.toLowerCase();

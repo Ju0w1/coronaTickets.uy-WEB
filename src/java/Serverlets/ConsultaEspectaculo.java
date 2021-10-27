@@ -83,7 +83,7 @@ public class ConsultaEspectaculo extends HttpServlet {
         String espec = request.getParameter("ver_mas");
         ServletContext context = getServletContext();
         context.log(espec);
-        String[] datos = espec.split(",");
+        String[] datos = espec.split("@");
         context.log(datos[0]);
         Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
         Espectaculo espcSeleccionado = escp.get(datos[0]);

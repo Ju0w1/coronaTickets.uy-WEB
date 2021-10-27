@@ -48,7 +48,7 @@
             //Paquete paq = new Paquete(nombre_, Descripcion_, Fecha_Inicio_, Fecha_Fin_, Costo_, Descuento_, Fecha_Compra_);
             //Paquete paq = new Paquete(nombre_, Descripcion_, Fecha_Inicio_, Fecha_Fin_, Costo_, Descuento_, Fecha_Compra_, url_, Fecha_alta_, vigencia_);
             String nombre = (String) request.getAttribute("nombre");
-            String descripcion = (String) request.getAttribute("desc");
+            String descripcion = (String) request.getAttribute("descripcion");
             String fechaIni = (String) request.getAttribute("fechaIni");
             String fechaFin = (String) request.getAttribute("fechaFin");
             String descuento = (String) request.getAttribute("descuento");
@@ -85,7 +85,7 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=descripcion%>" rows="2 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion" style="resize: none;" placeholder="<%=descripcion%>" rows="4" readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
@@ -106,12 +106,7 @@
                                 <input type="number" class="form-control" id="" placeholder="<%=descuento%>" readonly>
                             </div>
                         </div>
-                        <div class="form-group row mb-4 justify-content-between">
-                            <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="" value="<%=costo%>" placeholder="<%=costo%>" readonly>
-                            </div>
-                        </div>
+
                         <div class="form-group row justify-content-center">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">

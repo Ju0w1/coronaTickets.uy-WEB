@@ -87,7 +87,6 @@ public class AltaEspectaculo extends HttpServlet {
         double duracion = Double.parseDouble(request.getParameter("inputDuracion"));
         String plataforma = request.getParameter("plataforma");
         String[] categorias = request.getParameterValues("categoria");
-        
         ServletContext context = getServletContext( );
         //context.log(categorias[0]);
         //context.log(categorias[1]);
