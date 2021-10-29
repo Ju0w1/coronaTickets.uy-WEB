@@ -99,7 +99,7 @@ public class RegistroServerlet extends HttpServlet {
             } else if (accion.equals("espectador")) {//Presionó el botón de registrarse como espectador
                 objSesion.setAttribute("tipo", "espectador");
                 request.setAttribute("message", "Registrado con éxito, Bienvenido");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Home.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/home");
                 view.forward(request, response);
             } else if (accion.equals("artista")) {//Presionó el botón de registrarse como artista
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registroArtista.jsp");
