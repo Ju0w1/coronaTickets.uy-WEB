@@ -52,6 +52,12 @@
             height: 10vh;
         }
     </style>
+    <script>
+        function abrirModal() {
+            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+            myModal.show();
+        }
+    </script>
 </head>
 
 <body>
@@ -202,6 +208,46 @@
         </form>
                                 
     </div>
+
+    
+
+
+    <%
+        //MODAL PARA ERRORES
+        String error = (String) request.getAttribute("error");
+        System.out.println(error);
+        if (error != null) {
+            String[] errores = error.split(",");
+    %>
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <%
+                                for (String err : errores) {
+                                %>
+                                    <p>- <%=err%></p>
+                                <%
+                                }
+                            %>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                abrirModal();
+            </script>
+    <%
+        }
+    %>
+                                
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
     <script type="text/javascript">
