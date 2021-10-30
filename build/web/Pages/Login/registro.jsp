@@ -123,7 +123,7 @@
                                     </button>
                                 </span>
                             </div>
-                            <div class="invalid-feedback">Fecha de nacimiento inválida.</div>
+                            <div id="respuestaFecha" class="invalid-feedback">Fecha de nacimiento inválida.</div>
                         </div>
                         <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
                         <input id="labelImagen" name="urlImagen" type="hidden" value="">
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="form-register d-flex justify-content-md-center align-items-center">
-                    <button type="button" id="subir" onclick="abrirModal" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#myModal">
+                    <button type="button" id="subir" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#myModal">
                         Registrate
                     </button>
                 </div>
@@ -175,8 +175,7 @@
                 var element = document.getElementById("validationCustom04");
                 element.classList.add("is-invalid");
                 document.getElementById("respuestaMail").innerHTML = "Mail o Nickname ya existe.";
-            }
-            else{
+            } else {
                 var element = document.getElementById("validationCustom01");
                 element.classList.remove("is-invalid");
                 document.getElementById("respuestaNick").innerHTML = "Nickname inválido.";
@@ -228,15 +227,26 @@
             $(document).ready(function () {
                 $('form').on('submit', function (e) {
                     // validation code here
-                        if((document.getElementById('validationCustom02').value) !== (document.getElementById('validationCustom03').value)){
-                            var elementpass = document.getElementById("validationCustom02");
-                            elementpass.classList.add("is-invalid");
-                            document.getElementById("respuestaPass1").innerHTML = "Las contraseñas no coinciden.";
-                            var elementpass2 = document.getElementById("validationCustom03");
-                            elementpass2.classList.add("is-invalid");
-                            document.getElementById("respuestaPass2").innerHTML = "Las contraseñas no coinciden.";
-                            e.preventDefault();
-                        }         
+                    if ((document.getElementById('validationCustom02').value) !== (document.getElementById('validationCustom03').value)) {
+                        var elementpass = document.getElementById("validationCustom02");
+                        elementpass.classList.add("is-invalid");
+                        document.getElementById("respuestaPass1").innerHTML = "Las contraseñas no coinciden.";
+                        var elementpass2 = document.getElementById("validationCustom03");
+                        elementpass2.classList.add("is-invalid");
+                        document.getElementById("respuestaPass2").innerHTML = "Las contraseñas no coinciden.";
+                        e.preventDefault();
+                    }
+
+                    let fechastring = document.getElementById('validationCustom07').value;
+                    const myArr = fechastring.split("-");
+                    if (myArr[0] >= "2003") {
+                        alert("No está permitido el registro a menores de 18 años.");
+                        var elementfecha = document.getElementById("validationCustom07");
+                        elementfecha.classList.add("is-invalid");
+                        document.getElementById("respuestaFecha").innerHTML = "No está permitido el registro a menores de 18 años.";
+                        e.preventDefault();
+                    }
+
                 });
             });
             // Example starter JavaScript for disabling form submissions if there are invalid fields
