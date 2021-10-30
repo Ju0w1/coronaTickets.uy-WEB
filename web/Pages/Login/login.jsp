@@ -57,13 +57,16 @@
     <body>
         <div class="d-flex justify-content-md-center align-items-center vh-100">
 
-            <form name="login" method="POST" action="/CoronaTickets-Web/login">
+            <form name="login" method="POST" action="/CoronaTickets-Web/login" class="needs-validation" novalidate>
                 <h1 class="mb-5">INICIAR SESIÓN</h1>
+
                 <div class="form-group">
-                    <input type="text" name="user" class="form-control rounded-pill mb-2" id="user" placeholder="Nickname/Email">
+                    <input type="text" name="user" class="form-control rounded-pill mb-2" id="validationCustom01" placeholder="Ingresa Nickname/Email" required>
+                    <div class="invalid-feedback">Campo inválido.</div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control rounded-pill mb-4" id="password" placeholder="Contraseña">
+                    <input type="password" name="password" class="form-control rounded-pill mb-2" id="validationCustom02" placeholder="Ingresa Contraseña" required>
+                    <div class="invalid-feedback">Campo inválido.</div>
                 </div>
                 <div class="d-flex justify-content-md-center align-items-center">
                     <button type="submit" id="login" onclick="enviarDatos" class="btn btn-secondary rounded-pill mb-4">
@@ -112,6 +115,25 @@
         %>
 
         <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach((form) => {
+                    form.addEventListener('submit', (event) => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+
             abrirModal();
         </script>
         <%
