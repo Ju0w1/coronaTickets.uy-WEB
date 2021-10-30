@@ -68,7 +68,7 @@
         %>
         <div class="d-flex justify-content-md-center align-items-center vh-100">
 
-            <form name="login" id="myAnchor" method="POST" action="/CoronaTickets-Web/login" class="needs-validation" novalidate>
+            <form name="login" method="POST" action="/CoronaTickets-Web/login" class="needs-validation" novalidate>
                 <h1 class="mb-5">INICIAR SESIÓN</h1>
 
                 <div class="form-group">
