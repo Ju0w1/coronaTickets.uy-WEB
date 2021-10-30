@@ -94,7 +94,7 @@ public class RegistroServerlet extends HttpServlet {
             String accion = request.getParameter("registrar");
             if (accion == null) { //No presionó ningun botón pero se ejecutó el submit...
                 request.setAttribute("error", "Revisa tus datos!");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
                 view.forward(request, response);
             } else if (accion.equals("espectador")) {//Presionó el botón de registrarse como espectador
                 objSesion.setAttribute("tipo", "espectador");
@@ -106,12 +106,19 @@ public class RegistroServerlet extends HttpServlet {
                 view.forward(request, response);
             } else { //El código HTML fue alterado
                 request.setAttribute("error", "Revisa tus datos!");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
                 view.forward(request, response);
             }
         } else {
-            request.setAttribute("error", "Revisa tus datos!");
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+            request.setAttribute("error", "error");
+            request.setAttribute("rnick", nickname);
+            request.setAttribute("rpass1", password1);
+            request.setAttribute("rpass2", password2);
+            request.setAttribute("remail", email);
+            request.setAttribute("rnombre", nombre);
+            request.setAttribute("rapellido", apellido);
+            request.setAttribute("rdate", nacimiento);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
             view.forward(request, response);
         }
 
