@@ -55,17 +55,28 @@
     </head>
 
     <body>
+        <%
+        String nickvalue = "";
+        String passvalue = "";
+        if(request.getAttribute("loginNickname")!=null){
+            nickvalue = (String) request.getAttribute("loginNickname");
+        }
+        if(request.getAttribute("loginPassword")!=null){
+            passvalue = (String) request.getAttribute("loginPassword");
+        }
+        
+        %>
         <div class="d-flex justify-content-md-center align-items-center vh-100">
 
             <form name="login" id="myAnchor" method="POST" action="/CoronaTickets-Web/login" class="needs-validation" novalidate>
                 <h1 class="mb-5">INICIAR SESIÓN</h1>
 
                 <div class="form-group">
-                    <input type="text" name="user" class="form-control rounded-pill mb-2" id="validationCustom01" placeholder="Ingresa Nickname/Email" required>
+                    <input type="text" name="user" class="form-control rounded-pill mb-2" id="validationCustom01" placeholder="Ingresa Nickname/Email" value="<%=nickvalue%>" required>
                     <div class="invalid-feedback">Campo inválido.</div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control rounded-pill mb-2" id="validationCustom02" placeholder="Ingresa Contraseña" required>
+                    <input type="password" name="password" class="form-control rounded-pill mb-2" id="validationCustom02" placeholder="Ingresa Contraseña" value="<%=passvalue%>" required>
                     <div class="invalid-feedback">Campo inválido.</div>
                 </div>
                 <div class="d-flex justify-content-md-center align-items-center">

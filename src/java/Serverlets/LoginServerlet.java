@@ -98,7 +98,9 @@ public class LoginServerlet extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("/home");
                 view.forward(request, response);
             } else {
-                request.setAttribute("error", "La contraseña y/o el Nickname ingresado no es válido.");
+                request.setAttribute("error", "La contraseña y/o el Nickname ingresado no son válidos.");
+                request.setAttribute("loginNickname", email);
+                request.setAttribute("loginPassword", password);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
                 view.forward(request, response);
             }
