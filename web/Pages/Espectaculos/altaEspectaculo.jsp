@@ -51,12 +51,100 @@
         #content-3{
             height: 10vh;
         }
+        .error{
+            outline: 1px solid red;
+        }  
     </style>
     <script>
         function abrirModal() {
             var myModal = new bootstrap.Modal(document.getElementById("myModal"));
             myModal.show();
         }
+        function myValidation() {
+            var algunoVacio = false;
+            if (!$('#inputNombre').val()) {
+                $('#inputNombre').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputNombre').removeClass("error");
+            }
+            // ----------------------------------- //
+            if (!$('#inputDescripcion').val()) {
+                $('#inputDescripcion').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputDescripcion').removeClass("error");
+            }
+            // ----------------------------------- //
+            if (!$('#inputDuracion').val()) {
+                $('#inputDuracion').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputDuracion').removeClass("error");
+            }
+            // ----------------------------------- //
+            if (!$('#inputEspecMin').val()) {
+                $('#inputEspecMin').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputEspecMin').removeClass("error");
+                if(!$('#inputEspecMax').val() && $('#inputEspecMin').val() >= $('#inputEspecMax').val()){
+                    alert('El campo Espectadores mínimos debe ser menor que el campo Espectadóres máxmios');
+                    $('#inputEspecMin').addClass("error");
+                    $('#inputEspecMax').addClass("error");
+                }else{
+                    $('#inputEspecMin').removeClass("error");
+                    $('#inputEspecMax').removeClass("error");
+                }
+            }
+            // ----------------------------------- //
+            if (!$('#inputEspecMax').val()) {
+                $('#inputEspecMax').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputEspecMin').removeClass("error");
+                if(!$('#inputEspecMin').val() && $('#inputEspecMin').val() >= $('#inputEspecMax').val()){
+                    alert('El campo Espectadores mínimos debe ser menor que el campo Espectadóres máxmios');
+                    $('#inputEspecMin').addClass("error");
+                    $('#inputEspecMax').addClass("error");
+                }else{
+                    $('#inputEspecMin').removeClass("error");
+                    $('#inputEspecMax').removeClass("error");
+                }
+            }
+            // ----------------------------------- //
+            if (!$('#inputURL').val()) {
+                $('#inputURL').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputURL').removeClass("error");
+            }
+            // ----------------------------------- //
+            if (!$('#inputCosto').val()) {
+                $('#inputCosto').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputCosto').removeClass("error");
+            }
+            // ----------------------------------- //
+            if (!$('#inputFile').val()) {
+                $('#inputFile').addClass("error");
+                algunoVacio = true;
+            }else{
+                $('#inputFile').removeClass("error");
+            }
+            if(algunoVacio){
+                
+                alert('Complete los campos obligatorios señalados con "*"');
+                algunoVacio = false;
+                return false;
+            }else{
+               
+                return true;
+            }
+            // ----------------------------------- //
+
+        };
     </script>
 </head>
 
@@ -74,19 +162,19 @@
         %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
         
-        <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
+        <form name="altaEspectaculo" onsubmit = "event.preventDefault(); myValidation();" id="formEspec" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE ESPECTÁCULO</h1>
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group ">
-                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre ">
+                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre *">
                     </div>
-                    <textarea class="form-control rounded-3 mb-2" id="inputDescripcion" name="inputDescripcion" style="resize: none; " placeholder="Descripción " rows="2 "></textarea>
+                    <textarea class="form-control rounded-3 mb-2" id="inputDescripcion" name="inputDescripcion" style="resize: none; " placeholder="Descripción *" rows="2 "></textarea>
                     <div class="form-group ">
                         <div class="input-group ">
-                            <input type="number" class="form-control rounded-pill mb-2 " id="inputDuracion" name="inputDuracion" placeholder="Duración(minutos)">
+                            <input type="number" class="form-control rounded-pill mb-2 " id="inputDuracion" name="inputDuracion" placeholder="Duración(minutos) *">
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-clock "></i>
@@ -98,7 +186,7 @@
                         <div class="row">
                             <div class="col">
                                 <select class="form-select" name="plataforma" aria-label="Plataformas">
-                                    <option selected>Plataformas</option>
+                                    <option selected>Plataforma *</option>
                                     <%
                                         int i=0;
                                         Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
@@ -118,7 +206,7 @@
                                 </select>
                             </div>
                                 <div class="col content-3" id="content-3">
-                                
+                                <h4 class="form-check-label align-items-center" for="flexCheckDefault">Categoria/s *</h4>
                                     <%
                                     Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
                                     if(plataformas == null){
@@ -152,7 +240,7 @@
 
                 <div class="col-6">
                     <div class="input-group ">
-                        <input type="number" class="form-control rounded-pill mb-2 " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores mínimos ">
+                        <input type="number" class="form-control rounded-pill mb-2 " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores mínimos *">
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
@@ -160,7 +248,7 @@
                         </span>
                     </div>
                     <div class="input-group ">
-                        <input type="number " class="form-control rounded-pill mb-2 " id="inputEspecMax" name="inputEspecMax" placeholder="Espectadores máximos ">
+                        <input type="number " class="form-control rounded-pill mb-2 " id="inputEspecMax" name="inputEspecMax" placeholder="Espectadores máximos *">
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
@@ -168,7 +256,7 @@
                         </span>
                     </div>
                     <div class="input-group">
-                        <input type="url " class="form-control rounded-pill mb-2 " id="inputURL" name="inputURL" placeholder="URL">
+                        <input type="url " class="form-control rounded-pill mb-2 " id="inputURL" name="inputURL" placeholder="URL *">
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-link-45deg "></i>
@@ -176,7 +264,7 @@
                         </span>
                     </div>
                     <div class="input-group">
-                        <input type="number" step="0.01" class="form-control rounded-pill mb-2 " id="inputCosto" name="inputCosto" placeholder="Costo">
+                        <input type="number" step="0.01" class="form-control rounded-pill mb-2 " id="inputCosto" name="inputCosto" placeholder="Costo *">
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-currency-dollar "></i>
@@ -253,6 +341,21 @@
     <script type="text/javascript">
         
         $(document).ready(function() {
+            $('#formEspec input').blur(function(){
+                if(!$(this).val()){
+                    $(this).addClass("error");
+                } else{
+                    $(this).removeClass("error");
+                }
+            });
+            $('#formEspec textarea').blur(function(){
+                if(!$(this).val()){
+                    $(this).addClass("error");
+                } else{
+                    $(this).removeClass("error");
+                }
+            });
+            
             $("#content-3").mCustomScrollbar({
               theme: "inset-3-dark"
             });
