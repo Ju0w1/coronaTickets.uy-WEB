@@ -89,7 +89,7 @@ public class AltaEspectaculo extends HttpServlet {
         
         String error = "";
         int contador_errores = 0;
-        if(plataforma.equals("Plataforma")){
+        if(plataforma.equals("Plataforma *")){
             error += "Ingrese una plataforma correcta";
             contador_errores++;
         }if(nombre.equals("")){
@@ -190,10 +190,22 @@ public class AltaEspectaculo extends HttpServlet {
         }
         
         if(error.equals("")){
-            ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
-            
+            try {
+                ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
+                request.setAttribute("success", "Agregado correctamente!");
+            } catch (Exception e) {
+                request.setAttribute("error", e);
+            }
         }else{
             request.setAttribute("error", error);
+            request.setAttribute("nombreEspec", request.getParameter("inputNombre"));
+            request.setAttribute("descripcion", request.getParameter("inputDescripcion"));
+            request.setAttribute("duracion", request.getParameter("inputDuracion"));
+            request.setAttribute("espectadoresMinimos", request.getParameter("inputEspecMin"));
+            request.setAttribute("espectadoresMaximos", request.getParameter("inputEspecMax"));
+            request.setAttribute("url", request.getParameter("inputURL"));
+            request.setAttribute("urlImagen", urlImagen);
+            request.setAttribute("costo", request.getParameter("inputCosto"));
         }
         processRequest(request, response);     
     }

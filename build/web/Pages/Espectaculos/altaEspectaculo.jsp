@@ -1,4 +1,5 @@
 
+<%@page import="java.lang.String"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Plataforma"%>
 <%@page import="Logica.Clases.Categoria"%>
@@ -150,36 +151,76 @@
 
 <body>
     <%
-            HttpSession objSesion = request.getSession();
-            String usuario;
-            String imgPerfil;
-            if (objSesion.getAttribute("nickname") != null) {%>
-                <%@include file="/Pages/Common/HeaderSearchLogeado.jsp" %>
-            <%}
-            else{%>
-                <%@include file="/Pages/Common/HeaderSearch.jsp" %>
-            <%}
-        %>
+        HttpSession objSesion = request.getSession();
+        String usuario;
+        String imgPerfil;
+        if (objSesion.getAttribute("nickname") != null) {%>
+            <%@include file="/Pages/Common/HeaderSearchLogeado.jsp" %>
+    <%}
+        else{%>
+            <%@include file="/Pages/Common/HeaderSearch.jsp" %>
+    <%
+        }
+
+        String nombreEspec = "";
+        String descripcion = "";
+        String duracion = "";
+        String espectadoresMinimos = "";
+        String espectadoresMaximos = "";
+        String url = "";
+        String costo = "";
+        String urlImagen = "";
+        if(request.getAttribute("nombreEspec")!=null){
+            nombreEspec = (String) request.getAttribute("nombreEspec");
+        }
+        if(request.getAttribute("descripcion")!=null){
+            descripcion = (String) request.getAttribute("descripcion");
+        }
+        if(request.getAttribute("duracion")!=null){
+            duracion = (String) request.getAttribute("duracion");
+        }
+        if(request.getAttribute("espectadoresMinimos")!=null){
+            espectadoresMinimos = (String) request.getAttribute("espectadoresMinimos");
+        }
+        if(request.getAttribute("espectadoresMaximos")!=null){
+            espectadoresMaximos = (String) request.getAttribute("espectadoresMaximos");
+        }
+        if(request.getAttribute("url")!=null){
+            url = (String) request.getAttribute("url");
+        }
+        if(request.getAttribute("costo")!=null){
+            costo = (String) request.getAttribute("costo");
+        }
+        if(request.getAttribute("urlImagen")!=null){
+            urlImagen = (String) request.getAttribute("urlImagen");
+        }
+        
+    %>
+    
     <div class="d-flex justify-content-md-center align-items-center mt-5">
         
-        <form name="altaEspectaculo" onsubmit = "event.preventDefault(); myValidation();" id="formEspec" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" >
+        <form name="altaEspectaculo" class="needs-validation" id="formEspec" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" novalidate>
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE ESPECTÁCULO</h1>
             </div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group ">
-                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre *">
+                        <input type="text" class="form-control rounded-pill mb-1 " id="inputNombre" name="inputNombre" placeholder="Nombre *" value="<%=nombreEspec%>" required>
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
                     </div>
-                    <textarea class="form-control rounded-3 mb-2" id="inputDescripcion" name="inputDescripcion" style="resize: none; " placeholder="Descripción *" rows="2 "></textarea>
+                    <textarea class="form-control rounded-3 mb-1 " id="inputDescripcion" name="inputDescripcion" style="resize: none; " placeholder="Descripción *" rows="2 " required><%=descripcion%></textarea>
+                    <div class="invalid-feedback mb-2">Campo inválido.</div>
+                    
                     <div class="form-group ">
                         <div class="input-group ">
-                            <input type="number" class="form-control rounded-pill mb-2 " id="inputDuracion" name="inputDuracion" placeholder="Duración(minutos) *">
+                            <input type="number" class="form-control rounded-pill mb-1 " id="inputDuracion" name="inputDuracion" placeholder="Duración(minutos) *" value="<%=duracion%>" required>
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-clock "></i>
                                 </button>
                             </span>
+                            <div class="invalid-feedback mb-2 ">Campo inválido.</div>
                         </div>
                     </div>
                     <div class="form-group mt-1">
@@ -220,7 +261,7 @@
 
                                 <div class="row ms-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>" >
+                                        <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>">
                                         <label class="form-check-label" for="flexCheckDefault">
                                           <%=value2.getNombre()%>
                                         </label>
@@ -240,46 +281,56 @@
 
                 <div class="col-6">
                     <div class="input-group ">
-                        <input type="number" class="form-control rounded-pill mb-2 " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores mínimos *">
+                        <input type="number" class="form-control rounded-pill mb-1  " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores mínimos *" value="<%=espectadoresMinimos%>" required>
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
                             </button>
                         </span>
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
+                        
                     </div>
                     <div class="input-group ">
-                        <input type="number " class="form-control rounded-pill mb-2 " id="inputEspecMax" name="inputEspecMax" placeholder="Espectadores máximos *">
+                        <input type="number " class="form-control rounded-pill mb-1  " id="inputEspecMax" name="inputEspecMax" placeholder="Espectadores máximos *" value="<%=espectadoresMaximos%>" required> 
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-person-fill "></i>
                             </button>
                         </span>
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
                     </div>
                     <div class="input-group">
-                        <input type="url " class="form-control rounded-pill mb-2 " id="inputURL" name="inputURL" placeholder="URL *">
+                        <input type="url " class="form-control rounded-pill mb-1 " id="inputURL" name="inputURL" placeholder="URL *" value="<%=url%>" required>
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-link-45deg "></i>
                             </button>
                         </span>
+                        <div class="invalid-feedback mb-2 ">Campo inválido.</div>
                     </div>
                     <div class="input-group">
-                        <input type="number" step="0.01" class="form-control rounded-pill mb-2 " id="inputCosto" name="inputCosto" placeholder="Costo *">
+                        <input type="number" step="0.01" class="form-control rounded-pill mb-1 " id="inputCosto" name="inputCosto" placeholder="Costo *" value="<%=costo%>" required>
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-currency-dollar "></i>
                             </button>
                         </span>
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
                     </div>
                     <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
-                    <input id="labelImagen" name="urlImagen" type="hidden" value="">
+                    <input id="labelImagen" name="urlImagen" type="hidden" value="<%=urlImagen%>" >
                     <div class="input-group">
-                        <input type="file" class="form-control rounded-pill mb-2 " id="inputFile"  name="inputFile" placeholder="">
+                        <input type="file" class="form-control rounded-pill mb-2 " id="inputFile"  name="inputFile" placeholder="" value="<%=urlImagen%>">
                         <span class="input-group-append ">
                             <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                 <i class="bi bi-link-45deg "></i>
                             </button>
                         </span>
+                        
+                        
+                    </div>
+                    <div class="w-50">
+                        <img style="max-height:100%; max-width:100%;object-fit: contain;" id="imagenEnDiv" src="<%=urlImagen%>">
                     </div>
                 </div>
 
@@ -335,26 +386,61 @@
     <%
         }
     %>
-                                
+        <%
+        //MODAL PARA ERRORES
+        String success = (String) request.getAttribute("success");
+        System.out.println(success);
+        if (success != null) {
+
+    %>
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><%=success%></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body d-flex align-items-center justify-content-center">
+                            <div class="w-50">
+                                <img style="max-height:100%; max-width:100%;object-fit: contain;" id="imagenEnDiv" src="https://i.imgur.com/w50RQl3.png">
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                abrirModal();
+            </script>
+    <%
+        }
+    %>                        
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+    <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach((form) => {
+                    form.addEventListener('submit', (event) => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     <script type="text/javascript">
-        
         $(document).ready(function() {
-            $('#formEspec input').blur(function(){
-                if(!$(this).val()){
-                    $(this).addClass("error");
-                } else{
-                    $(this).removeClass("error");
-                }
-            });
-            $('#formEspec textarea').blur(function(){
-                if(!$(this).val()){
-                    $(this).addClass("error");
-                } else{
-                    $(this).removeClass("error");
-                }
-            });
             
             $("#content-3").mCustomScrollbar({
               theme: "inset-3-dark"
@@ -391,6 +477,8 @@
                     //$label.val = response.data.link;
                     //$("#labelImagen").text(lab.data.url);
                     $("#labelImagen").attr("value",lab.data.url);
+                    $("#imagenEnDiv").attr('src',lab.data.url);
+                    
                 });
             });
         });
