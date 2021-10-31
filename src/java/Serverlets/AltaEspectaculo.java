@@ -80,25 +80,122 @@ public class AltaEspectaculo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession objSesion = request.getSession();
+        ServletContext context = getServletContext();
         String user = (String) objSesion.getAttribute("nickname");
         //OBTENIENDO DATOS DEL JSP
         String nombre = request.getParameter("inputNombre");
         String descripcion = request.getParameter("inputDescripcion");
-        double duracion = Double.parseDouble(request.getParameter("inputDuracion"));
         String plataforma = request.getParameter("plataforma");
-        String[] categorias = request.getParameterValues("categoria");
-        ServletContext context = getServletContext( );
+        
+        String error = "";
+        int contador_errores = 0;
+        if(plataforma.equals("Plataforma")){
+            error += "Ingrese una plataforma correcta";
+            contador_errores++;
+        }if(nombre.equals("")){
+            if(contador_errores > 0){
+                error += ", El campo Nombre está vacío";
+            }else{
+                error += "El campo Nombre está vacío";
+            }
+            contador_errores++;
+        }if(descripcion.equals("")){
+            if(contador_errores > 0){
+                error += ", El campo Descripción está vacío";
+            }else{
+                error += "El campo Descripción está vacío";
+            }
+            contador_errores++;
+        }
+        double duracion;
+        if(request.getParameter("inputDuracion").equals("")){
+            duracion = 0;
+            if(duracion == 0){
+                if(contador_errores > 0){
+                    error += ", El campo Duración está vacío";
+                }else{
+                    error += "El campo Duración está vacío";
+                }
+                contador_errores++;
+            }
+        }else{
+            duracion = Double.parseDouble(request.getParameter("inputDuracion"));
+        }
+        
+        String[] categorias = null;
+        
+        if(request.getParameterValues("categoria") == null){
+            if(contador_errores > 0){
+                error += ", Debe seleccionar al menos una categoría";
+            }else{
+                error += "Debe seleccionar al menos una categoría";
+            }
+            contador_errores++;
+        }else{
+            categorias = request.getParameterValues("categoria");
+        }
+        
+        
         //context.log(categorias[0]);
         //context.log(categorias[1]);
         
-        int especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
-        int especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
+        int especMin = 0;
+        int especMax = 0;
         String url = request.getParameter("inputURL");
-        double costo = Double.parseDouble(request.getParameter("inputCosto"));
         String urlImagen = request.getParameter("urlImagen");
         
-        ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
-        processRequest(request, response);
+        if(request.getParameter("inputEspecMin").equals("")){
+            if(contador_errores > 0){
+                error += ", El campo Espectadores Mínimos está vacío";
+            }else{
+                error += "El campo Espectadores Mínimos está vacío";
+            }
+            contador_errores++;
+        }else{
+            especMin = Integer.parseInt(request.getParameter("inputEspecMin"));
+        }
+        
+        if(request.getParameter("inputEspecMax").equals("")){
+            if(contador_errores > 0){
+                error += ", El campo Espectadores Máximos está vacío";
+            }else{
+                error += "El campo Espectadores Máximos está vacío";
+            }
+            contador_errores++;
+        }else{
+            especMax = Integer.parseInt(request.getParameter("inputEspecMax"));
+        }
+        
+        if(especMin >= especMax && especMin != 0 && especMax !=0){
+            if(contador_errores > 0){
+                error += ", El campo Espectadores Mínimos debe ser menor a el campo Espectadores Máximos";
+            }else{
+                error += "El campo Espectadores Mínimos debe ser menor a el campo Espectadores Máximos";
+            }
+            contador_errores++;
+        }
+        double costo;
+        if(request.getParameter("inputCosto").equals("")){
+            costo = 0;
+            if(costo == 0){
+                if(contador_errores > 0){
+                    error += ", El campo Costo está vacío";
+                }else{
+                    error += "El campo Costo está vacío";
+                }
+                contador_errores++;
+            }
+        }else{
+            costo = Double.parseDouble(request.getParameter("inputCosto"));
+        }
+        
+        if(error.equals("")){
+            ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
+            
+        }else{
+            request.setAttribute("error", error);
+        }
+        processRequest(request, response);     
     }
 
     /**
