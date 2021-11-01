@@ -88,46 +88,46 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group ">
-                            <input type="text" class="form-control rounded-pill mb-2" id="validationCustom01" name="inputNombre" placeholder="Nombre" value="<%=nickvalue%>" required>
-                            <div class="invalid-feedback">Campo inválido.</div>
+                            <input type="text" class="form-control rounded-pill mb-1" id="validationCustom01" name="inputNombre" placeholder="Nombre" value="<%=nickvalue%>" required>
+                            <div class="invalid-feedback mb-2">Campo inválido.</div>
                         </div>
-                        <textarea class="form-control rounded-3 mb-2" id="validationCustom02" style="resize: none; " name="inputDescripcion" placeholder="Descripción " rows="6" value="<%=descvalue%>" required><%=descvalue%></textarea>
-                        <div class="invalid-feedback">Campo inválido.</div>
+                        <textarea class="form-control rounded-3 mb-1" id="validationCustom02" style="resize: none; " name="inputDescripcion" placeholder="Descripción " rows="6" value="<%=descvalue%>" required><%=descvalue%></textarea>
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group ">
                             <label for="" class="ps-1">Fecha inicio:</label>
                             <div class="input-group ">
-                                <input type="date" class="form-control rounded-pill mb-2 " id="validationCustom03"name="inputFechaInicio" placeholder="Fecha inicio" value="<%=fechaivalue%>" required>
+                                <input type="date" class="form-control rounded-pill mb-1 " id="validationCustom03"name="inputFechaInicio" placeholder="Fecha inicio" value="<%=fechaivalue%>" required>
                                 <span class="input-group-append ">
                                     <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
                                         <i class="bi bi-calendar"></i>
                                     </button>
                                 </span>
-                                <div id="respuestaFI" class="invalid-feedback">Campo inválido.</div>
+                                <div id="respuestaFI" class="invalid-feedback mb-2">Campo inválido.</div>
                             </div>
                         </div>
                         <div class="form-group ">
                             <label for="" class="ps-1">Fecha fin:</label>
                             <div class="input-group ">
-                                <input type="date" class="form-control rounded-pill mb-2 " id="validationCustom04" name="inputFechaFin" placeholder="Fecha fin" value="<%=fechafvalue%>" required>
+                                <input type="date" class="form-control rounded-pill mb-1 " id="validationCustom04" name="inputFechaFin" placeholder="Fecha fin" value="<%=fechafvalue%>" required>
                                 <span class="input-group-append ">
                                     <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
                                         <i class="bi bi-calendar "></i>
                                     </button>
                                 </span>
-                                <div id="respuestaFF" class="invalid-feedback">Campo inválido.</div>
+                                <div id="respuestaFF" class="invalid-feedback mb-2">Campo inválido.</div>
                             </div>
                         </div>
                         <div class="input-group ">
-                            <input type="number" class="form-control rounded-pill mb-2 " id="validationCustom05" name="inputDescuento" placeholder="Descuento" value="<%=descuentovalue%>" required>
+                            <input type="number" class="form-control rounded-pill mb-1 " id="validationCustom05" name="inputDescuento" placeholder="Descuento" value="<%=descuentovalue%>" required>
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill " style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button ">
                                     <i class="bi bi-currency-dollar"></i>
                                 </button>
                             </span>
-                            <div class="invalid-feedback">Campo inválido.</div>
+                            <div class="invalid-feedback mb-2">Campo inválido.</div>
                         </div>
                         <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
                         <input id="labelImagen" name="urlImagen" type="hidden" value="">
