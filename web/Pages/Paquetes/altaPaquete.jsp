@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-    
+
     <head>
         <link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
         <meta charset="UTF-8">
@@ -33,10 +33,10 @@
 
     <body>
         <script>
-        function abrirModal() {
-            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
-            myModal.show();
-        }
+            function abrirModal() {
+                var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+                myModal.show();
+            }
         </script>
         <%
             HttpSession objSesion = request.getSession();
@@ -48,37 +48,37 @@
         <%@include file="/Pages/Common/HeaderSearch.jsp" %>
         <%}
         %>
-        
+
         <%
-        String nickvalue = "";
-        String descvalue = "";
-        String fechaivalue = "";
-        String fechafvalue = "";
-        String descuentovalue = "";
-        String successvalue = "";
-        String errorvalue = "";
-        if (request.getAttribute("rNombre") != null) {
-            nickvalue = (String) request.getAttribute("rNombre");
-        }
-        if (request.getAttribute("rDescripcion") != null) {
-            descvalue = (String) request.getAttribute("rDescripcion");
-        }
-        if (request.getAttribute("rFechaInicio") != null) {
-            fechaivalue = (String) request.getAttribute("rFechaInicio");
-        }
-        if (request.getAttribute("rFechaFin") != null) {
-            fechafvalue = (String) request.getAttribute("rFechaFin");
-        }
-        if (request.getAttribute("rDescuento") != null) {
-            descuentovalue = (String) request.getAttribute("rDescuento");
-        }
-        if (request.getAttribute("success") != null) {
-            successvalue = (String) request.getAttribute("success");
-        }
-        if (request.getAttribute("error") != null) {
-            errorvalue = (String) request.getAttribute("error");
-        }
-    %>
+            String nickvalue = "";
+            String descvalue = "";
+            String fechaivalue = "";
+            String fechafvalue = "";
+            String descuentovalue = "";
+            String successvalue = "";
+            String errorvalue = "";
+            if (request.getAttribute("rNombre") != null) {
+                nickvalue = (String) request.getAttribute("rNombre");
+            }
+            if (request.getAttribute("rDescripcion") != null) {
+                descvalue = (String) request.getAttribute("rDescripcion");
+            }
+            if (request.getAttribute("rFechaInicio") != null) {
+                fechaivalue = (String) request.getAttribute("rFechaInicio");
+            }
+            if (request.getAttribute("rFechaFin") != null) {
+                fechafvalue = (String) request.getAttribute("rFechaFin");
+            }
+            if (request.getAttribute("rDescuento") != null) {
+                descuentovalue = (String) request.getAttribute("rDescuento");
+            }
+            if (request.getAttribute("success") != null) {
+                successvalue = (String) request.getAttribute("success");
+            }
+            if (request.getAttribute("error") != null) {
+                errorvalue = (String) request.getAttribute("error");
+            }
+        %>
         <div class="d-flex justify-content-md-center align-items-center mt-5">
 
             <form name="altaPaquete" method="POST" action="/CoronaTickets-Web/AltaPaquete" class="needs-validation" novalidate>
@@ -223,46 +223,6 @@
             }
         %>          
 
-        <script>
-            $(document).ready(function () {
-                $('form').on('submit', function (e) {
-                    // validation code here
-                    let fechaI = document.getElementById('validationCustom03').value;
-                    let fechaF = document.getElementById('validationCustom04').value;
-                    const fechaISplited = fechaI.split("-");
-                    const fechaFSplited = fechaF.split("-");
-                    if (fechaF[2] < fechaI[2] || (fechaF[2] == fechaI[2] && fechaF[1] == fechaI[1] && fechaF[0] < fechaI[0]) || (fechaF[2] == fechaI[2] && fechaF[1] < fechaI[1])) {
-                        alert("Las fechas son incorrectas.");
-                        var elementfechaI = document.getElementById("validationCustom03");
-                        var elementfechaF = document.getElementById("validationCustom04");
-                        elementfechaI.classList.add("is-invalid");
-                        elementfechaF.classList.add("is-invalid");
-                        document.getElementById("respuestaFI").innerHTML = "No está permitido el registro a menores de 18 años.";
-                        document.getElementById("respuestaFF").innerHTML = "No está permitido el registro a menores de 18 años.";
-                        e.preventDefault();
-                    }
-
-                });
-            });
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (() => {
-                'use strict';
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                const forms = document.querySelectorAll('.needs-validation');
-
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms).forEach((form) => {
-                    form.addEventListener('submit', (event) => {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            })();
-        </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -303,7 +263,51 @@
                 });
             });
 
-        </script>          
+        </script>   
+        <script>
+            $(document).ready(function () {
+                $('form').on('submit', function (e) {
+                    // validation code here
+                    let fechaI = document.getElementById('validationCustom03').value;
+                    let fechaF = document.getElementById('validationCustom04').value;
+                    const fechaISplited = fechaI.split("-");
+                    const fechaFSplited = fechaF.split("-");
+                    var fechaIAnio = Number(fechaISplited[0]);
+                    var fechaIMes = Number(fechaISplited[1]);
+                    var fechaIDia = Number(fechaISplited[2]);
+                    var fechaFAnio = Number(fechaFSplited[0]);
+                    var fechaFMes = Number(fechaFSplited[1]);
+                    var fechaFDia = Number(fechaFSplited[2]);
+                    if (fechaFAnio < fechaIAnio || (fechaFAnio == fechaIAnio && fechaFMes == fechaIMes && fechaFDia < fechaIDia) || (fechaFAnio == fechaIAnio && fechaFMes < fechaIMes)) {
+                        var elementfechaI = document.getElementById("validationCustom03");
+                        var elementfechaF = document.getElementById("validationCustom04");
+                        elementfechaI.classList.add("is-invalid");
+                        elementfechaF.classList.add("is-invalid");
+                        document.getElementById("respuestaFI").innerHTML = "Fecha de inicio no puede ser mayor que fecha de finalización.";
+                        document.getElementById("respuestaFF").innerHTML = "Fecha de finalización no puede ser menor que fecha de inicio.";
+                        e.preventDefault();
+                    }
+                });
+            });
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach((form) => {
+                    form.addEventListener('submit', (event) => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     </body>
 
 </html>
