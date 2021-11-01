@@ -26,8 +26,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "AltaPaquete", urlPatterns = {"/AltaPaquete"})
 public class AltaPaquete extends HttpServlet {
+
     Fabrica fabrica = Fabrica.getInstance();
     IControladorPaquete ICP = fabrica.getIControladorPaquete();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -74,21 +76,45 @@ public class AltaPaquete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-            String nombre = request.getParameter("inputNombre");
-            String descripcion = request.getParameter("inputDescripcion");
-            String fechaInicio = request.getParameter("inputFechaInicio");
-            String fechaFin = request.getParameter("inputFechaFin");
-            
-            LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String fechaCreado = date.format(formatter);
-            
-            double descuento = Double.parseDouble(request.getParameter("inputDescuento"));
-            String urlImagen = request.getParameter("urlImagen");
-            
-            //(String nombre,String fechaInicio, String fechaFin,String fechaCreado,int descuento,String descripcion)
-            ICP.altaPaquete(nombre, fechaInicio, fechaFin, fechaCreado, descuento, descripcion, urlImagen);
-            processRequest(request, response);
+        String nombre = request.getParameter("inputNombre");
+        String descripcion = request.getParameter("inputDescripcion");
+        String fechaInicio = request.getParameter("inputFechaInicio");
+        String fechaFin = request.getParameter("inputFechaFin");
+
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaCreado = date.format(formatter);
+
+        double descuento = Double.parseDouble(request.getParameter("inputDescuento"));
+        String urlImagen = request.getParameter("urlImagen");
+
+        //(String nombre,String fechaInicio, String fechaFin,String fechaCreado,int descuento,String descripcion)
+        String error = "";
+        int contador_errores = 0;
+        if (ICP.isNombrePaqueteUsado(nombre) == true) {
+            error += "El nombre del paquete ya existe.";
+            contador_errores++;
+        }
+        if (error.equals("")) {
+            try {
+                ICP.altaPaquete(nombre, fechaInicio, fechaFin, fechaCreado, descuento, descripcion, urlImagen);
+                request.setAttribute("success", "Agregado correctamente!");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/altaPaquete.jsp");
+                view.forward(request, response);
+            } catch (Exception e) {
+                request.setAttribute("error", e);
+            }
+        } else {
+            request.setAttribute("error", error);
+            request.setAttribute("rNombre", request.getParameter("inputNombre"));
+            request.setAttribute("rDescripcion", request.getParameter("inputDescripcion"));
+            request.setAttribute("rFechaInicio", request.getParameter("inputFechaInicio"));
+            request.setAttribute("rFechaFin", request.getParameter("inputFechaFin"));
+            request.setAttribute("rDescuento", request.getParameter("inputDescuento"));
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/altaPaquete.jsp");
+            view.forward(request, response);
+        }
+
     }
 
     /**
