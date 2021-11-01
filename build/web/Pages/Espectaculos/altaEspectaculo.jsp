@@ -348,9 +348,6 @@
                                 
     </div>
 
-    
-
-
     <%
         //MODAL PARA ERRORES
         String error = (String) request.getAttribute("error");
@@ -387,7 +384,7 @@
         }
     %>
         <%
-        //MODAL PARA ERRORES
+        //MODAL PARA SUCCESS
         String success = (String) request.getAttribute("success");
         System.out.println(success);
         if (success != null) {
@@ -403,7 +400,7 @@
                         </div>
                         <div class="modal-body d-flex align-items-center justify-content-center">
                             <div class="w-50">
-                                <img style="max-height:100%; max-width:100%;object-fit: contain;" id="imagenEnDiv" src="https://i.imgur.com/w50RQl3.png">
+                                <img style="max-height:100%; max-width:100%;object-fit: contain;" src="https://i.imgur.com/w50RQl3.png">
                             </div>
                             
                         </div>

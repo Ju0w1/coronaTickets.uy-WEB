@@ -105,6 +105,7 @@ public class AltaFuncion extends HttpServlet {
         String nombre = request.getParameter("inputNombre");
         
         String fecha = request.getParameter("inputFechaFuncion");
+        
         String[] fechaSeparada = fecha.split("-");
         DTFecha fechaFun = new DTFecha(Integer.parseInt(fechaSeparada[2]),Integer.parseInt(fechaSeparada[1]),Integer.parseInt(fechaSeparada[0]));
         
@@ -134,8 +135,36 @@ public class AltaFuncion extends HttpServlet {
         String[] fechaCr = fechaC.split("-");
         DTFecha fechaCreado = new DTFecha(Integer.parseInt(fechaCr[2]),Integer.parseInt(fechaCr[1]),Integer.parseInt(fechaCr[0]));
         
-        //addFuncion(String nombreEspec, String nombre, DTFecha fecha_registro, DTTimeStamp hora_inicio, DTFecha fecha_comienzo, Map <String,Artista> artistas) 
-        ICF.addFuncionWEB(nombreEspectaculo, nombre, fechaCreado, hora, fechaFun, artistasAgregar, imagen);
+        String error = "";
+        ServletContext context = getServletContext();
+        context.log("NO ANDA O SI"+nombreEspectaculo);
+        if(nombreEspectaculo.equals("Seleccione un espectaculo")){
+            error = "Debe selecciona un espectáculo";
+        } 
+        if(ICF.checkearFuncionExistenteWeb(nombre)){
+            request.setAttribute("error", "El nombre de función ingresado ya existe, por favor ingrese uno distinto");
+            request.setAttribute("nombreEspec", nombreEspectaculo);
+            request.setAttribute("nombreFun", nombre);
+            request.setAttribute("fechaFun", fecha);
+            request.setAttribute("horaFun", horaWeb);
+            request.setAttribute("imagenFun", imagen);
+        }else{
+            if(error.equals("")){
+                try {
+                ICF.addFuncionWEB(nombreEspectaculo, nombre, fechaCreado, hora, fechaFun, artistasAgregar, imagen);
+                    request.setAttribute("success", "Agregado correctamente!");
+                } catch (Exception e) {
+                    request.setAttribute("error", e);
+                }
+            }else{
+                request.setAttribute("error", error);
+                request.setAttribute("nombreEspec", nombreEspectaculo);
+                request.setAttribute("nombreFun", nombre);
+                request.setAttribute("fechaFun", fecha);
+                request.setAttribute("horaFun", horaWeb);
+                request.setAttribute("imagenFun", imagen);
+            }
+        }
         processRequest(request, response);
     }
 

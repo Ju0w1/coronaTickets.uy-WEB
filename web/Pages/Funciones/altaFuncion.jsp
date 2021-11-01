@@ -66,6 +66,12 @@
             height: 20vh;
         }
     </style>
+    <script>
+        function abrirModal() {
+            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+            myModal.show();
+        }
+    </script>
 </head>
 
 <body>
@@ -79,16 +85,32 @@
             else{%>
                 <%@include file="/Pages/Common/HeaderSearch.jsp" %>
             <%}
+            String nombreFun = "";
+            String fechaFun = "";
+            String horaFun = "";
+            String imagenFun = "";
+            if(request.getAttribute("nombreFun")!=null){
+                nombreFun = (String) request.getAttribute("nombreFun");
+            }
+            if(request.getAttribute("fechaFun")!=null){
+                fechaFun = (String) request.getAttribute("fechaFun");
+            }
+            if(request.getAttribute("horaFun")!=null){
+                horaFun = (String) request.getAttribute("horaFun");
+            }
+            if(request.getAttribute("imagenFun")!=null){
+                imagenFun = (String) request.getAttribute("imagenFun");
+            }
         %>
     <div class="d-flex justify-content-md-center align-items-center mt-5">
-        <form name="altaEspectaculo" method="POST" action="/CoronaTickets-Web/AltaFuncion" >
+        <form name="altaEspectaculo" class="needs-validation" method="POST" action="/CoronaTickets-Web/AltaFuncion" novalidate>
             <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE FUNCIÓN</h1>
             </div>
             <div class="row">
                 <div class="col-6">
                     <select class="form-select" name="espectaculo" aria-label="Espectaculos">
-                        <option selected>Espectaculos</option>
+                        <option selected>Seleccione un espectaculo</option>
                         <%
                             int i=0;
                              Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculos");
@@ -106,18 +128,18 @@
                         %>
                     </select>
                     <div class="form-group mt-2">
-                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre">
+                        <input type="text" class="form-control rounded-pill mb-2 " id="inputNombre" name="inputNombre" placeholder="Nombre" value="<%=nombreFun%>" required>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de función</label>
                         <div class="col-sm-7">
-                            <input type="date" class="form-control rounded-pill" id="inputFechaFuncion" name="inputFechaFuncion" value="">
+                            <input type="date" class="form-control rounded-pill" id="inputFechaFuncion" name="inputFechaFuncion" value="<%=fechaFun%>" required>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="input-group ">
                             <label for="inputHora" class="col-sm-5 col-form-label">Hora de inicio</label>
-                            <input type="time" class="form-control rounded-pill mb-2 " id="inputHora" name="inputHoraInicio" placeholder="Hora de inicio">
+                            <input type="time" class="form-control rounded-pill mb-2 " id="inputHora" name="inputHoraInicio" value="<%=horaFun%>" placeholder="Hora de inicio" required>
                             <span class="input-group-append ">
                                 <button class="btn btn-outline-secondary bg-white border-0 rounded-pill" style="margin-left: -41px; margin-top: 1.5px; height: 32px " type="button "disabled>
                                     <i class="bi bi-clock "></i>
@@ -128,7 +150,7 @@
                     
                     <div class="form-group mt-1">
                         <label for="altaEspectaculo" class="form-label">URL de imagen (Opcional):</label>
-                        <input id="labelImagen" name="urlImagen" type="hidden" value="">
+                        <input id="labelImagen" name="urlImagen" type="hidden" value="<%=imagenFun%>">
                         <div class="input-group">
                             <input type="file" class="form-control rounded-pill mb-2 " id="inputFile" name="inputFile" placeholder="">
                             <span class="input-group-append ">
@@ -137,6 +159,9 @@
                                 </button>
                             </span>
                         </div>
+                    </div>
+                    <div class="w-50">
+                        <img style="max-height:100%; max-width:100%;object-fit: contain;" id="imagenEnDiv" src="<%=imagenFun%>">
                     </div>
                 </div>
 
@@ -189,8 +214,88 @@
 
         </form>
     </div>
+                    
+    <%
+        //MODAL PARA ERRORES
+        String error = (String) request.getAttribute("error");
+        System.out.println(error);
+        if (error != null) {
+    %>
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                             <p> <%=error%></p>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                abrirModal();
+            </script>
+    <%
+        }
+    %>
+        <%
+        //MODAL PARA SUCCESS
+        String success = (String) request.getAttribute("success");
+        System.out.println(success);
+        if (success != null) {
+
+    %>
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><%=success%></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body d-flex align-items-center justify-content-center">
+                            <div class="w-50">
+                                <img style="max-height:100%; max-width:100%;object-fit: contain;" src="https://i.imgur.com/w50RQl3.png">
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                abrirModal();
+            </script>
+    <%
+        }
+    %>                
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+    <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach((form) => {
+                    form.addEventListener('submit', (event) => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     <script type="text/javascript">
         
         $(document).ready(function() {
@@ -229,6 +334,7 @@
                     //$label.val = response.data.link;
                     //$("#labelImagen").text(lab.data.url);
                     $("#labelImagen").attr("value",lab.data.url);
+                    $("#imagenEnDiv").attr('src',lab.data.url);
                 });
             });
         });
