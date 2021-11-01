@@ -31,7 +31,12 @@
             font-family: 'Montserrat', sans-serif;
         }
     </style>
-    
+    <script>
+        function mostrarFila(){
+            var escondido = document.getElementById('nombreE');
+            console.log(escondido);
+        }
+    </script>
 </head>
 
 <body>
@@ -59,6 +64,7 @@
             %>
              <div class="row">
                  <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
+                    <input id="especHidden" name="espectaculoGET" type="hidden" value="">
                  <div class="col-12 d-flex justify-content-md-center table-responsive">
                      <table id="tablaEspec" class="table table-bordered">
                         <thead>
@@ -70,6 +76,7 @@
                               <th scope="col">Ver más</th>
                             </tr>
                         </thead>
+                        
                         <tbody id="myTable">
                             <%
                                  Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
@@ -85,7 +92,7 @@
 
                             %>
                             <tr class="align-middle clickable-row">
-                                    <td class="nombre"><%=value.getNombre()%></td>
+                                <td id="nombreE" class="nombre"><%=value.getNombre()%></td>
                                     <td><%=value.getDescripcion()%></td>
                                     <td><%=value.getCosto()%></td>
                                     <td>
@@ -95,8 +102,7 @@
                                     </td>
                                     <td>
                                         
-                                            <input id="especHidden" name="espectaculo" type="hidden" value="">
-                                            <button type="submit" id="verMas" class="btn btn-outline-secondary">
+                                            <button type="submit" id="verMas" onclick="mostrarFila()" class="btn btn-outline-secondary">
                                                 Ver más
                                             </button>   
                                         
@@ -144,7 +150,7 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="2 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="4 " readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
@@ -215,7 +221,7 @@
             %>
         </div>
     </div>
-    
+
     <script>
         $(document).ready( function () {
             $('#tablaEspec').DataTable({
@@ -223,13 +229,12 @@
                 ordering:  false
             });
             $("#verMas").click(function() {
-                var $row = $(this).closest("tr");    // Find the row
-                var $text = $row.find(".nombre").text(); // Find the text
-                alert($text);
+                var $row = $(this).closest("tr"); 
+                // Find the row
+                var $text = $row.find("#nombreE").text(); // Find the text
+                
                 $("#especHidden").attr("value",$text);
                 // Let's test it out
-                
-                
             });
         } );
         
