@@ -57,7 +57,7 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String nombreEspectaculo = request.getParameter("espectaculo");
+                String nombreEspectaculo = request.getParameter("espectaculoGET");
                 Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
                 ServletContext context = getServletContext( );
                 context.log(espec.getNombre());
@@ -79,6 +79,7 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 HttpSession objSesion = request.getSession();
+                request.setAttribute("espec", null);
                 String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
                 Map<String, Espectaculo> espectaculosDePaquete = (Map<String, Espectaculo>) ICE.obtenerMapEspectaculosDePaquete(nombrePaquete);
                 request.setAttribute("espectaculosPaquete", espectaculosDePaquete);

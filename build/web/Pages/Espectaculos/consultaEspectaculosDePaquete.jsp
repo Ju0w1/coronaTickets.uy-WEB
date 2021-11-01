@@ -22,11 +22,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
         }
     </style>
+    <script>
+        function mostrarFila(){
+            var escondido = document.getElementById('nombreE');
+            console.log(escondido);
+        }
+    </script>
 </head>
 
 <body>
@@ -43,7 +53,7 @@
         %>
 
     <div class="d-flex justify-content-md-center align-items-center mt-5">
-        <div class="container" style="width: 100vh;">
+        <div class="container" style="">
             <div class="row">
                 <div class="col-12 d-flex justify-content-md-center">
                     <h1 class="mb-5">ESPECTÁCULOS DEL PAQUETE "<%=(String) objSesion.getAttribute("nombrePaquete")%>"</h1>
@@ -51,39 +61,63 @@
             </div>
             <%
                 if((Espectaculo) request.getAttribute("espec") == null){
-
-            %>  
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-md-center">
-                    <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
-                            <select class="form-select" name="espectaculo" aria-label="Espectaculos">
-                                <option selected>Espectaculos</option>
-                                <%
+            %>
+             <div class="row">
+                 <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
+                    <input id="especHidden" name="espectaculoGET" type="hidden" value="">
+                 <div class="col-12 d-flex justify-content-md-center table-responsive">
+                     <table id="tablaEspec" class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th scope="col">Nombre</th>
+                              <th scope="col">Descripción</th>
+                              <th scope="col">Costo</th>
+                              <th scope="col">Imagen</th>
+                              <th scope="col">Ver más</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id="myTable">
+                            <%
+                                 Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
+                                if(espectaculos == null){
+                                    System.out.println("VACIO");
+                                }else{
                                     int i=0;
-                                     Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
-                                    if(espectaculos == null){
-                                        System.out.println("VACIO");
-                                    }else{
-                                        for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
-                                            String key = entry.getKey();
-                                            Espectaculo value = entry.getValue();
-                                %>
-                                <option value="<%=key%>" id="<%=key%>"><%=key%></option>
-                                <%
-                                            i++;
-                                        }
+                                    for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                        String key = entry.getKey();
+                                        Espectaculo value = entry.getValue();
+                                        i++;
+
+
+                            %>
+                            <tr class="align-middle clickable-row">
+                                <td id="nombreE" class="nombre"><%=value.getNombre()%></td>
+                                    <td><%=value.getDescripcion()%></td>
+                                    <td><%=value.getCosto()%></td>
+                                    <td>
+                                        <div class="w-100">
+                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=value.getUrlIamgen()%>">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        
+                                            <button type="submit" id="verMas" onclick="mostrarFila()" class="btn btn-outline-secondary">
+                                                Ver más
+                                            </button>   
+                                        
+                                    </td>
+                                </tr>
+                            <%
                                     }
-                                %>
-                            </select>
-                            <div class="col-md-12 d-flex justify-content-md-center mt-2">
-                                <button type="submit " class="btn btn-secondary rounded-pill d-flex justify-content-md-center">
-                                BUSCAR
-                            </button>
-                            </div>
-                            
-                      </form>       
-                </div>      
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>
+                </form>
             </div>
+            
             <%
                 }else{
                     Espectaculo espectaculo = (Espectaculo) request.getAttribute("espec");
@@ -116,7 +150,7 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="2 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="4 " readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
@@ -188,6 +222,23 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready( function () {
+            $('#tablaEspec').DataTable({
+                searching: true,
+                ordering:  false
+            });
+            $("#verMas").click(function() {
+                var $row = $(this).closest("tr"); 
+                // Find the row
+                var $text = $row.find("#nombreE").text(); // Find the text
+                
+                $("#especHidden").attr("value",$text);
+                // Let's test it out
+            });
+        } );
+        
+    </script>
 </body>
 
 </html>
