@@ -81,6 +81,9 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        
+        
+        
         String nick = "";
         if(request.getParameter("nick")!=null){
             nick = request.getParameter("nick");

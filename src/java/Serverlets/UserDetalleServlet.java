@@ -93,8 +93,9 @@ public class UserDetalleServlet extends HttpServlet {
         
         if(request.getParameter("esEspectador")!=null){
             String nuevaFecha = request.getParameter("fecha");
-            String[] datos = nuevaFecha.split("/");
-            Date date=Date.valueOf(datos[2]+ "-" + datos[1] + "-" + datos[0]);
+            System.err.println("Fecha recibida: " + nuevaFecha);
+            String[] datos = nuevaFecha.split("-");
+            Date date=Date.valueOf(datos[0]+ "-" + datos[1] + "-" + datos[2]);
             String nuevaImagen = request.getParameter("urlImagen");
             if(nuevaImagen.equals("")){
                 Usuario espect = ICU.obtenerEspectadorPorNick(nick);
@@ -109,8 +110,8 @@ public class UserDetalleServlet extends HttpServlet {
         if(request.getParameter("esArtista")!=null){
             
             String nuevaFecha = request.getParameter("fecha");
-            String[] datos = nuevaFecha.split("/");
-            Date date=Date.valueOf(datos[2]+ "-" + datos[1] + "-" + datos[0]);
+            String[] datos = nuevaFecha.split("-");
+            Date date=Date.valueOf(datos[0]+ "-" + datos[1] + "-" + datos[2]);
             String nuevaImagen = request.getParameter("urlImagen");
             if(nuevaImagen.equals("")){
                 Usuario espect = ICU.obtenerEspectadorPorNick(nick);

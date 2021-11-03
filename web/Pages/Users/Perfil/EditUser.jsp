@@ -62,7 +62,7 @@
         %>
     </head>
     <body>
-        <form action="/CoronaTickets-Web/Usuario" method="post">
+        <form action="/CoronaTickets-Web/Usuario" method="post" class="needs-validation" novalidate>
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
                         <div class="col-md-3 border-right">
@@ -84,11 +84,27 @@
                                 <h4 class="text-right">Datos del Perfil</h4>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-6"><label>Nombre</label><input type="text" class="form-control" placeholder="Nombre" name="nombre" value="<%=nombre%>"></div>
-                                <div class="col-md-6"><label>Apellido</label><input type="text" class="form-control" name="apellido" value="<%=apellido%>" placeholder="Apellido"></div>
+                                <div class="col-md-6"><label>Nombre</label><input type="text" id="validationCustom01" class="form-control" placeholder="Nombre" name="nombre" value="<%=nombre%>" required></div>
+                                <div class="invalid-feedback mb-2">Campo inválido.</div>
+                                <div class="col-md-6"><label>Apellido</label><input type="text" id="validationCustom02" class="form-control" name="apellido" value="<%=apellido%>" placeholder="Apellido" required></div>
+                                <div class="invalid-feedback mb-2">Campo inválido.</div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-6"><label>Fecha de nacimiento</label><input type="text" class="form-control" placeholder="dd/mm/aaaa" name="fecha" value="<%=nacimiento.getDia()%>/<%=nacimiento.getMes()%>/<%=nacimiento.getAnio()%>"></div>                                
+                                
+                                <%    
+                                    String dia = String.valueOf(nacimiento.getDia()); 
+                                    String mes = String.valueOf(nacimiento.getMes()); 
+                                    if(nacimiento.getDia()<10){
+                                        dia = "0" + nacimiento.getDia();
+                                    }
+                                    if (nacimiento.getMes()<10){
+                                        mes = "0" + nacimiento.getMes();
+                                    }
+                                    String fechaFinal = nacimiento.getAnio() + "-" + mes + "-" + dia;
+                                    
+                                %>
+                                <div class="col-md-6"><label>Fecha de nacimiento</label><input type="date" class="form-control" name="fecha"  min="1950-01-01" max="2003-01-01" value="<%=fechaFinal%>" required></div>                                
+                                <div id="respuestaFI" class="invalid-feedback mb-2">Campo inválido.</div>
                                 <%
                                     if (request.getAttribute("espectador") == null) {%>
                                 <div class="col-md-6"><label>Sitio Web</label><input type="text" class="form-control" placeholder="https://example.com" name="sitio" value="<%=sitio%>"></div>
@@ -99,10 +115,10 @@
                             <div class="row mt-3">
                                 <%
                                     if (request.getAttribute("espectador") == null) {%>
-                                        <div class="col-md-12"><label>Descripcion</label><input type="text" class="form-control" placeholder="Descripcion" name="descripcion" value="<%=desc%>"></div>
+                                        <div class="col-md-12"><label>Descripcion</label><input type="text" class="form-control" placeholder="Descripcion" name="descripcion" value="<%=desc%>" required></div>
                                         
                                         <div class="col-md-12">
-                                            <div class="about-inputs "> <label>Biografia</label> <textarea id="bio" rows="8" class="form-control" type="text" placeholder="Biografia"><%=bio%></textarea>
+                                            <div class="about-inputs "> <label>Biografia</label> <textarea id="bio" rows="8" class="form-control" type="text" placeholder="Biografia" required><%=bio%></textarea>
                                                 <input id="bioinput" type="text" hidden="true" name="bio" value="">
                                             </div>
                                         </div>
@@ -114,7 +130,9 @@
                                     }
                                 %>
                             </div>
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" onclick="document.getElementById('bioinput').value = $('#bio').val();" type="submit">Guardar Perfil</button></div>
+                            <div class="mt-5 text-center">
+                                <button class="btn btn-primary profile-button" onclick="document.getElementById('bioinput').value = $('#bio').val();" type="submit">Guardar Perfil</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,6 +178,33 @@
             });
         });              
         </script>           
-                        
+        <script>
+            $(document).ready(function () {
+                $('form').on('submit', function (e) {
+                    // validation code here
+                    let nombre = document.getElementById('validationCustom01').value;
+                    let apellido = document.getElementById('validationCustom02').value;
+                   
+                });
+            });
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach((form) => {
+                    form.addEventListener('submit', (event) => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>          
     </body>
 </html>
