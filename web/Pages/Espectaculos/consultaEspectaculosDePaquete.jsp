@@ -96,7 +96,7 @@
                                     <td><%=value.getDescripcion()%></td>
                                     <td><%=value.getCosto()%></td>
                                     <td>
-                                        <div class="w-100">
+                                        <div class="">
                                             <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=value.getUrlIamgen()%>">
                                         </div>
                                     </td>

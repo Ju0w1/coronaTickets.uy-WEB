@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import Logica.Clases.Paquete;
 import Logica.Clases.Registro;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
@@ -61,19 +62,23 @@ public class RegistroAFuncion extends HttpServlet {
         String user = (String) objSesion.getAttribute("nickname");
         response.setContentType("text/html;charset=UTF-8");
         Map<String,Registro> registrosPrevios = ICE.obtenerRegistrosPreviosDeEspectador(user);
-        
+        String nombreFuncion = (String) request.getParameter("nombreFuncionDesdeFuncion");
         if(registrosPrevios.size()>=3){
             request.setAttribute("registrosFunciones", registrosPrevios);
-            
-            
-            String nombreFuncion = (String) request.getParameter("nombreFuncionDesdeFuncion");
+           
             ServletContext context = getServletContext();
             context.log("primero: "+nombreFuncion);
             request.setAttribute("nombreFuncionHaciaRegistro", nombreFuncion);
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/registroAFuncion.jsp");
             view.forward(request, response);
+        }else if(!ICE.obtenerPaquetesSinCanjear(user, nombreFuncion).isEmpty()){
+            Map<String, Paquete> paquetes = ICE.obtenerPaquetesSinCanjear(user, nombreFuncion);
+            request.setAttribute("paquetes", paquetes);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/registroAFuncionPaquetes.jsp");
+            view.forward(request, response);
         }else{
-            String nombreFuncion = (String) request.getParameter("nombreFuncion");
+            ServletContext context = getServletContext();
+            context.log("primero: "+nombreFuncion);
             ICE.registroFuncionWEB(nombreFuncion, user);
             RequestDispatcher view = request.getRequestDispatcher("/funciones");
             view.forward(request, response);

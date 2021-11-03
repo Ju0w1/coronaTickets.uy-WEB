@@ -5,30 +5,21 @@
  */
 package Serverlets;
 
-import Logica.Clases.Funcion;
-import Logica.Fabrica;
-import Logica.Interfaz.IControladorEspectaculo;
-import Logica.Interfaz.IControladorFuncion;
-import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author milto
+ * @author pabli
  */
-@WebServlet(name = "funcion", urlPatterns = {"/funcion"})
-public class ConsultaFuncion extends HttpServlet {
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorFuncion ICF = fabrica.getIControladorFuncion();
-    
+@WebServlet(name = "RegistroAFuncionDescuentoPaquete", urlPatterns = {"/RegistroAFuncionDescuentoPaquete"})
+public class RegistroAFuncionDescuentoPaquete extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,7 +33,16 @@ public class ConsultaFuncion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RegistroAFuncionDescuentoPaquete</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RegistroAFuncionDescuentoPaquete at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -72,15 +72,7 @@ public class ConsultaFuncion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String funcionName = "";
-        funcionName = request.getParameter("data2");
-        HttpSession objSesion = request.getSession();
-        System.out.println("Funcion::: " + funcionName);
-        Funcion funcion;
-        funcion = ICF.obtenerFuncion(funcionName);
-        request.setAttribute("funcion", funcion);
-        RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
-        view.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
