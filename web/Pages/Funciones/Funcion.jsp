@@ -19,12 +19,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoronaTickets - Función</title>
-    <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 </head>
 
 <body>
+    
     <%
         HttpSession objSesion = request.getSession();
         String usuario;
@@ -39,6 +42,13 @@
         Funcion funcion = (Funcion) request.getAttribute("funcion");
         
     %>
+    <script>
+        function abrirModal() {
+            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+            myModal.show();
+        }
+    </script>
+    
     <div id="header"></div>
     <br>
     <h3 style="text-align: center;">
@@ -106,6 +116,20 @@
                       </li>
                     </ul>
                   </div>
+                    <row>
+                        
+                        
+                        <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
+                            <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
+                            <div class="d-flex justify-content-md-center align-items-center mt-3">
+                                
+                                <button type="submit" id="mostrarModal"  class="btn btn-outline-secondary rounded-pill ">
+                                    REGISTRARSE
+                                </button>
+                            </div>
+                        </form>
+                        
+                    </row>
             </div>
             <div class="col-6 d-flex justify-content-md-center align-items-center">
                 <div class="w-100 d-flex justify-content-md-center align-items-center">
