@@ -112,9 +112,10 @@
             
         </div>
     </div>
-
+                            
     <script>
         $(document).ready( function () {
+            alert("Debes seleccionar 3 funciones para realizar el canje. Clickea sobre la fila que desees seleccionar");
             $('#tablaEspec').DataTable({
                 searching: true,
                 ordering:  false
@@ -139,9 +140,8 @@
 
                  });//fin de '#myTable tbody tr'
                 if(contador!==3){
-                    alert("Debe seleccionar exactamente 3 funciones para realizar el canje");
+                    alert("Debes seleccionar 3 funciones para realizar el canje.");
                 }else{
-                    alert("Agregado correctamente");
                     var contador2 = 0;
                     $('#tablaEspec tbody tr').each(function(indexFila){
                         //verifica si  la fila seleccionada tiene la clase 'selected'
@@ -157,11 +157,8 @@
                          }
 
                     });
-                   
+                    alert("Canjeado correctamente")
                 }
-                
-                
-
              });//fin (btnSeleccionados)
              // alert(myTable.rows('.selected').data().length+' row(s) selected' );
 

@@ -65,7 +65,6 @@ public class RegistroAFuncion extends HttpServlet {
         String nombreFuncion = (String) request.getParameter("nombreFuncionDesdeFuncion");
         if(registrosPrevios.size()>=3){
             request.setAttribute("registrosFunciones", registrosPrevios);
-           
             ServletContext context = getServletContext();
             context.log("primero: "+nombreFuncion);
             request.setAttribute("nombreFuncionHaciaRegistro", nombreFuncion);
@@ -106,9 +105,20 @@ public class RegistroAFuncion extends HttpServlet {
                 String nombreFuncion1 = (String) request.getParameter("funcion1");
                 String nombreFuncion2 = (String) request.getParameter("funcion2");
                 String nombreFuncion3 = (String) request.getParameter("funcion3");
-                ICE.actualizarEstadoDeRegistrosWEB(nombreFuncionAAgregar,nombreFuncion1,nombreFuncion2,nombreFuncion3,user);
-                RequestDispatcher view = request.getRequestDispatcher("/funciones");
+                RequestDispatcher view;
+                if(request.getParameter("funcion1").equals("") || request.getParameter("funcion2").equals("") || request.getParameter("funcion3").equals("")){
+                    String error = "Debes seleccionar al menos 3 funciones para canjear.";
+                    request.setAttribute("error", error);
+                    request.setAttribute("nombreFuncionHaciaRegistro", nombreFuncionAAgregar);
+                    Map<String,Registro> registrosPrevios = ICE.obtenerRegistrosPreviosDeEspectador(user);
+                    request.setAttribute("registrosFunciones", registrosPrevios);
+                    view = request.getRequestDispatcher("/Pages/Funciones/registroAFuncion.jsp");
+                }else{
+                    ICE.actualizarEstadoDeRegistrosWEB(nombreFuncionAAgregar,nombreFuncion1,nombreFuncion2,nombreFuncion3,user);
+                    view = request.getRequestDispatcher("/funciones");
+                }
                 view.forward(request, response);
+                
     }
 
     /**

@@ -100,7 +100,7 @@
                                             <td id="nombreE" class="nombre"><%=value.getNombre()%></td>
                                             <td><%=value.getDescripcion()%></td>
                                             <td>
-                                                <div class="w-100">
+                                                <div class="w-25 m-auto">
                                                     <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=value.getUrl()%>">
                                                 </div>
                                             </td>
@@ -118,9 +118,26 @@
             
         </div>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Advertencia<i class="bi bi-exclamation-triangle"></i></h5>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Debes seleccionar tan solo <b>un</b> espectaculo haciendo click sobre la fila del mismo.</p>
+                </div>
+            </div>
 
+        </div>
+    </div>
     <script>
         $(document).ready( function () {
+            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+            myModal.show();
             $('#tablaEspec').DataTable({
                 searching: true,
                 ordering:  false
