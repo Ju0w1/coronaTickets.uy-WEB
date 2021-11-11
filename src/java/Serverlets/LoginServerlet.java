@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import DTOs.LoginDTO;
+import DTOs.UserDTO;
 import Logica.Clases.Usuario;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorUsuario;
@@ -13,12 +15,19 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -75,43 +84,68 @@ public class LoginServerlet extends HttpServlet {
             throws ServletException, IOException {
             String email = request.getParameter("user");
             String password = request.getParameter("password");
-            Map <String,Usuario> users = (Map <String,Usuario>) ICU.obtenerUsuarios();
-            Usuario clientUser = users.get(email);
+            //Map <String,Usuario> users = (Map <String,Usuario>) ICU.obtenerUsuarios();
+            //Usuario clientUser = users.get(email);
             HttpSession objSesion = request.getSession();
             
-            if(clientUser != null){
-                if (ICU.login(email, password)==true) {
-                    objSesion.setAttribute("nickname", clientUser.getNickname());
-                    objSesion.setAttribute("nombre", clientUser.getNombre());
-                    objSesion.setAttribute("apellido", clientUser.getApellido());
-                    objSesion.setAttribute("mail", clientUser.getEmail());
-                    objSesion.setAttribute("nacimiento", clientUser.getNacimiento());
-                    objSesion.setAttribute("imagen", clientUser.getImagen());
-
-                    String tipo = ICU.esEspectador(clientUser.getNickname());
-                    if(tipo.equals("error")){
-                        objSesion.setAttribute("tipo", "Error de usuario");
-                    }else{
-                        objSesion.setAttribute("tipo", tipo);
-                    }
-
-                    request.setAttribute("message", "Bienvenido");
-                    RequestDispatcher view = request.getRequestDispatcher("/home");
-                    view.forward(request, response);
-                } else {
+            LoginDTO login = new LoginDTO(email,password);
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/auth/login");
+            ServletContext context = getServletContext( );
+            try {
+                UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(login), UserDTO.class);
+                request.setAttribute("message", "Bienvenido");
+                objSesion.setAttribute("nickname", responseAPI.getNickname());
+                objSesion.setAttribute("nombre", responseAPI.getNombre());
+                objSesion.setAttribute("apellido", responseAPI.getApellido());
+                objSesion.setAttribute("mail", responseAPI.getEmail());
+                objSesion.setAttribute("nacimiento", responseAPI.getNacimiento());
+                objSesion.setAttribute("imagen", responseAPI.getUrl_imagen());
+                objSesion.setAttribute("tipo", responseAPI.getTipo());
+                
+                RequestDispatcher view = request.getRequestDispatcher("/home");
+                view.forward(request, response);
+            } catch (WebApplicationException e) {
+                if(e.getResponse().getStatus()==401){
                     request.setAttribute("error", "La contraseña y/o el Nickname ingresado no son válidos.");
-                    request.setAttribute("loginNickname", email);
-                    request.setAttribute("loginPassword", password);
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
                     view.forward(request, response);
                 }
-            }else{
-                request.setAttribute("error", "Revise las mayusculas y minusculas");
-                request.setAttribute("loginNickname", email);
-                request.setAttribute("loginPassword", password);
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
-                view.forward(request, response);
             }
+            
+//            if(clientUser != null){
+//                if (ICU.login(email, password)==true) {
+//                    objSesion.setAttribute("nickname", clientUser.getNickname());
+//                    objSesion.setAttribute("nombre", clientUser.getNombre());
+//                    objSesion.setAttribute("apellido", clientUser.getApellido());
+//                    objSesion.setAttribute("mail", clientUser.getEmail());
+//                    objSesion.setAttribute("nacimiento", clientUser.getNacimiento());
+//                    objSesion.setAttribute("imagen", clientUser.getImagen());
+//
+//                    String tipo = ICU.esEspectador(clientUser.getNickname());
+//                    if(tipo.equals("error")){
+//                        objSesion.setAttribute("tipo", "Error de usuario");
+//                    }else{
+//                        objSesion.setAttribute("tipo", tipo);
+//                    }
+//
+//                    request.setAttribute("message", "Bienvenido");
+//                    RequestDispatcher view = request.getRequestDispatcher("/home");
+//                    view.forward(request, response);
+//                } else {
+//                    request.setAttribute("error", "La contraseña y/o el Nickname ingresado no son válidos.");
+//                    request.setAttribute("loginNickname", email);
+//                    request.setAttribute("loginPassword", password);
+//                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+//                    view.forward(request, response);
+//                }
+//            }else{
+//                request.setAttribute("error", "Revise las mayusculas y minusculas");
+//                request.setAttribute("loginNickname", email);
+//                request.setAttribute("loginPassword", password);
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+//                view.forward(request, response);
+//            }
     }
 
     /**
