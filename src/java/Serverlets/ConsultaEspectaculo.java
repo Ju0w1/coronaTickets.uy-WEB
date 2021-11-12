@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import DTOs.ConsultaEspectaculoDTO;
+import DTOs.LoginDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -23,6 +25,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -85,40 +93,65 @@ public class ConsultaEspectaculo extends HttpServlet {
         context.log(espec);
         String[] datos = espec.split("@");
         context.log(datos[0]);
-        Map<String, Espectaculo> escp = (Map<String, Espectaculo>) ICE.getEspectaculos();
-        Espectaculo espcSeleccionado = escp.get(datos[0]);
-        Map<String, Categoria> categoriasMap = (Map<String, Categoria>) espcSeleccionado.getCategorias();
+
+
+        //ConsultaEspectaculoDTO consultaespec = new ConsultaEspectaculoDTO(espcSeleccionado.getNombre(), espcSeleccionado.getArtista(), espcSeleccionado.getDescripcion(), espcSeleccionado.getMin(), espcSeleccionado.getMax(), espcSeleccionado.getUrl(), espcSeleccionado.getCosto(), espcSeleccionado.getDuracion(), espcSeleccionado.getFecha(), espcSeleccionado.getCategorias(), espcSeleccionado.getUrlIamgen(), espcSeleccionado.getPlataforma(), espcSeleccionado.getEstado(), funcionesDeEspec, paquetes);
         
-        String artista = ICU.obtenerArtista(ICU.getIdUsuarioUsingIdArtista(Integer.parseInt(datos[1]))).getNickname();
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/auth/espectaculos");
 
-        Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(datos[0]);
-        Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaqueteDeEspectaculo(datos[0]);
-        request.setAttribute("funcionesDeEspec", funcionesDeEspec);
-        request.setAttribute("paquetes", paquetes);
+        try {
+            ConsultaEspectaculoDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(datos[0]), ConsultaEspectaculoDTO.class);
 
-        String nombre = datos[0];
-        request.setAttribute("nombre", nombre);
-        //String artista = datos[1];
-        request.setAttribute("artista", artista);
-        String descripcion = datos[2];
-        request.setAttribute("descripcion", descripcion);
-        String especmax = datos[3];
-        request.setAttribute("especmax", especmax);
-        String especmin = datos[4];
-        request.setAttribute("especmin", especmin);
-        String url = datos[5];
-        request.setAttribute("url", url);
-        String costo = datos[6];
-        request.setAttribute("costo", costo);
-        String duracion = datos[7];
-        request.setAttribute("duracion", duracion);
-        String fecha = datos[8];
-        request.setAttribute("fecha", fecha);
-        String urlImagen = datos[9];
-        request.setAttribute("urlImagen", urlImagen);
-        request.setAttribute("categorias", categoriasMap);
-        RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculo.jsp");
-        view.forward(request, response);
+            request.setAttribute("funcionesDeEspec", responseAPI.getFunciones());
+            request.setAttribute("paquetes", responseAPI.getPaquetes());
+            request.setAttribute("nombre", responseAPI.getNombre());
+            request.setAttribute("artista", responseAPI.getArtista());
+            request.setAttribute("descripcion", responseAPI.getDescripcion());
+            request.setAttribute("especmax", responseAPI.getMax());
+            request.setAttribute("especmin", responseAPI.getMin());
+            request.setAttribute("url", responseAPI.getUrl());
+            request.setAttribute("costo", responseAPI.getCosto());
+            request.setAttribute("duracion", responseAPI.getDuracion());
+            request.setAttribute("fecha", responseAPI.getFecha());
+            request.setAttribute("urlImagen", responseAPI.getUrlIamgen());
+            request.setAttribute("categorias", responseAPI.getCategorias());
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculo.jsp");
+            view.forward(request, response);
+        } catch (WebApplicationException e) {
+            if (e.getResponse().getStatus() == 401) {
+                request.setAttribute("error", "La contraseña y/o el Nickname ingresado no son válidos.");
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                view.forward(request, response);
+            }
+        }
+
+//        request.setAttribute("funcionesDeEspec", funcionesDeEspec);
+//        request.setAttribute("paquetes", paquetes);
+//
+//        String nombre = datos[0];
+//        request.setAttribute("nombre", nombre);
+//        //String artista = datos[1];
+//        request.setAttribute("artista", artista);
+//        String descripcion = datos[2];
+//        request.setAttribute("descripcion", descripcion);
+//        String especmax = datos[3];
+//        request.setAttribute("especmax", especmax);
+//        String especmin = datos[4];
+//        request.setAttribute("especmin", especmin);
+//        String url = datos[5];
+//        request.setAttribute("url", url);
+//        String costo = datos[6];
+//        request.setAttribute("costo", costo);
+//        String duracion = datos[7];
+//        request.setAttribute("duracion", duracion);
+//        String fecha = datos[8];
+//        request.setAttribute("fecha", fecha);
+//        String urlImagen = datos[9];
+//        request.setAttribute("urlImagen", urlImagen);
+//        request.setAttribute("categorias", categoriasMap);
+//        RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculo.jsp");
+//        view.forward(request, response);
     }
 
     /**
