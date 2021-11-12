@@ -89,9 +89,9 @@ public class LoginServerlet extends HttpServlet {
             HttpSession objSesion = request.getSession();
             
             LoginDTO login = new LoginDTO(email,password);
+            
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target("http://localhost:8080/rest/api/auth/login");
-            ServletContext context = getServletContext( );
             try {
                 UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(login), UserDTO.class);
                 request.setAttribute("message", "Bienvenido");
