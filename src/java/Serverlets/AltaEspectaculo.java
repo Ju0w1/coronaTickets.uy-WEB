@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import DTOs.AltaEspectaculoDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Paquete;
 import Logica.Clases.Plataforma;
@@ -21,6 +22,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -190,11 +198,37 @@ public class AltaEspectaculo extends HttpServlet {
         }
         
         if(error.equals("")){
+            AltaEspectaculoDTO espectaculo = new AltaEspectaculoDTO(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos/alta");
             try {
-                ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
-                request.setAttribute("success", "Agregado correctamente!");
-            } catch (Exception e) {
-                request.setAttribute("error", e);
+                Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(espectaculo));
+                if (respuesta.getStatus() == 200){
+                    request.setAttribute("success", "Agregado correctamente!");
+                }else{
+                    request.setAttribute("error", "Verifique sus datos, Puede que el nombre del espectáculo ingresado ya exista.");
+                    request.setAttribute("nombreEspec", request.getParameter("inputNombre"));
+                    request.setAttribute("descripcion", request.getParameter("inputDescripcion"));
+                    request.setAttribute("duracion", request.getParameter("inputDuracion"));
+                    request.setAttribute("espectadoresMinimos", request.getParameter("inputEspecMin"));
+                    request.setAttribute("espectadoresMaximos", request.getParameter("inputEspecMax"));
+                    request.setAttribute("url", request.getParameter("inputURL"));
+                    request.setAttribute("urlImagen", urlImagen);
+                    request.setAttribute("costo", request.getParameter("inputCosto"));
+                }
+                //ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
+            } catch (WebApplicationException e) {
+                if(e.getResponse().getStatus()==401){
+                    request.setAttribute("error", "Verifique sus datos, Puede que el nombre del espectáculo ingresado ya exista.");
+                    request.setAttribute("nombreEspec", request.getParameter("inputNombre"));
+                    request.setAttribute("descripcion", request.getParameter("inputDescripcion"));
+                    request.setAttribute("duracion", request.getParameter("inputDuracion"));
+                    request.setAttribute("espectadoresMinimos", request.getParameter("inputEspecMin"));
+                    request.setAttribute("espectadoresMaximos", request.getParameter("inputEspecMax"));
+                    request.setAttribute("url", request.getParameter("inputURL"));
+                    request.setAttribute("urlImagen", urlImagen);
+                    request.setAttribute("costo", request.getParameter("inputCosto"));
+                }
             }
         }else{
             request.setAttribute("error", error);
