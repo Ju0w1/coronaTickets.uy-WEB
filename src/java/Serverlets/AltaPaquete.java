@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import DTOs.AltaPaqueteDTO;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorPaquete;
 import java.io.IOException;
@@ -19,6 +20,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -91,19 +99,48 @@ public class AltaPaquete extends HttpServlet {
         //(String nombre,String fechaInicio, String fechaFin,String fechaCreado,int descuento,String descripcion)
         String error = "";
         int contador_errores = 0;
-        if (ICP.isNombrePaqueteUsado(nombre) == true) {
-            error += "El nombre del paquete ya existe.";
-            contador_errores++;
-        }
+//        if (ICP.isNombrePaqueteUsado(nombre) == true) {
+//            error += "El nombre del paquete ya existe.";
+//            contador_errores++;
+//        }
+//        ICP.altaPaquete(nombre, fechaInicio, fechaFin, fechaCreado, descuento, descripcion, urlImagen);
+//        request.setAttribute("success", "Agregado correctamente!");
         if (error.equals("")) {
+
+            AltaPaqueteDTO paquete = new AltaPaqueteDTO(nombre, fechaInicio, fechaFin, fechaCreado, descuento, descripcion, urlImagen);
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/alta");
             try {
-                ICP.altaPaquete(nombre, fechaInicio, fechaFin, fechaCreado, descuento, descripcion, urlImagen);
-                request.setAttribute("success", "Agregado correctamente!");
+                Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(paquete));
+                if (respuesta.getStatus() == 200){
+                    request.setAttribute("success", "Agregado correctamente!");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/altaPaquete.jsp");
+                    view.forward(request, response);
+                }else{
+                    request.setAttribute("error", "Verifique sus datos, Puede que el nombre del paquete ingresado ya exista.");
+                    request.setAttribute("rNombre", request.getParameter("inputNombre"));
+                    request.setAttribute("rDescripcion", request.getParameter("inputDescripcion"));
+                    request.setAttribute("rFechaInicio", request.getParameter("inputFechaInicio"));
+                    request.setAttribute("rFechaFin", request.getParameter("inputFechaFin"));
+                    request.setAttribute("rDescuento", request.getParameter("inputDescuento"));
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/altaPaquete.jsp");
+                    view.forward(request, response);
+                }
+                    //ICE.altaEspectaculo(plataforma, user, nombre, descripcion, duracion, especMin, especMax, url, costo, "i", urlImagen, categorias);
+            } catch (WebApplicationException e) {
+                request.setAttribute("error", "Verifique sus datos, Puede que el nombre del paquete ingresado ya exista.");
+                request.setAttribute("rNombre", request.getParameter("inputNombre"));
+                request.setAttribute("rDescripcion", request.getParameter("inputDescripcion"));
+                request.setAttribute("rFechaInicio", request.getParameter("inputFechaInicio"));
+                request.setAttribute("rFechaFin", request.getParameter("inputFechaFin"));
+                request.setAttribute("rDescuento", request.getParameter("inputDescuento"));
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/altaPaquete.jsp");
                 view.forward(request, response);
-            } catch (Exception e) {
-                request.setAttribute("error", e);
             }
+               
+                
+                
+
         } else {
             request.setAttribute("error", error);
             request.setAttribute("rNombre", request.getParameter("inputNombre"));
