@@ -111,42 +111,47 @@ public class RegistroServerlet extends HttpServlet {
             request.setAttribute("error", "Revisa tus datos!");
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registro.jsp");
             view.forward(request, response);
-        }else if(accion.equals("espectador")){//Presionó el botón de registrarse como espectador
-            RegistroDTO userARegistrar = new RegistroDTO(nickname, nombre, apellido, password1, fechaNacimiento, email, imagen);
-            Client client = ClientBuilder.newClient();
-            WebTarget target = client.target("http://localhost:8080/rest/api/auth/registroEspectador");
-            try {
-                UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userARegistrar), UserDTO.class);
-                objSesion.setAttribute("nickname", responseAPI.getNickname());
-                objSesion.setAttribute("nombre", responseAPI.getNombre());
-                objSesion.setAttribute("apellido", responseAPI.getApellido());
-                objSesion.setAttribute("mail", responseAPI.getEmail());
-                objSesion.setAttribute("nacimiento", responseAPI.getNacimiento());
-                objSesion.setAttribute("imagen", responseAPI.getUrl_imagen());
-                objSesion.setAttribute("tipo", "espectador");
+        }else{
+            if(accion.equals("espectador")){//Presionó el botón de registrarse como espectador
+                RegistroDTO userARegistrar = new RegistroDTO(nickname, nombre, apellido, password1, fechaNacimiento, email, imagen);
+                Client client = ClientBuilder.newClient();
+                WebTarget target = client.target("http://localhost:8080/rest/api/auth/registroEspectador");
+                try {
+                    UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userARegistrar), UserDTO.class);
+                    objSesion.setAttribute("nickname", responseAPI.getNickname());
+                    objSesion.setAttribute("nombre", responseAPI.getNombre());
+                    objSesion.setAttribute("apellido", responseAPI.getApellido());
+                    objSesion.setAttribute("mail", responseAPI.getEmail());
+                    objSesion.setAttribute("nacimiento", responseAPI.getNacimiento());
+                    objSesion.setAttribute("imagen", responseAPI.getUrl_imagen());
+                    objSesion.setAttribute("tipo", "espectador");
 
-                request.setAttribute("message", "Registrado con éxito, Bienvenido");
-                RequestDispatcher view = request.getRequestDispatcher("/home");
-                //response.sendRedirect("/Pages/Home.jsp");
-                view.forward(request, response);
-            } catch (WebApplicationException e) {
-                if(e.getResponse().getStatus()==401){
-                    request.setAttribute("error", "El usuario ya existe o no se pudo registrar por otro motivo");
-                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                    request.setAttribute("message", "Registrado con éxito, Bienvenido");
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    //response.sendRedirect("/Pages/Home.jsp");
                     view.forward(request, response);
+                } catch (WebApplicationException e) {
+                    if(e.getResponse().getStatus()==401){
+                        request.setAttribute("error", "El usuario ya existe o no se pudo registrar por otro motivo");
+                        RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/login.jsp");
+                        view.forward(request, response);
+                    }
                 }
+            }else if(accion.equals("artista")){//Presionó el botón de registrarse como artista
+                objSesion.setAttribute("nickname", nickname);
+                request.setAttribute("error", "error");
+                request.setAttribute("rnick", nickname);
+                request.setAttribute("rpass1", password1);
+                request.setAttribute("rpass2", password2);
+                request.setAttribute("remail", email);
+                request.setAttribute("rnombre", nombre);
+                request.setAttribute("rapellido", apellido);
+                request.setAttribute("rdate", nacimiento);
+                request.setAttribute("rimagen", imagen);
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registroArtista.jsp");
+                view.forward(request, response);
             }
-        }else if(accion.equals("artista")){//Presionó el botón de registrarse como artista
-            request.setAttribute("error", "error");
-            request.setAttribute("rnick", nickname);
-            request.setAttribute("rpass1", password1);
-            request.setAttribute("rpass2", password2);
-            request.setAttribute("remail", email);
-            request.setAttribute("rnombre", nombre);
-            request.setAttribute("rapellido", apellido);
-            request.setAttribute("rdate", nacimiento);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Login/registroArtista.jsp");
-            view.forward(request, response);
+        
         }
         
                 ///////////////////////////////////////////////////////////////

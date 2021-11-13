@@ -40,7 +40,14 @@ public class RegistroDTO implements Serializable{
         this.imagen = imagen;
     }
     
-    public RegistroDTO(String nickname, String nombre, String apellido, String pass,Date fecha, String email, String imagen) {
+    public RegistroDTO(String biografia, String descripcion, String link, String nickname) {
+        this.nickname = nickname;
+        this.biografia = biografia;
+        this.descripcion = descripcion;
+        this.link = link;
+    }
+
+    public RegistroDTO(String nickname, String nombre, String apellido, String pass, Date fecha, String email, String imagen) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;

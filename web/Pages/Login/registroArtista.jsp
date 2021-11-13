@@ -30,12 +30,26 @@
     </head>
     <%
         HttpSession objSesion = request.getSession();
+        String rnick = (String) request.getAttribute("rnick");
+        String rpass1 = (String) request.getAttribute("rpass1");
+        String remail = (String) request.getAttribute("remail");
+        String rnombre = (String) request.getAttribute("rnombre");
+        String rapellido = (String) request.getAttribute("rapellido");
+        String rdate = (String) request.getAttribute("rdate");
+        String rimagen = (String) request.getAttribute("rimagen");
     %>
-
+    
     <body>
         <div class="d-flex justify-content-md-center align-items-center vh-100">
 
             <form name="registroArtista" method="POST" action="/CoronaTickets-Web/registroartista" class="needs-validation" novalidate>
+                <input type="hidden" name="rnick" value="<%=rnick%>" />
+                <input type="hidden" name="rpass1" value="<%=rpass1%>" />
+                <input type="hidden" name="remail" value="<%=remail%>" />
+                <input type="hidden" name="rnombre" value="<%=rnombre%>" />
+                <input type="hidden" name="rapellido" value="<%=rapellido%>" />
+                <input type="hidden" name="rdate" value="<%=rdate%>" />
+                <input type="hidden" name="rimagen" value="<%=rimagen%>" />
                 <div class="form-register d-flex justify-content-md-center align-items-center">
                     <h1 class="mb-5">REGISTRAR USUARIO</h1>
                 </div>
