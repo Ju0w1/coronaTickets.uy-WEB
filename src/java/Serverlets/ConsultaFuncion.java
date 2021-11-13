@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import DTOs.UserDTO;
 import Logica.Clases.Funcion;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
@@ -19,6 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -76,11 +83,31 @@ public class ConsultaFuncion extends HttpServlet {
         funcionName = request.getParameter("data2");
         HttpSession objSesion = request.getSession();
         System.out.println("Funcion::: " + funcionName);
-        Funcion funcion;
-        funcion = ICF.obtenerFuncion(funcionName);
-        request.setAttribute("funcion", funcion);
+        /*Funcion funcion;
+        funcion = ICF.obtenerFuncion(funcionName);*/
+        ////
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/funciones/consulta?funcion="+funcionName);
+        try {
+                FuncionDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(FuncionDTO.class);
+                request.setAttribute("funcion", responseAPI);
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
+                view.forward(request, response);
+                //objSesion.setAttribute("tipo", responseAPI.getTipo());
+                
+                //RequestDispatcher view = request.getRequestDispatcher("/home");
+                //view.forward(request, response);
+            } catch (WebApplicationException e) {
+                if(e.getResponse().getStatus()==401){
+                    request.setAttribute("error", "La funcion ingresada no existe.");
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
+                }
+            }
+        ////
+        /*request.setAttribute("funcion", funcion);
         RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
-        view.forward(request, response);
+        view.forward(request, response);*/
     }
 
     /**
