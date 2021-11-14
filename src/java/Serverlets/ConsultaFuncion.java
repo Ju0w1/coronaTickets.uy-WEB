@@ -5,6 +5,9 @@
  */
 package Serverlets;
 
+import DTOs.ArtistasDeFuncionDTO;
+import DTOs.FuncionConArtistasDTO;
+import DTOs.FuncionDTO;
 import DTOs.UserDTO;
 import Logica.Clases.Funcion;
 import Logica.Fabrica;
@@ -86,17 +89,22 @@ public class ConsultaFuncion extends HttpServlet {
         /*Funcion funcion;
         funcion = ICF.obtenerFuncion(funcionName);*/
         ////
+        String nuevaFuncionConREGEX = funcionName.replaceAll(" ", "%20");
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://localhost:8080/rest/api/funciones/consulta?funcion="+funcionName);
+        WebTarget target = client.target("http://localhost:8080/rest/api/funciones/consulta?funcion="+nuevaFuncionConREGEX);
         try {
-                FuncionDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(FuncionDTO.class);
-                request.setAttribute("funcion", responseAPI);
+                FuncionDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(FuncionDTO.class);
+                
+                Client client2 = ClientBuilder.newClient();
+                WebTarget target2 = client2.target("http://localhost:8080/rest/api/funciones/artistasDeFuncion?funcion="+nuevaFuncionConREGEX);
+                
+                ArtistasDeFuncionDTO responseAPI2 = target2.request(MediaType.APPLICATION_JSON).get(ArtistasDeFuncionDTO.class);
+                FuncionConArtistasDTO funcion = new FuncionConArtistasDTO(responseAPI,responseAPI2);
+                request.setAttribute("funcion", funcion);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
                 view.forward(request, response);
-                //objSesion.setAttribute("tipo", responseAPI.getTipo());
+
                 
-                //RequestDispatcher view = request.getRequestDispatcher("/home");
-                //view.forward(request, response);
             } catch (WebApplicationException e) {
                 if(e.getResponse().getStatus()==401){
                     request.setAttribute("error", "La funcion ingresada no existe.");

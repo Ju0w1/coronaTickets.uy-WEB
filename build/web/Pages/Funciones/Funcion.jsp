@@ -4,6 +4,10 @@
     Author     : milto
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="DTOs.ArtistasDeFuncionDTO"%>
+<%@page import="DTOs.FuncionDTO"%>
+<%@page import="DTOs.FuncionConArtistasDTO"%>
 <%@page import="Logica.Clases.Artista"%>
 <%@page import="java.util.Map"%>
 <%@page import="Logica.Clases.Funcion"%>
@@ -39,7 +43,9 @@
             <%@include file="/Pages/Common/HeaderSearch.jsp" %>
         <%}
         System.err.println("HOLAHOLAHOLAHOLAHOLAHOLAHOLA");
-        Funcion funcion = (Funcion) request.getAttribute("funcion");
+        FuncionConArtistasDTO funcionConArt = (FuncionConArtistasDTO) request.getAttribute("funcion");
+        FuncionDTO funcion = funcionConArt.getFuncion();
+        ArtistasDeFuncionDTO artistas = funcionConArt.getArtistas();
         
     %>
     <script>
@@ -86,7 +92,7 @@
                       <!-- ESPECTACULO -->
                       <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                         <h6 class="mb-0"> Espectaculo</h6>
-                        <span class="text-secondary"><%=funcion.getEspectaculo().getNombre() %> </span>
+                        <span class="text-secondary"><%=funcion.getNombreEspectaculo()%> </span>
                       </li>
                       <!-- Artistas -->
                       <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -97,18 +103,11 @@
                               </svg>
                             Artistas Invitados</h6>
                             <%
-                                String artistass = "";
-                                Map<String,Artista> artistas = funcion.getArtistas();
-                                int tamanio = artistas.size();
-                                int indice=0;
-                                for (Map.Entry<String, Artista> entry : artistas.entrySet()) {
-                                    indice++;
-                                    String key = entry.getKey();
-                                    artistass += key;
-                                    if (indice != tamanio){
-                                        artistass+=", ";
-                                    }
+                                String artistass= ""; 
+                                for (String artista : artistas.getArtistas()) {
+                                    artistass += artista+" | ";    
                                 }
+                                
                             %>
                             <span class="text-secondary">
                             <%=artistass%>
@@ -133,7 +132,7 @@
             </div>
             <div class="col-6 d-flex justify-content-md-center align-items-center">
                 <div class="w-100 d-flex justify-content-md-center align-items-center">
-                    <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=funcion.getUrlIamgen()%>">
+                    <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=funcion.getUrlImagen()%>">
                 </div>
             </div>
           </div>
