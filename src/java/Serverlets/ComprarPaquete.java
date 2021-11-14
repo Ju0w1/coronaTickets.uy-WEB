@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import DTOs.CompraPaqueteDTO;
+import DTOs.UserDTO;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
 import Logica.Interfaz.IControladorPaquete;
@@ -17,6 +19,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -26,9 +34,9 @@ import javax.servlet.http.HttpSession;
 public class ComprarPaquete extends HttpServlet {
 
     
-    Fabrica fabrica = Fabrica.getInstance();
+    /*Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-    IControladorPaquete ICP = fabrica.getIControladorPaquete();
+    IControladorPaquete ICP = fabrica.getIControladorPaquete();*/
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,10 +93,27 @@ public class ComprarPaquete extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
         String nickUsuario= (String) objSesion.getAttribute("nickname");
-        ICP.compraPaquete(nickUsuario, nombrePaquete);
+        //
+        CompraPaqueteDTO compra= new CompraPaqueteDTO(nickUsuario, nombrePaquete);
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/compra");
+        try {
+                String responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(compra), String.class);
+                //request.setAttribute("message", "Bienvenido");
+                RequestDispatcher view = request.getRequestDispatcher("/home");
+                view.forward(request, response);
+            } catch (WebApplicationException e) {
+                if(e.getResponse().getStatus()==401){
+                    request.setAttribute("error", "El paquete no pudo ser comprado.");
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
+                }
+            }
+        //
+        //ICP.compraPaquete(nickUsuario, nombrePaquete);
         
-        RequestDispatcher view = request.getRequestDispatcher("/home");
-        view.forward(request, response);
+        //RequestDispatcher view = request.getRequestDispatcher("/home");
+        //view.forward(request, response);
     }
 
     /**
