@@ -46,10 +46,7 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
 
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,14 +61,23 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String nombreEspectaculo = request.getParameter("espectaculoGET");
+         ServletContext context = getServletContext( );
+        String nombreEspectaculo = request.getParameter("espectaculoGET");
+        if(nombreEspectaculo.equals("")){
+            request.setAttribute("espec", null);
+            response.sendRedirect("http://localhost:8080/CoronaTickets-Web/ConsultaEspectaculosDePaquete");
+            
+        }else{
                 Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
-                ServletContext context = getServletContext( );
+               
                 context.log(espec.getNombre());
                 request.setAttribute("espec", espec);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
                 view.forward(request, response);
-        //processRequest(request, response);
+            
+        }
+                
+        //
     }
 
     /**
@@ -100,7 +106,8 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
                     view.forward(request, response);
                 }catch(WebApplicationException e){
-
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
                 }    
                 
 //                Map<String, Espectaculo> espectaculosDePaquete = (Map<String, Espectaculo>) ICE.obtenerMapEspectaculosDePaquete(nombrePaquete);

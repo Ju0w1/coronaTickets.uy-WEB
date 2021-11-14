@@ -157,7 +157,7 @@
                          }
 
                     });
-                    alert("Canjeado correctamente")
+                    alert("Canjeado correctamente");
                 }
              });//fin (btnSeleccionados)
              // alert(myTable.rows('.selected').data().length+' row(s) selected' );
