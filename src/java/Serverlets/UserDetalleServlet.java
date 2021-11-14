@@ -5,6 +5,9 @@
  */
 package Serverlets;
 
+import DTOs.FuncionesDeUserDTO;
+import DTOs.ListFuncionesDeUserDTO;
+import DTOs.ListPaquetesDeUserDTO;
 import DTOs.UserDTO;
 import Logica.Fabrica;
 import Logica.Clases.Artista;
@@ -25,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -142,16 +146,20 @@ public class UserDetalleServlet extends HttpServlet {
         
         if (responseAPI.getTipo().equals("espectador")){
             System.out.println("NO ES ARTISTA");
-            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+            UserDTO espect = responseAPI;
             System.out.println("ES ESPECTADOR");
             request.setAttribute("Espectador", espect);
-
-            Map<String, Funcion> funciones = ICE.getRegistroDeFuncionesDeUsuarioPorNick(nick);
-            int idEspectador = ICU.getIdEspectadorPorNick(nick);
-            Map<String, Paquete> paquetesRegistrado = ICP.getPaquetesQueComproUsuario(idEspectador);
-            request.setAttribute("paquetes", paquetesRegistrado);
             
-            request.setAttribute("Funciones", funciones);
+            target = client.target("http://localhost:8080/rest/api/usuarios/mapsUser");
+            UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            
+            ListFuncionesDeUserDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListFuncionesDeUserDTO.class);
+            request.setAttribute("Funciones", responseAPI2);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/paquetesUser");
+            //user2.setTipo("asdasd"); //SOLO PARA DIFERENCIAR un 'user2' del otro porque los eenvio al mismo /mapsUser de la API
+            ListPaquetesDeUserDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListPaquetesDeUserDTO.class);
+            request.setAttribute("paquetes", responseAPI3);
 
             if(objSesion.getAttribute("nickname")==null){
                 request.setAttribute("login", false);

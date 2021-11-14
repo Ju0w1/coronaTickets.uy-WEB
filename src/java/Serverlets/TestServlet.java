@@ -5,6 +5,9 @@
  */
 package Serverlets;
 
+import DTOs.ListFuncionesDeUserDTO;
+import DTOs.ListPaquetesDeUserDTO;
+import DTOs.UserDTO;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -24,6 +27,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -82,6 +90,8 @@ public class TestServlet extends HttpServlet {
         
             System.out.println("USERRRRRRRRRRRRRRRRR" + nick);
         HttpSession objSesion = request.getSession();
+        
+        //############################################################################################################################################################# CAMBIAR A LA API Y QUEDA LISTO
         if(request.getParameter("user")!=null){
             System.out.println("DEJAR DE SEGUIRRRRRRR");
            ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
@@ -90,19 +100,31 @@ public class TestServlet extends HttpServlet {
             System.out.println("SEGUIRRRRRRR");
            ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
         }
+        //#############################################################################################################################################################
         
-        if (ICU.obtenerArtistaPorNick(nick)==null){
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/loadUser");
+        UserDTO user = new UserDTO(nick);
+        UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), UserDTO.class);
+        
+        
+        
+        if (responseAPI.getTipo().equals("espectador")){
             System.out.println("NO ES ARTISTA");
-            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
+            UserDTO espect = responseAPI;
             System.out.println("ES ESPECTADOR");
             request.setAttribute("Espectador", espect);
-            //IControladorFuncion ICF=fabrica.getIControladorFuncion();
-            Map<String, Funcion> funciones = ICE.getRegistroDeFuncionesDeUsuarioPorNick(nick);
-            int idEspectador = ICU.getIdEspectadorPorNick(nick);
-            Map<String, Paquete> paquetesRegistrado = ICP.getPaquetesQueComproUsuario(idEspectador);
-            request.setAttribute("paquetes", paquetesRegistrado);
             
-            request.setAttribute("Funciones", funciones);
+            target = client.target("http://localhost:8080/rest/api/usuarios/mapsUser");
+            UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            
+            ListFuncionesDeUserDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListFuncionesDeUserDTO.class);
+            request.setAttribute("Funciones", responseAPI2);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/paquetesUser");
+            //user2.setTipo("asdasd"); //SOLO PARA DIFERENCIAR un 'user2' del otro porque los eenvio al mismo /mapsUser de la API
+            ListPaquetesDeUserDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListPaquetesDeUserDTO.class);
+            request.setAttribute("paquetes", responseAPI3);
 
             if(objSesion.getAttribute("nickname")==null){
                 request.setAttribute("login", false);
@@ -137,7 +159,8 @@ public class TestServlet extends HttpServlet {
                     view.forward(request, response);
             } else {
                 if(objSesion.getAttribute("nickname").toString().equals(nick)){
-                    System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                    System.out.println("AHHH");
+                    System.out.println("SITIO: " + art.getLinkWeb());
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
                     view.forward(request, response);
                 } else {
