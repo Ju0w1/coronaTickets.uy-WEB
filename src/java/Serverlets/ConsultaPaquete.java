@@ -5,6 +5,10 @@
  */
 package Serverlets;
 
+import DTOs.ArtistasDeFuncionDTO;
+import DTOs.ConsultaPaqueteDTO;
+import DTOs.FuncionConArtistasDTO;
+import DTOs.FuncionDTO;
 import Logica.Clases.Paquete;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
@@ -19,6 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -43,7 +52,6 @@ public class ConsultaPaquete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
     }
 
@@ -78,22 +86,43 @@ public class ConsultaPaquete extends HttpServlet {
             ServletContext context = getServletContext( );
             context.log(paquete);
             String[] datos = paquete.split("@");
-            String nombre = datos[0];           request.setAttribute("nombre", nombre);
-            String descripcion = datos[1];      request.setAttribute("descripcion", descripcion);
-            String fechaInicio = datos[2];      request.setAttribute("fechaIni", fechaInicio);
-            String fechaFin = datos[3];         request.setAttribute("fechaFin", fechaFin);
-            String descuento = datos[4];        request.setAttribute("descuento", descuento);
-            String costo = datos[5];            request.setAttribute("costo", costo);
-            String imagen = datos[6];           request.setAttribute("imagen", imagen);
+            String nombre = datos[0];           
+            
             HttpSession objSesion = request.getSession();
             String nickUsuario= (String) objSesion.getAttribute("nickname");
             int id= ICP.getIdUsuario(nickUsuario);
             Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
             request.setAttribute("paquetes2", paquetes);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/consultaPaquete.jsp");
-            view.forward(request, response);
+            
+            
+            String nuevaFuncionConREGEX = nombre.replaceAll(" ", "%20");
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/consultaPaq?paquete="+nuevaFuncionConREGEX);
+            
+            try {
+                ConsultaPaqueteDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(ConsultaPaqueteDTO.class);
 
-        
+                request.setAttribute("nombre", responseAPI.getNombre());
+                request.setAttribute("descripcion", responseAPI.getDescripcion());
+                request.setAttribute("fechaIni", responseAPI.getFechaInicio());
+                request.setAttribute("fechaFin", responseAPI.getFechaFin());
+                request.setAttribute("descuento", responseAPI.getDescuento());
+
+                request.setAttribute("imagen", responseAPI.getImagen());
+                
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/consultaPaquete.jsp");
+                view.forward(request, response);
+
+
+            } catch (WebApplicationException e) {
+                context.log(String.valueOf(e.getResponse().getStatus()));
+                if(e.getResponse().getStatus()==401){
+                    request.setAttribute("error", "El paquete no existe");
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
+                }
+            }
+
         
     }
 

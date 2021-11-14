@@ -93,25 +93,25 @@ public class ConsultaFuncion extends HttpServlet {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/funciones/consulta?funcion="+nuevaFuncionConREGEX);
         try {
-                FuncionDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(FuncionDTO.class);
-                
-                Client client2 = ClientBuilder.newClient();
-                WebTarget target2 = client2.target("http://localhost:8080/rest/api/funciones/artistasDeFuncion?funcion="+nuevaFuncionConREGEX);
-                
-                ArtistasDeFuncionDTO responseAPI2 = target2.request(MediaType.APPLICATION_JSON).get(ArtistasDeFuncionDTO.class);
-                FuncionConArtistasDTO funcion = new FuncionConArtistasDTO(responseAPI,responseAPI2);
-                request.setAttribute("funcion", funcion);
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
-                view.forward(request, response);
+            FuncionDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(FuncionDTO.class);
 
-                
-            } catch (WebApplicationException e) {
-                if(e.getResponse().getStatus()==401){
-                    request.setAttribute("error", "La funcion ingresada no existe.");
-                    RequestDispatcher view = request.getRequestDispatcher("/home");
-                    view.forward(request, response);
-                }
+            Client client2 = ClientBuilder.newClient();
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/funciones/artistasDeFuncion?funcion="+nuevaFuncionConREGEX);
+
+            ArtistasDeFuncionDTO responseAPI2 = target2.request(MediaType.APPLICATION_JSON).get(ArtistasDeFuncionDTO.class);
+            FuncionConArtistasDTO funcion = new FuncionConArtistasDTO(responseAPI,responseAPI2);
+            request.setAttribute("funcion", funcion);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
+            view.forward(request, response);
+
+
+        } catch (WebApplicationException e) {
+            if(e.getResponse().getStatus()==401){
+                request.setAttribute("error", "La funcion ingresada no existe.");
+                RequestDispatcher view = request.getRequestDispatcher("/home");
+                view.forward(request, response);
             }
+        }
         ////
         /*request.setAttribute("funcion", funcion);
         RequestDispatcher view = request.getRequestDispatcher("/Pages/Funciones/Funcion.jsp");
