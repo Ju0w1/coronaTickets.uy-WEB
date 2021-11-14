@@ -22,7 +22,11 @@ public class UserDTO implements Serializable {
     private int seguidores;
     private int seguidos;
     private String tipo;
-
+    private String bio;
+    private String desc;
+    private String link;
+    
+    
     public UserDTO(){
         
     }
@@ -34,7 +38,33 @@ public class UserDTO implements Serializable {
         this.email = email;
         this.nacimiento = nacimiento;
     }
+    public UserDTO(String nickname, String nombre, String apellido, String email, Date nacimiento, String imagen) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nacimiento = nacimiento;
+        this.url_imagen = imagen;
+    }
     
+    public UserDTO(String nickname, String nombre, String apellido, String email, Date nacimiento, String imagen, String descripcion, String biografia, String url) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nacimiento = nacimiento;
+        this.url_imagen = imagen;
+        this.desc = descripcion;
+        this.bio = biografia;
+        this.link = url;
+    }
+    public UserDTO(String nick){
+        this.nickname = nick;
+    }
+    public UserDTO(String nick, String imagen){
+        this.nickname = nick;
+        this.url_imagen = imagen;
+    }
     
     
     //GETTERS
@@ -64,6 +94,18 @@ public class UserDTO implements Serializable {
     }
     public String getTipo() {
         return tipo;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getLink() {
+        return link;
     }
     
     
@@ -95,4 +137,17 @@ public class UserDTO implements Serializable {
     public void setSeguidos(int seguidos) {
         this.seguidos = seguidos;
     }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+    
 }

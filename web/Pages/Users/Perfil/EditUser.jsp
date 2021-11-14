@@ -4,6 +4,7 @@
     Author     : milto
 --%>
 
+<%@page import="java.util.Date"%>
 <%@page import="Logica.Clases.Artista"%>
 <%@page import="Logica.Clases.Paquete"%>
 <%@page import="Logica.DataTypes.DTFecha"%>
@@ -88,12 +89,20 @@
                                 <div class="col-md-6"><label>Apellido</label><input type="text" class="form-control" name="apellido" value="<%=apellido%>" placeholder="Apellido"></div>
                             </div>
                             <div class="row mt-2">
+                                <% 
+                                //    String nacimientoFecha = nacimiento.getAnio()+ "-" +nacimiento.getMes() + "-" + nacimiento.getDia();
+                                //   Date date=Date.valueOf(nacimientoFecha);
+                                //    String[] datos = nacimientoFecha.split("-");
+                                //    Date date2=Date.valueOf(datos[2]+ "-" + datos[1] + "-" + datos[0]);
+                                //    
+                                //    Date fechaDate = (nacimiento.getAnio()+ "/" +nacimiento.getMes() + "/" + nacimiento.getDia());
+                                %>
                                 <div class="col-md-6"><label>Fecha de nacimiento</label><input type="text" class="form-control" placeholder="dd/mm/aaaa" name="fecha" value="<%=nacimiento.getDia()%>/<%=nacimiento.getMes()%>/<%=nacimiento.getAnio()%>"></div>                                
                                 <%
                                     if (request.getAttribute("espectador") == null) {%>
                                 <div class="col-md-6"><label>Sitio Web</label><input type="text" class="form-control" placeholder="https://example.com" name="sitio" value="<%=sitio%>"></div>
                                 <%
-                                    } 
+                                    }
                                 %>
                             </div>
                             <div class="row mt-3">
