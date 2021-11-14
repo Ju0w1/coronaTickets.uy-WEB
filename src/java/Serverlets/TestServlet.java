@@ -5,6 +5,9 @@
  */
 package Serverlets;
 
+import DTOs.DejarDeSeguirUsuarioDTO;
+import DTOs.FuncionDTO;
+import DTOs.SeguirUsuarioDTO;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -24,6 +27,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -80,15 +90,29 @@ public class TestServlet extends HttpServlet {
             throws ServletException, IOException {
         String nick = request.getParameter("data");
         
-            System.out.println("USERRRRRRRRRRRRRRRRR" + nick);
+
         HttpSession objSesion = request.getSession();
         if(request.getParameter("user")!=null){
-            System.out.println("DEJAR DE SEGUIRRRRRRR");
-           ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/dejar");
+            try {
+                DejarDeSeguirUsuarioDTO dejar = new DejarDeSeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
+                Response responseAPI = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dejar));
+            }catch(WebApplicationException e){
+                System.err.println(e);
+            }
+            //ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
         }
         if(request.getParameter("user2")!=null){
-            System.out.println("SEGUIRRRRRRR");
-           ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
+            Client client2 = ClientBuilder.newClient();
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/usuarios/seguir");
+            try {
+                SeguirUsuarioDTO seguir = new SeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
+                Response responseAPI = target2.request(MediaType.APPLICATION_JSON).post(Entity.json(seguir));
+            }catch(WebApplicationException e){
+                System.err.println(e);
+            }
+            //ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
         }
         
         if (ICU.obtenerArtistaPorNick(nick)==null){
