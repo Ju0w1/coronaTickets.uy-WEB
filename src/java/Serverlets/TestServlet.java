@@ -5,12 +5,15 @@
  */
 package Serverlets;
 
+import DTOs.BooleanDTO;
 import DTOs.DejarDeSeguirUsuarioDTO;
 import DTOs.FuncionDTO;
 import DTOs.SeguirUsuarioDTO;
 import DTOs.ListFuncionesDeUserDTO;
 import DTOs.ListPaquetesDeUserDTO;
+import DTOs.ListUserEspectDTO;
 import DTOs.UserDTO;
+import DTOs.followDTO;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -93,32 +96,40 @@ public class TestServlet extends HttpServlet {
             throws ServletException, IOException {
         String nick = request.getParameter("data");
         
-
+            System.out.println("USERRRRRRRRRRRRRRRRR" + nick);
         HttpSession objSesion = request.getSession();
         
         //############################################################################################################################################################# CAMBIAR A LA API Y QUEDA LISTO
         if(request.getParameter("user")!=null){
-            Client client = ClientBuilder.newClient();
-            WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/dejar");
-            try {
-                DejarDeSeguirUsuarioDTO dejar = new DejarDeSeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
-                Response responseAPI = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dejar));
-            }catch(WebApplicationException e){
-                System.err.println(e);
-            }
-            //ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
+            System.out.println("DEJAR DE SEGUIRRRRRRR");
+           ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
         }
         if(request.getParameter("user2")!=null){
-            Client client2 = ClientBuilder.newClient();
-            WebTarget target2 = client2.target("http://localhost:8080/rest/api/usuarios/seguir");
-            try {
-                SeguirUsuarioDTO seguir = new SeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
-                Response responseAPI = target2.request(MediaType.APPLICATION_JSON).post(Entity.json(seguir));
-            }catch(WebApplicationException e){
-                System.err.println(e);
-            }
-            //ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
+            System.out.println("SEGUIRRRRRRR");
+           ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
         }
+//        if(request.getParameter("user")!=null){
+//            Client client = ClientBuilder.newClient();
+//            WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/dejar");
+//            try {
+//                DejarDeSeguirUsuarioDTO dejar = new DejarDeSeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
+//                Response responseAPI = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dejar));
+//            }catch(WebApplicationException e){
+//                System.err.println(e);
+//            }
+//            //ICU.dejarDeSeguirUsuario(request.getParameter("yo"),request.getParameter("user"));
+//        }
+//        if(request.getParameter("user2")!=null){
+//            Client client2 = ClientBuilder.newClient();
+//            WebTarget target2 = client2.target("http://localhost:8080/rest/api/usuarios/seguir");
+//            try {
+//                SeguirUsuarioDTO seguir = new SeguirUsuarioDTO(request.getParameter("user"),request.getParameter("yo"));
+//                Response responseAPI = target2.request(MediaType.APPLICATION_JSON).post(Entity.json(seguir));
+//            }catch(WebApplicationException e){
+//                System.err.println(e);
+//            }
+//            //ICU.seguirUsuario(request.getParameter("yo2"),request.getParameter("user2"));
+//        }
         //#############################################################################################################################################################
         
         Client client = ClientBuilder.newClient();
@@ -126,7 +137,14 @@ public class TestServlet extends HttpServlet {
         UserDTO user = new UserDTO(nick);
         UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), UserDTO.class);
         
-        
+        target = client.target("http://localhost:8080/rest/api/usuarios/Losigo");
+        followDTO siguiendo = new followDTO(objSesion.getAttribute("nickname").toString(), nick);
+        BooleanDTO responseAPIX = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(siguiendo), BooleanDTO.class);
+        if(responseAPIX.getDato()==true){
+            request.setAttribute("losigo", true);
+        } else {
+            request.setAttribute("losigo", false);
+        }
         
         if (responseAPI.getTipo().equals("espectador")){
             System.out.println("NO ES ARTISTA");
@@ -136,7 +154,6 @@ public class TestServlet extends HttpServlet {
             
             target = client.target("http://localhost:8080/rest/api/usuarios/mapsUser");
             UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
-            
             ListFuncionesDeUserDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListFuncionesDeUserDTO.class);
             request.setAttribute("Funciones", responseAPI2);
             
@@ -144,9 +161,8 @@ public class TestServlet extends HttpServlet {
             //user2.setTipo("asdasd"); //SOLO PARA DIFERENCIAR un 'user2' del otro porque los eenvio al mismo /mapsUser de la API
             ListPaquetesDeUserDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListPaquetesDeUserDTO.class);
             request.setAttribute("paquetes", responseAPI3);
-
+            
             if(objSesion.getAttribute("nickname")==null){
-                request.setAttribute("login", false);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
                 view.forward(request, response);
             } else {
@@ -161,29 +177,34 @@ public class TestServlet extends HttpServlet {
         } else {
             Artista art=ICU.obtenerArtistaPorNick(nick);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
-            request.setAttribute("Artista", art);
-            Map<String, Espectaculo> espectaculosA = ICE.obtenerEspectaculosAceptadosDeArtistaPorNick(nick);
-            Map<String, Espectaculo> espectaculosI = ICE.obtenerEspectaculosIngresadosDeArtistaPorNick(nick);
-            Map<String, Espectaculo> espectaculosR = ICE.obtenerEspectaculosRechazadosDeArtistaPorNick(nick);
+            request.setAttribute("Artista", responseAPI);
             
-            request.setAttribute("EspectaculosA", espectaculosA);
-            request.setAttribute("EspectaculosI", espectaculosI);
-            request.setAttribute("EspectaculosR", espectaculosR);
-            if (espectaculosA.isEmpty()){
-                System.out.println("ESPECTACULOS VACIOS");
-            }
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectAceptados");
+            UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosA", responseAPI2);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectIngresados");
+            //UserDTO user3 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosI", responseAPI3);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectRechazados");
+            //UserDTO user4 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI4 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosR", responseAPI4);
+
             if(objSesion.getAttribute("nickname")==null){
                 request.setAttribute("login", false);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-                    view.forward(request, response);
+                view.forward(request, response);
             } else {
                 if(objSesion.getAttribute("nickname").toString().equals(nick)){
                     System.out.println("AHHH");
                     System.out.println("SITIO: " + art.getLinkWeb());
-                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");        
                     view.forward(request, response);
                 } else {
-                    
                     System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
                     view.forward(request, response);
