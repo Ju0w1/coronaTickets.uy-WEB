@@ -4,6 +4,9 @@
     Author     : milto
 --%>
 
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="DTOs.UserDTO"%>
 <%@page import="java.util.Date"%>
 <%@page import="Logica.Clases.Artista"%>
 <%@page import="Logica.Clases.Paquete"%>
@@ -34,27 +37,45 @@
             String imagen, apellido, nombre, email, nick, bio="", desc="", sitio="";
             DTFecha nacimiento;
             if (request.getAttribute("espectador") != null) {
-                Usuario espect = (Usuario) request.getAttribute("espectador");
-                imagen = espect.getImagen();
+                UserDTO espect = (UserDTO) request.getAttribute("espectador");
+                imagen = espect.getUrl_imagen();
                 nombre = espect.getNombre();
                 apellido = espect.getApellido();
-                nacimiento = espect.getNacimiento();
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+                Date date = espect.getNacimiento();
+                String strDate = dateFormat.format(date);  
+                String[] datos = strDate.split("-");
+                int dia = Integer.parseInt(datos[2]);
+                int mes = Integer.parseInt(datos[1]);
+                int anio = Integer.parseInt(datos[0]);
+                nacimiento = new DTFecha(dia, mes, anio);
+                
                 email = espect.getEmail();
                 nick = espect.getNickname();
                 if(imagen.equals("")){
                     imagen = "https://imgur.com/mwpO9Ct.png";
                 }
             } else {
-                Artista art = (Artista) request.getAttribute("artista");
-                imagen = art.getImagen();
+                UserDTO art = (UserDTO) request.getAttribute("artista");
+                imagen = art.getUrl_imagen();
                 nombre = art.getNombre();
                 apellido = art.getApellido();
-                nacimiento = art.getNacimiento();
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+                Date date = art.getNacimiento();
+                String strDate = dateFormat.format(date);  
+                String[] datos = strDate.split("-");
+                int dia = Integer.parseInt(datos[2]);
+                int mes = Integer.parseInt(datos[1]);
+                int anio = Integer.parseInt(datos[0]);
+                nacimiento = new DTFecha(dia, mes, anio);
+                
                 email = art.getEmail();
                 nick = art.getNickname();
-                bio = art.getBiografia();
-                desc = art.getDescripcion();
-                sitio = art.getLinkWeb();
+                bio = art.getBio();
+                desc = art.getDesc();
+                sitio = art.getLink();
                 if(imagen.equals("")){
                     imagen = "https://imgur.com/mwpO9Ct.png";
                 }

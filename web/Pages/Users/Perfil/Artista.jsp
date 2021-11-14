@@ -3,6 +3,13 @@
     Created on : 09/10/2021, 11:59:44 AM
     Author     : milto
 --%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.UserEspectDTO"%>
+<%@page import="DTOs.ListUserEspectDTO"%>
+<%@page import="DTOs.UserDTO"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Clases.Usuario"%>
 <%@page import="Logica.Interfaz.IControladorUsuario"%>
@@ -40,30 +47,46 @@
         <%}
     %>
     <%
-        Artista espect = (Artista) request.getAttribute("Artista");
-        String imagen = espect.getImagen();
+        UserDTO espect = (UserDTO) request.getAttribute("Artista");
+        String imagen = espect.getUrl_imagen();
         String nombre = espect.getNombre();
         String apellido = espect.getApellido();
-        DTFecha nacimiento = espect.getNacimiento();
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = espect.getNacimiento();
+        String strDate = dateFormat.format(date);  
+        String[] datos = strDate.split("-");
+        int dia = Integer.parseInt(datos[2]);
+        int mes = Integer.parseInt(datos[1]);
+        int anio = Integer.parseInt(datos[0]);
+        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+        
         String email = espect.getEmail();
         String nick = espect.getNickname();
-        String web = espect.getLinkWeb();
-        String descripcion = espect.getDescripcion();
-        String bio = espect.getBiografia();
+        String web = espect.getLink();
+        String descripcion = espect.getDesc();
+        String bio = espect.getBio();
+        
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
-        boolean losigo = true;
-        
-        if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
-            losigo = true;
-            System.out.println("SI LO SIGO");
-        } else {
-            System.out.println("NO LO SIGO");
-            losigo = false;
-        }
+        //boolean losigo = true;
+        boolean losigo = (boolean) request.getAttribute("losigo");
+        //if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
+        //    losigo = true;
+        //    System.out.println("SI LO SIGO");
+        //} else {
+        //    System.out.println("NO LO SIGO");
+        //    losigo = false;
+        //}
         
         //System.out.println("Losigo::::" + losigo);
-        Map<String, Espectaculo> espectaculosAceptados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosA");
+        ListUserEspectDTO espectaculosAceptadosList = (ListUserEspectDTO) request.getAttribute("EspectaculosA");
+        Map<String, UserEspectDTO> espectaculosAceptados = new HashMap<>(); 
+        List<UserEspectDTO> espectaculosX = espectaculosAceptadosList.getEspectaculos();
+        for (UserEspectDTO espectac :  espectaculosX) {
+            espectaculosAceptados.put(espectac.getNombre(),new UserEspectDTO(espectac.getNombre(),espectac.getPlataforma(),espectac.getCosto()));
+        }
+        
         boolean login = false;
         if (request.getAttribute("login")!=null){
             login = true;
@@ -216,9 +239,9 @@
               </h6>
 
                 <%
-                for (Map.Entry<String, Espectaculo> entry : espectaculosAceptados.entrySet()) {
+                for (Map.Entry<String, UserEspectDTO> entry : espectaculosAceptados.entrySet()) {
                     String key = entry.getKey();
-                    Espectaculo value = entry.getValue();  
+                    UserEspectDTO value = entry.getValue();  
                 %>
 
               <div class="espect">

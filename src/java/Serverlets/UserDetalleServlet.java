@@ -5,10 +5,13 @@
  */
 package Serverlets;
 
+import DTOs.BooleanDTO;
+import DTOs.ListUserEspectDTO;
 import DTOs.FuncionesDeUserDTO;
 import DTOs.ListFuncionesDeUserDTO;
 import DTOs.ListPaquetesDeUserDTO;
 import DTOs.UserDTO;
+import DTOs.followDTO;
 import Logica.Fabrica;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectaculo;
@@ -142,6 +145,14 @@ public class UserDetalleServlet extends HttpServlet {
         UserDTO user = new UserDTO(nick);
         UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), UserDTO.class);
         
+        target = client.target("http://localhost:8080/rest/api/usuarios/Losigo");
+        followDTO siguiendo = new followDTO(objSesion.getAttribute("nickname").toString(), nick);
+        BooleanDTO responseAPIX = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(siguiendo), BooleanDTO.class);
+        if(responseAPIX.getDato()==true){
+            request.setAttribute("losigo", true);
+        } else {
+            request.setAttribute("losigo", false);
+        }
         
         
         if (responseAPI.getTipo().equals("espectador")){
@@ -152,7 +163,6 @@ public class UserDetalleServlet extends HttpServlet {
             
             target = client.target("http://localhost:8080/rest/api/usuarios/mapsUser");
             UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
-            
             ListFuncionesDeUserDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListFuncionesDeUserDTO.class);
             request.setAttribute("Funciones", responseAPI2);
             
@@ -160,9 +170,8 @@ public class UserDetalleServlet extends HttpServlet {
             //user2.setTipo("asdasd"); //SOLO PARA DIFERENCIAR un 'user2' del otro porque los eenvio al mismo /mapsUser de la API
             ListPaquetesDeUserDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListPaquetesDeUserDTO.class);
             request.setAttribute("paquetes", responseAPI3);
-
+            
             if(objSesion.getAttribute("nickname")==null){
-                request.setAttribute("login", false);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
                 view.forward(request, response);
             } else {
@@ -177,94 +186,40 @@ public class UserDetalleServlet extends HttpServlet {
         } else {
             Artista art=ICU.obtenerArtistaPorNick(nick);
             System.out.println("IMAGEN GUARDADA: " + art.getImagen());
-            request.setAttribute("Artista", art);
-            Map<String, Espectaculo> espectaculosA = ICE.obtenerEspectaculosAceptadosDeArtistaPorNick(nick);
-            Map<String, Espectaculo> espectaculosI = ICE.obtenerEspectaculosIngresadosDeArtistaPorNick(nick);
-            Map<String, Espectaculo> espectaculosR = ICE.obtenerEspectaculosRechazadosDeArtistaPorNick(nick);
+            request.setAttribute("Artista", responseAPI);
             
-            request.setAttribute("EspectaculosA", espectaculosA);
-            request.setAttribute("EspectaculosI", espectaculosI);
-            request.setAttribute("EspectaculosR", espectaculosR);
-            if (espectaculosA.isEmpty()){
-                System.out.println("ESPECTACULOS VACIOS");
-            }
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectAceptados");
+            UserDTO user2 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI2 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosA", responseAPI2);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectIngresados");
+            //UserDTO user3 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI3 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosI", responseAPI3);
+            
+            target = client.target("http://localhost:8080/rest/api/usuarios/espectRechazados");
+            //UserDTO user4 = new UserDTO(nick); //Primer 'user2' para traer las funciones
+            ListUserEspectDTO responseAPI4 = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user2), ListUserEspectDTO.class);
+            request.setAttribute("EspectaculosR", responseAPI4);
+
             if(objSesion.getAttribute("nickname")==null){
                 request.setAttribute("login", false);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-                    view.forward(request, response);
+                view.forward(request, response);
             } else {
                 if(objSesion.getAttribute("nickname").toString().equals(nick)){
                     System.out.println("AHHH");
                     System.out.println("SITIO: " + art.getLinkWeb());
-                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");        
                     view.forward(request, response);
                 } else {
-                    
                     System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
                     view.forward(request, response);
                 }
             }
         }
-//        if (ICU.obtenerArtistaPorNick(nick)==null){
-//            System.out.println("NO ES ARTISTA");
-//            Usuario espect = ICU.obtenerEspectadorPorNick(nick);
-//            System.out.println("ES ESPECTADOR");
-//            request.setAttribute("Espectador", espect);
-//
-//            Map<String, Funcion> funciones = ICE.getRegistroDeFuncionesDeUsuarioPorNick(nick);
-//            int idEspectador = ICU.getIdEspectadorPorNick(nick);
-//            Map<String, Paquete> paquetesRegistrado = ICP.getPaquetesQueComproUsuario(idEspectador);
-//            request.setAttribute("paquetes", paquetesRegistrado);
-//            
-//            request.setAttribute("Funciones", funciones);
-//
-//            if(objSesion.getAttribute("nickname")==null){
-//                request.setAttribute("login", false);
-//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-//                view.forward(request, response);
-//            } else {
-//                if(objSesion.getAttribute("nickname").toString().equals(nick)){
-//                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
-//                    view.forward(request, response);
-//                } else {
-//                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-//                    view.forward(request, response);
-//                }
-//            }
-//        } else {
-//            Artista art=ICU.obtenerArtistaPorNick(nick);
-//            System.out.println("IMAGEN GUARDADA: " + art.getImagen());
-//            request.setAttribute("Artista", art);
-//            Map<String, Espectaculo> espectaculosA = ICE.obtenerEspectaculosAceptadosDeArtistaPorNick(nick);
-//            Map<String, Espectaculo> espectaculosI = ICE.obtenerEspectaculosIngresadosDeArtistaPorNick(nick);
-//            Map<String, Espectaculo> espectaculosR = ICE.obtenerEspectaculosRechazadosDeArtistaPorNick(nick);
-//            
-//            request.setAttribute("EspectaculosA", espectaculosA);
-//            request.setAttribute("EspectaculosI", espectaculosI);
-//            request.setAttribute("EspectaculosR", espectaculosR);
-//            if (espectaculosA.isEmpty()){
-//                System.out.println("ESPECTACULOS VACIOS");
-//            }
-//            if(objSesion.getAttribute("nickname")==null){
-//                request.setAttribute("login", false);
-//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-//                    view.forward(request, response);
-//            } else {
-//                if(objSesion.getAttribute("nickname").toString().equals(nick)){
-//                    System.out.println("AHHH");
-//                    System.out.println("SITIO: " + art.getLinkWeb());
-//                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
-//                    view.forward(request, response);
-//                } else {
-//                    
-//                    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-//                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-//                    view.forward(request, response);
-//                }
-//            }
-//        }
-//###########################################################################################################################################################################        
     }
 
     /**

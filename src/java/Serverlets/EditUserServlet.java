@@ -112,11 +112,11 @@ public class EditUserServlet extends HttpServlet {
         int anio = Integer.parseInt(datos[0]);
         DTFecha fecha = new DTFecha(dia, mes, anio);
         if(responseAPI.getTipo().equals("artista")){
-            Artista art = new Artista(responseAPI.getNickname(), responseAPI.getNombre(),responseAPI.getApellido(), responseAPI.getEmail(), fecha, responseAPI.getDesc(), responseAPI.getBio(), responseAPI.getLink(), responseAPI.getUrl_imagen());
+            UserDTO art = new UserDTO(responseAPI.getNickname(), responseAPI.getNombre(),responseAPI.getApellido(), responseAPI.getEmail(), date, responseAPI.getUrl_imagen(), responseAPI.getDesc(), responseAPI.getBio(), responseAPI.getLink());
             request.setAttribute("artista", art);
             System.out.println("BIEND DE BIEN");
         } else {
-            Usuario espec = new Usuario(responseAPI.getNickname(), responseAPI.getNombre(), responseAPI.getApellido(), responseAPI.getEmail(), fecha, responseAPI.getUrl_imagen());
+            UserDTO espec = new UserDTO(responseAPI.getNickname(), responseAPI.getNombre(), responseAPI.getApellido(), responseAPI.getEmail(), date, responseAPI.getUrl_imagen());
             request.setAttribute("espectador", espec);
         }
         

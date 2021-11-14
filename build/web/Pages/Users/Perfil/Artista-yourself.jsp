@@ -3,6 +3,14 @@
     Created on : 09/10/2021, 11:57:41 AM
     Author     : milto
 --%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.UserEspectDTO"%>
+<%@page import="DTOs.ListUserEspectDTO"%>
+<%@page import="DTOs.ListFuncionesDeUserDTO"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="DTOs.UserDTO"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Clases.Usuario"%>
 <%@page import="Logica.Interfaz.IControladorUsuario"%>
@@ -44,22 +52,53 @@
         <%}
     %>
     <%
-        Artista espect = (Artista) request.getAttribute("Artista");
-        String imagen = espect.getImagen();
+        UserDTO espect = (UserDTO) request.getAttribute("Artista");
+        String imagen = espect.getUrl_imagen();
         String nombre = espect.getNombre();
         String apellido = espect.getApellido();
-        DTFecha nacimiento = espect.getNacimiento();
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = espect.getNacimiento();
+        String strDate = dateFormat.format(date);  
+        String[] datos = strDate.split("-");
+        int dia = Integer.parseInt(datos[2]);
+        int mes = Integer.parseInt(datos[1]);
+        int anio = Integer.parseInt(datos[0]);
+        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+        
         String email = espect.getEmail();
         String nick = espect.getNickname();
-        String web = espect.getLinkWeb();
-        String descripcion = espect.getDescripcion();
-        String bio = espect.getBiografia();
+        String web = espect.getLink();
+        String descripcion = espect.getDesc();
+        String bio = espect.getBio();
+        
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
         
-        Map<String, Espectaculo> espectaculosAceptados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosA");
-        Map<String, Espectaculo> espectaculosIngresados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosI");
-        Map<String, Espectaculo> espectaculosRechazados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosR");
+        //Map<String, Espectaculo> espectaculosAceptados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosA");
+        
+        ListUserEspectDTO espectaculosAceptadosList = (ListUserEspectDTO) request.getAttribute("EspectaculosA");
+        Map<String, UserEspectDTO> espectaculosAceptados = new HashMap<>(); 
+        List<UserEspectDTO> espectaculosX = espectaculosAceptadosList.getEspectaculos();
+        for (UserEspectDTO espectac :  espectaculosX) {
+            espectaculosAceptados.put(espectac.getNombre(),new UserEspectDTO(espectac.getNombre(),espectac.getPlataforma(),espectac.getCosto()));
+        }
+        //Map<String, Espectaculo> espectaculosIngresados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosI");
+        
+        ListUserEspectDTO espectaculosIngresadosList = (ListUserEspectDTO) request.getAttribute("EspectaculosI");
+        Map<String, UserEspectDTO> espectaculosIngresados = new HashMap<>(); 
+        List<UserEspectDTO> espectaculosY = espectaculosIngresadosList.getEspectaculos();
+        for (UserEspectDTO espectac :  espectaculosY) {
+            espectaculosIngresados.put(espectac.getNombre(),new UserEspectDTO(espectac.getNombre(),espectac.getPlataforma(),espectac.getCosto()));
+        }
+        //Map<String, Espectaculo> espectaculosRechazados = (Map<String, Espectaculo>) request.getAttribute("EspectaculosR");
+        
+        ListUserEspectDTO espectaculosRechazadosList = (ListUserEspectDTO) request.getAttribute("EspectaculosR");
+        Map<String, UserEspectDTO> espectaculosRechazados = new HashMap<>(); 
+        List<UserEspectDTO> espectaculosZ = espectaculosRechazadosList.getEspectaculos();
+        for (UserEspectDTO espectac :  espectaculosZ) {
+            espectaculosRechazados.put(espectac.getNombre(),new UserEspectDTO(espectac.getNombre(),espectac.getPlataforma(),espectac.getCosto()));
+        }
         
         
     %>
@@ -186,9 +225,9 @@
                   <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Espectaculos </i>
                     Aceptados</h6>
                 <%
-                    for (Map.Entry<String, Espectaculo> entry : espectaculosAceptados.entrySet()) {
+                    for (Map.Entry<String, UserEspectDTO> entry : espectaculosAceptados.entrySet()) {
                         String key = entry.getKey();
-                        Espectaculo value = entry.getValue();  
+                        UserEspectDTO value = entry.getValue();  
                 %>
                   <div class="espect">
                     <!-- ESPECTACULO EJEMPLO -->
@@ -248,9 +287,9 @@
                   <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Espectaculos </i>
                     Ingresados</h6>
                         <%
-                            for (Map.Entry<String, Espectaculo> entry : espectaculosIngresados.entrySet()) {
+                            for (Map.Entry<String, UserEspectDTO> entry : espectaculosIngresados.entrySet()) {
                                 String key = entry.getKey();
-                                Espectaculo value = entry.getValue();  
+                                UserEspectDTO value = entry.getValue();  
                         %>
                   <div class="espect">
                     <!-- ESPECTACULO EJEMPLO -->
@@ -308,9 +347,9 @@
                   <h6 class="d-flex align-items-center mb-3"><i
                       class="material-icons text-info mr-2">Espectaculos</i>Rechazados</h6>
                     <%
-                        for (Map.Entry<String, Espectaculo> entry : espectaculosRechazados.entrySet()) {
+                        for (Map.Entry<String, UserEspectDTO> entry : espectaculosRechazados.entrySet()) {
                             String key = entry.getKey();
-                            Espectaculo value = entry.getValue();  
+                            UserEspectDTO value = entry.getValue();  
                     %>
                   <div class="espect">
                     <!-- ESPECTACULO EJEMPLO -->

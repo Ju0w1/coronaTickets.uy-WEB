@@ -66,16 +66,19 @@
         String nick = espect.getNickname();
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
-        boolean losigo = true;
+        
+        boolean losigo = (boolean) request.getAttribute("losigo");
+        
+        //boolean losigo = true;
 
         // HAY QUE CAMBIAR ESTOOOOOOOOOOOOOOOOO QUE LO HAGA DESDE EL SERVLETTTTTT A LA API (FACIL)
-        if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
-            losigo = true;
-            System.out.println("SI LO SIGO");
-        } else {
-            System.out.println("NO LO SIGO");
-            losigo = false;
-        }
+        //if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
+        //    losigo = true;
+        //    System.out.println("SI LO SIGO");
+        //} else {
+        //    System.out.println("NO LO SIGO");
+        //    losigo = false;
+        //}
         
         ListFuncionesDeUserDTO funcionesMap = (ListFuncionesDeUserDTO) request.getAttribute("Funciones");
         Map<String, FuncionesDeUserDTO> funciones = new HashMap<>(); 
