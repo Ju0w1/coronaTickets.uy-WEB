@@ -4,6 +4,10 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.FuncionDTOConsultaEspectaculo"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="Logica.Clases.Paquete"%>
 <%@page import="Logica.Clases.Funcion"%>
 <%@page import="java.util.HashMap"%>
@@ -46,22 +50,18 @@
         %>
         <%
             String nombre = (String) request.getAttribute("nombre");
-            String artista = (String) request.getAttribute("artista");
+            int artista = (int) request.getAttribute("artista");
             String descripcion = (String) request.getAttribute("descripcion");
-            String especmax = (String) request.getAttribute("especmax");
-            String especmin = (String) request.getAttribute("especmin");
+            int especmax = (int) request.getAttribute("especmax");
+            int especmin = (int) request.getAttribute("especmin");
             String url = (String) request.getAttribute("url");
-            String costo = (String) request.getAttribute("costo");
-            String duracion = (String) request.getAttribute("duracion");
-            String fecha = (String) request.getAttribute("fecha");
+            double costo = (double) request.getAttribute("costo");
+            double duracion = (double) request.getAttribute("duracion");
+            Date fecha = (Date) request.getAttribute("fecha");
             String urlImagen = (String) request.getAttribute("urlImagen");
-            Map<String, Funcion> funciones = new HashMap<>();
-            Map<String, Paquete> paquetes = new HashMap<>();
-            Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
-            funciones = (Map<String, Funcion>) request.getAttribute("funcionesDeEspec");
-            paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
-
-
+            List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
+            List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
+            List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
         %>
 
         <div class="d-flex justify-content-md-center align-items-center mt-5">
@@ -158,9 +158,8 @@
                             <div class="col-sm-50" >
 
                                 <%
-                                    for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
-                                        String key2 = entry.getKey();
-                                        Categoria value2 = entry.getValue();
+                                    for (Categoria categoriasx : categorias) {
+                                        Categoria value2 = categoriasx;
                                 %>
                                 <span class="badge rounded-pill bg-secondary"><%=value2.getNombre()%></span>
                                 <%
@@ -181,7 +180,7 @@
                                 <div class="carousel-indicators">
                                     <%
                                         int i = 0;
-                                        for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                                        for (int xx=0;xx<funciones.size();xx++) {
                                             if (i == 0) {
                                     %>
                                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -199,13 +198,12 @@
                                 <div class="carousel-inner">
                                     <%
                                         i = 0;
-                                        for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
-                                            String key2 = entry.getKey();
-                                            Funcion value2 = entry.getValue();
+                                        for (FuncionDTOConsultaEspectaculo funcionx : funciones) {
+                                            FuncionDTOConsultaEspectaculo value2 = funcionx;
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
@@ -218,7 +216,7 @@
                                     } else {
                                     %>
                                     <div class="carousel-item">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
@@ -251,7 +249,7 @@
                                 <div class="carousel-indicators">
                                     <%
                                         i = 0;
-                                        for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
+                                        for (Paquete paquetex : paquetes) {
                                             if (i == 0) {
                                     %>
                                     <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -269,12 +267,10 @@
                                 <div class="carousel-inner">
                                     <%
                                         i = 0;
-                                        for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
-                                            String key = entry.getKey();
-                                            Paquete value = entry.getValue();
+                                        for (Paquete paquetex : paquetes) {
+                                            Paquete value = paquetex;
                                             String nombrep = value.getNombre();
                                             String desc = value.getDescripcion();
-
                                             String mes1;
                                             if (value.getFecha_Inicio().getMes() < 10) {
                                                 mes1 = "0" + value.getFecha_Inicio().getMes();
@@ -299,11 +295,9 @@
                                             } else {
                                                 dia2 = Integer.toString(value.getFecha_Inicio().getDia());
                                             }
-
                                             String fechaIni = value.getFecha_Inicio().getAnio() + "-" + mes1 + "-" + dia1;
                                             String fechaFin = value.getFecha_Fin().getAnio() + "-" + mes2 + "-" + dia2;
                                             //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
-
                                             float descuento = value.getDescuento();
                                             float costop = value.getCosto();
                                             String urlImagenp = value.getUrl();
@@ -359,7 +353,6 @@
                             </a>
                             <%
                                 if (objSesion.getAttribute("tipo") != null) {
-
                                     String tipoUsuario = objSesion.getAttribute("tipo").toString();
                                     if (tipoUsuario.equals("espectador")) {
                             %>
