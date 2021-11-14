@@ -64,16 +64,45 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
          ServletContext context = getServletContext( );
         String nombreEspectaculo = request.getParameter("espectaculoGET");
         if(nombreEspectaculo.equals("")){
-            request.setAttribute("espec", null);
-            response.sendRedirect("http://localhost:8080/CoronaTickets-Web/ConsultaEspectaculosDePaquete");
+            HttpSession objSesion = request.getSession();
+                request.setAttribute("espec", null);
+                String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
+                
+                String nuevaFuncionConREGEX = nombrePaquete.replaceAll(" ", "%20");
+               
+                Client client = ClientBuilder.newClient();
+                WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/consultaEspectaculos?paquete="+nuevaFuncionConREGEX);
+
+                try {
+                    TransporteListEspectaculosDePaqueteDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(TransporteListEspectaculosDePaqueteDTO.class);
+                    request.setAttribute("espectaculosPaquete", responseAPI);
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+                    view.forward(request, response);
+                }catch(WebApplicationException e){
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
+                } 
             
         }else{
-                Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
-               
-                context.log(espec.getNombre());
-                request.setAttribute("espec", espec);
+            String nuevaFuncionConREGEX = nombreEspectaculo.replaceAll(" ", "%20");
+            Client client2 = ClientBuilder.newClient();
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
+
+            try {
+                ConsultaEspectaculoDTO espectaculo = target2.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);
+                request.setAttribute("espec", espectaculo);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
                 view.forward(request, response);
+            } catch (WebApplicationException e) {
+                RequestDispatcher view = request.getRequestDispatcher("/home");
+                view.forward(request, response);
+            }
+//                Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
+//               
+//                context.log(espec.getNombre());
+//                request.setAttribute("espec", espec);
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+//                view.forward(request, response);
             
         }
                 

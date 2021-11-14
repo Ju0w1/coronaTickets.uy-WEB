@@ -4,6 +4,7 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.ConsultaEspectaculoDTO"%>
 <%@page import="DTOs.EspectaculoPaqueteDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="DTOs.TransporteListEspectaculosDePaqueteDTO"%>
@@ -63,7 +64,7 @@
                 </div>
             </div>
             <%
-                if((Espectaculo) request.getAttribute("espec") == null){
+                if((ConsultaEspectaculoDTO) request.getAttribute("espec") == null){
                     if(request.getAttribute("espectaculosPaquete") == null){
                         %>
                             <div class="d-flex justify-content-md-center align-items-center">
@@ -124,22 +125,24 @@
             
             <%
                 }else{
-                    Espectaculo espectaculo = (Espectaculo) request.getAttribute("espec");
+                    //Espectaculo espectaculo = (Espectaculo) request.getAttribute("espec");
+                    ConsultaEspectaculoDTO espec = (ConsultaEspectaculoDTO) request.getAttribute("espec");
+
                     //espectaculo.getUrlIamgen()
                     //value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
                     String dia;
                     String mes;
-                    if(espectaculo.getFecha().getDate() <10){
-                        dia = "0"+espectaculo.getFecha().getDate();
+                    if(espec.getFecha_Registro().getDate() <10){
+                        dia = "0"+espec.getFecha_Registro().getDate();
                     }else{
-                        dia = Integer.toString(espectaculo.getFecha().getDate());
+                        dia = Integer.toString(espec.getFecha_Registro().getDate());
                     }
-                    if(espectaculo.getFecha().getMonth() <10){
-                        mes = "0"+espectaculo.getFecha().getMonth();
+                    if(espec.getFecha_Registro().getMonth() <10){
+                        mes = "0"+espec.getFecha_Registro().getMonth();
                     }else{
-                        mes = Integer.toString(espectaculo.getFecha().getMonth());
+                        mes = Integer.toString(espec.getFecha_Registro().getMonth());
                     }
-                    String fecha = espectaculo.getFecha().getYear()+1900+"-"+mes+"-"+dia;
+                    String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
 
             %>  
             <div class="row">
@@ -148,37 +151,37 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getNombre()%>" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="" value="<%= espec.getNombre() %> " readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Descripción</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%=espectaculo.getDescripcion()%>" rows="4 " readonly></textarea>
+                                <textarea class="form-control rounded-3" id="inputDescripcion " style="resize: none; " placeholder="<%= espec.getDescripcion() %>" rows="4 " readonly></textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Organizador</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getArtista()%>" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="" value=" <%= espec.getArtista() %> " readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-4 col-form-label">Duración</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getDuracion()%> Minutos" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="<%= espec.getDuracion() %> Minutos"  value=""readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-8 col-form-label">Cantidad mínima de espectadores</label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getMin()%>" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="" value="<%= espec.getCant_min_espectadores() %>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-8 col-form-label">Cantidad máxima de espectadores</label>
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getMax()%>" readonly>
+                                <input type="number" class="form-control" id="inputNombre" placeholder="" value="<%= espec.getCant_max_espectadores() %>" readonly>
                             </div>
                         </div>
                     </form>
@@ -188,7 +191,7 @@
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-2 col-form-label">URL</label>
                         <div class="col-sm-10">
-                            <input type="url" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getUrl()%>" readonly>
+                            <input type="url" class="form-control" id="inputNombre" placeholder="" value="<%= espec.getUrl() %>" readonly>
                         </div>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
@@ -200,13 +203,13 @@
                     <div class="form-group row mb-2 justify-content-between">
                         <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="inputNombre" placeholder="<%=espectaculo.getCosto()%>" readonly>
+                            <input type="number" class="form-control" id="inputNombre" placeholder="" value="<%= espec.getCosto() %>" readonly>
                         </div>
                     </div>
                     <!--<div class="w-100 h-50 d-flex justify-content-md-center align-items-center" style="background-color: #eee;">Imagen</div>-->
 
                     <div class="w-100 d-flex justify-content-md-center align-items-center">
-                        <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espectaculo.getUrlIamgen()%>">
+                        <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espec.getUrl_imagen()%>">
                     </div>
                 </div>
                 
@@ -230,8 +233,10 @@
         
         $(document).ready( function () {
             $("#btnValoresSeleccionados").removeAttr("type");
+            if(!$('#inputNombre').val()){
+                alert("Debes seleccionar (haciendo click sobre la fila) un espectáculo antes de clickear el botón 'Mostrar datos'");   
+            }
             
-            alert("Debes seleccionar (haciendo click sobre la fila) un espectáculo antes de clickear el botón 'Mostrar datos'");
             $('#tablaEspec').DataTable({
                 searching: true,
                 ordering:  false
@@ -239,7 +244,7 @@
             $('#tablaEspec tbody').on( 'click', 'tr', function () {
                 $(this).toggleClass('selected');
              });
-
+             
              //Contar filas seleccionadas
              $('#btnValoresSeleccionados').click(function() {
                 //alert(myTable.rows().data().length+' row(s) selected' );
@@ -281,6 +286,9 @@
                    alert(contenido);
                 };
              }); 
+             
+            
+             
         } );
     </script>
 </body>
