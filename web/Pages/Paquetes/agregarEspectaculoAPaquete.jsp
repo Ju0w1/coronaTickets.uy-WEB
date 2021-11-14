@@ -4,6 +4,9 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.PaquetesListaDTO"%>
+<%@page import="DTOs.PlataformaDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
@@ -65,13 +68,12 @@
                             <select class="form-select" name="paquete" id="validationCustom01" aria-label="Paquetes" required>
                                 <option selected disabled value="">Paquetes</option>
                                 <%                                            int j = 0;
-                                    Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
+                                    PaquetesListaDTO paquetes = (PaquetesListaDTO) request.getAttribute("paquetes");
                                     if (paquetes == null) {
                                         System.out.println("VACIO");
                                     } else {
-                                        for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
-                                            String key = entry.getKey();
-                                            Paquete value = entry.getValue();
+                                        for (Paquete entry : paquetes.getPaquetes()){
+                                            String key=entry.getNombre();
                                 %>
                                 <option value="<%=key%>" id="<%=key%>"><%=key%></option>
                                 <%
@@ -90,16 +92,15 @@
                                 <option selected disabled value="">Plataformas</option>
                                 <%
                                     int i = 0;
-                                    Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+                                    PlataformaDTO plataformas = (PlataformaDTO) request.getAttribute("plataformas");
+                                    
                                     if (plataformas == null) {
                                         System.out.println("VACIO");
                                     } else {
-                                        for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
-                                            String key = entry.getKey();
-                                            Plataforma value = entry.getValue();
-
+                                        for (Plataforma entry : plataformas.getPlataformas()) {
+                                            String value2=entry.getNombre();
                                 %>
-                                <option value="<%=value.getNombre()%>" id="<%=key%>"><%=value.getNombre()%></option>
+                                <option value="<%=value2%>" id="<%=value2%>"><%=value2%></option>
                                 <%
                                             i++;
                                         }

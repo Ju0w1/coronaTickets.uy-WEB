@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import DTOs.PaquetesListaDTO;
+import DTOs.PlataformaDTO;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Paquete;
 import Logica.Clases.Plataforma;
@@ -23,6 +25,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -43,13 +50,13 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
     Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     IControladorPaquete ICP = fabrica.getIControladorPaquete();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
 //        request.setAttribute("paquete", "Paquete");
 //        request.setAttribute("plataforma", "Plataforma");
-        
 //        try (PrintWriter out = response.getWriter()) {
 //            
 //        }
@@ -70,32 +77,42 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String user = (String) objSesion.getAttribute("nickname");
         //OBTENIENDO DATOS DEL JSP
-        
+
         String paquete = request.getParameter("paquete");
         String plataforma = request.getParameter("plataforma");
-        
+
         ServletContext context = getServletContext();
-        context.log("paquete:"+paquete);
-        context.log("plataforma:"+plataforma);
-        
-        if(paquete == null || plataforma == null){
-            Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
-            Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetes();
-            request.setAttribute("plataformas", plataformas);
-            request.setAttribute("paquetes", paquetes);
-            
-        }else{
+        context.log("paquete:" + paquete);
+        context.log("plataforma:" + plataforma);
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/obtenerPaquetes");
+
+        Client client2 = ClientBuilder.newClient();
+        WebTarget target2 = client.target("http://localhost:8080/rest/api/paquetes/obtenerPlataformasPaquete");
+
+        if (paquete == null || plataforma == null) {
+            try {
+                PaquetesListaDTO responseAPIpaquetes = target.request(MediaType.APPLICATION_JSON).get(PaquetesListaDTO.class);
+                PlataformaDTO responseAPIplataformas = target2.request(MediaType.APPLICATION_JSON).get(PlataformaDTO.class);
+                request.setAttribute("plataformas", responseAPIplataformas);
+                request.setAttribute("paquetes", responseAPIpaquetes);
+            } catch (WebApplicationException e) {
+                request.setAttribute("error", "Error");
+            }
+        } else {
+            Client client3 = ClientBuilder.newClient();
+            WebTarget target3 = client.target("http://localhost:8080/rest/api/paquetes/obtenerPlataformasPaquete");
+            PlataformaDTO responseAPIEspectaculos = target.request(MediaType.APPLICATION_JSON).get(PlataformaDTO.class);
             context.log("entra:");
             ArrayList<String> espectaculos = (ArrayList<String>) ICE.obtenerEspectaculosDeArtistaQueNoEstanEnPaquete(paquete, plataforma, user);
             request.setAttribute("espectaculos", espectaculos);
             request.setAttribute("plataforma", plataforma);
             request.setAttribute("paquete", paquete);
         }
-        
+
         RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
         view.forward(request, response);
-        
-       
+
     }
 
     /**
@@ -109,19 +126,19 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            String paquete = request.getParameter("paquetePost");
-            String espectaculo = request.getParameter("espectaculo");
-            
-            ServletContext context = getServletContext();
-            context.log("METODO POST");
-            context.log("paquete:"+paquete);
-            context.log("espectaculo:"+espectaculo);
-            
-            ICP.AgregarEspPaq(espectaculo, paquete);
-            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
-            view.forward(request, response);
-       // processRequest(request, response);
+
+        String paquete = request.getParameter("paquetePost");
+        String espectaculo = request.getParameter("espectaculo");
+
+        ServletContext context = getServletContext();
+        context.log("METODO POST");
+        context.log("paquete:" + paquete);
+        context.log("espectaculo:" + espectaculo);
+
+        ICP.AgregarEspPaq(espectaculo, paquete);
+        RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+        view.forward(request, response);
+        // processRequest(request, response);
     }
 
     /**
