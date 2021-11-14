@@ -4,6 +4,9 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.EspectaculoPaqueteDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.TransporteListEspectaculosDePaqueteDTO"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -61,6 +64,17 @@
             </div>
             <%
                 if((Espectaculo) request.getAttribute("espec") == null){
+                    if(request.getAttribute("espectaculosPaquete") == null){
+                        %>
+                            <div class="d-flex justify-content-md-center align-items-center">
+                                <div>
+                                    <h1>No existen espectáculos para este paquete</h1>
+                                </div>
+                            </div>
+                        <%
+                    }else{
+                        
+                    
             %>
              <div class="row">
                  <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
@@ -79,25 +93,19 @@
                         
                         <tbody id="myTable">
                             <%
-                                 Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
-                                if(espectaculos == null){
-                                    System.out.println("VACIO");
-                                }else{
-                                    int i=0;
-                                    for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
-                                        String key = entry.getKey();
-                                        Espectaculo value = entry.getValue();
-                                        i++;
-
+                                TransporteListEspectaculosDePaqueteDTO nuevoDTO = (TransporteListEspectaculosDePaqueteDTO)request.getAttribute("espectaculosPaquete");
+                                List<EspectaculoPaqueteDTO> especs = nuevoDTO.getEspectaculos();
+                                
+                                for (EspectaculoPaqueteDTO espec : especs) {
 
                             %>
                             <tr class="align-middle clickable-row">
-                                <td id="nombreE" class="nombre"><%=value.getNombre()%></td>
-                                    <td><%=value.getDescripcion()%></td>
-                                    <td><%=value.getCosto()%></td>
+                                <td id="nombreE" class="nombre"><%=espec.getNombre()%></td>
+                                    <td><%=espec.getDescripcion()%></td>
+                                    <td><%=espec.getCosto()%></td>
                                     <td>
                                         <div class="">
-                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=value.getUrlIamgen()%>">
+                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espec.getImagen()%>">
                                         </div>
                                     </td>
                                     <td>

@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Paquetes/consultaPaquete.jsp</file>
             <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaFuncion.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaPaquete.java</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaEspectaculosDePaquete.java</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaEspectaculo.java</file>
         </group>
     </open-files>
 </project-private>
