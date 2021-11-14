@@ -53,7 +53,8 @@
             String fechaIni = (String) request.getAttribute("fechaIni");
             String fechaFin = (String) request.getAttribute("fechaFin");
             String descuento = (String) request.getAttribute("descuento");
-            String costo = (String) request.getAttribute("costo");
+            String costo = "0";
+            //String costo = (String) request.getAttribute("costo");
             String imagen = (String) request.getAttribute("imagen");
             String nickname = (String) objSesion.getAttribute("nickname");
             Map<String, Paquete> paquetes2 = new HashMap<>();
