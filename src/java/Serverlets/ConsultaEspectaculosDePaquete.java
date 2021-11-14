@@ -5,6 +5,8 @@
  */
 package Serverlets;
 
+import DTOs.ConsultaEspectaculoDTO;
+import DTOs.TransporteListEspectaculosDePaqueteDTO;
 import Logica.Clases.Espectaculo;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
@@ -19,6 +21,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -39,10 +46,7 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
 
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,14 +61,23 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String nombreEspectaculo = request.getParameter("espectaculoGET");
+         ServletContext context = getServletContext( );
+        String nombreEspectaculo = request.getParameter("espectaculoGET");
+        if(nombreEspectaculo.equals("")){
+            request.setAttribute("espec", null);
+            response.sendRedirect("http://localhost:8080/CoronaTickets-Web/ConsultaEspectaculosDePaquete");
+            
+        }else{
                 Espectaculo espec = (Espectaculo) ICE.getEspectaculoPorNombre(nombreEspectaculo);
-                ServletContext context = getServletContext( );
+               
                 context.log(espec.getNombre());
                 request.setAttribute("espec", espec);
                 RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
                 view.forward(request, response);
-        //processRequest(request, response);
+            
+        }
+                
+        //
     }
 
     /**
@@ -81,10 +94,26 @@ public class ConsultaEspectaculosDePaquete extends HttpServlet {
                 HttpSession objSesion = request.getSession();
                 request.setAttribute("espec", null);
                 String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
-                Map<String, Espectaculo> espectaculosDePaquete = (Map<String, Espectaculo>) ICE.obtenerMapEspectaculosDePaquete(nombrePaquete);
-                request.setAttribute("espectaculosPaquete", espectaculosDePaquete);
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
-                view.forward(request, response);
+                
+                String nuevaFuncionConREGEX = nombrePaquete.replaceAll(" ", "%20");
+               
+                Client client = ClientBuilder.newClient();
+                WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/consultaEspectaculos?paquete="+nuevaFuncionConREGEX);
+
+                try {
+                    TransporteListEspectaculosDePaqueteDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(TransporteListEspectaculosDePaqueteDTO.class);
+                    request.setAttribute("espectaculosPaquete", responseAPI);
+                    RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+                    view.forward(request, response);
+                }catch(WebApplicationException e){
+                    RequestDispatcher view = request.getRequestDispatcher("/home");
+                    view.forward(request, response);
+                }    
+                
+//                Map<String, Espectaculo> espectaculosDePaquete = (Map<String, Espectaculo>) ICE.obtenerMapEspectaculosDePaquete(nombrePaquete);
+//                request.setAttribute("espectaculosPaquete", espectaculosDePaquete);
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosDePaquete.jsp");
+//                view.forward(request, response);
         //processRequest(request, response);
     }
 

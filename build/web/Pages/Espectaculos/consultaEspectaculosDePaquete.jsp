@@ -4,6 +4,9 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.EspectaculoPaqueteDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.TransporteListEspectaculosDePaqueteDTO"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -61,10 +64,25 @@
             </div>
             <%
                 if((Espectaculo) request.getAttribute("espec") == null){
+                    if(request.getAttribute("espectaculosPaquete") == null){
+                        %>
+                            <div class="d-flex justify-content-md-center align-items-center">
+                                <div>
+                                    <h1>No existen espectáculos para este paquete</h1>
+                                </div>
+                            </div>
+                        <%
+                    }else{
+                        
+                    
             %>
+            <div class="row mb-2">
+                <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
+                    <input id="nombreEspectaculoABuscar" name="espectaculoGET" type="hidden" value="">
+                    <button id="btnValoresSeleccionados" class="btn btn-primary">Mostrar datos</button>
+                </form>
+            </div>
              <div class="row">
-                 <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
-                    <input id="especHidden" name="espectaculoGET" type="hidden" value="">
                  <div class="col-12 d-flex justify-content-md-center table-responsive">
                      <table id="tablaEspec" class="table table-bordered">
                         <thead>
@@ -73,39 +91,25 @@
                               <th scope="col">Descripción</th>
                               <th scope="col">Costo</th>
                               <th scope="col">Imagen</th>
-                              <th scope="col">Ver más</th>
                             </tr>
                         </thead>
                         
                         <tbody id="myTable">
                             <%
-                                 Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculosPaquete");
-                                if(espectaculos == null){
-                                    System.out.println("VACIO");
-                                }else{
-                                    int i=0;
-                                    for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
-                                        String key = entry.getKey();
-                                        Espectaculo value = entry.getValue();
-                                        i++;
-
+                                TransporteListEspectaculosDePaqueteDTO nuevoDTO = (TransporteListEspectaculosDePaqueteDTO)request.getAttribute("espectaculosPaquete");
+                                List<EspectaculoPaqueteDTO> especs = nuevoDTO.getEspectaculos();
+                                
+                                for (EspectaculoPaqueteDTO espec : especs) {
 
                             %>
                             <tr class="align-middle clickable-row">
-                                <td id="nombreE" class="nombre"><%=value.getNombre()%></td>
-                                    <td><%=value.getDescripcion()%></td>
-                                    <td><%=value.getCosto()%></td>
+                                <td id="nombreE" class="nombre"><%=espec.getNombre()%></td>
+                                    <td><%=espec.getDescripcion()%></td>
+                                    <td><%=espec.getCosto()%></td>
                                     <td>
                                         <div class="">
-                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=value.getUrlIamgen()%>">
+                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espec.getImagen()%>">
                                         </div>
-                                    </td>
-                                    <td>
-                                        
-                                            <button type="submit" id="verMas" onclick="mostrarFila()" class="btn btn-outline-secondary">
-                                                Ver más
-                                            </button>   
-                                        
                                     </td>
                                 </tr>
                             <%
@@ -115,7 +119,7 @@
                         </tbody>
                     </table>
                 </div>
-                </form>
+
             </div>
             
             <%
@@ -223,21 +227,61 @@
     </div>
 
     <script>
+        
         $(document).ready( function () {
+            $("#btnValoresSeleccionados").removeAttr("type");
+            
+            alert("Debes seleccionar (haciendo click sobre la fila) un espectáculo antes de clickear el botón 'Mostrar datos'");
             $('#tablaEspec').DataTable({
                 searching: true,
                 ordering:  false
             });
-            $("#verMas").click(function() {
-                var $row = $(this).closest("tr"); 
-                // Find the row
-                var $text = $row.find("#nombreE").text(); // Find the text
-                
-                $("#especHidden").attr("value",$text);
-                // Let's test it out
-            });
+            $('#tablaEspec tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+             });
+
+             //Contar filas seleccionadas
+             $('#btnValoresSeleccionados').click(function() {
+                //alert(myTable.rows().data().length+' row(s) selected' );
+
+               //Recorre las filas de la tabla
+                var contador = 0;
+                 $('#tablaEspec tbody tr').each(function(indexFila){
+                   //verifica si  la fila seleccionada tiene la clase 'selected'
+                   if($(this).hasClass('selected')) {
+                        contador++;
+                        //Recorre las columnas de la tabla
+                    }
+
+                 });//fin de '#myTable tbody tr'
+                if(contador!==1){
+                    alert("Debes seleccionar un espectáculo");
+                }else if(contador===1){
+                    $('#tablaEspec tbody tr').each(function(indexFila){
+                        //verifica si  la fila seleccionada tiene la clase 'selected'
+                        if($(this).hasClass('selected')) {
+                             //Recorre las columnas de la tabla
+                             $(this).children('td').each(function(indexColumna){
+                                if(indexColumna===0){
+                                    campo1=$(this).text();
+                                    $("#nombreEspectaculoABuscar").attr("value",campo1);
+                                };
+                            });
+                         }
+                    });
+                    $("#btnValoresSeleccionados").attr("type","submit");
+                }
+             });//fin (btnSeleccionados)
+             // alert(myTable.rows('.selected').data().length+' row(s) selected' );
+
+             //Obtener valor de las filas a las que se hace click
+             var myFila= myTable.row( this ).data(); //Obtiene datos de una fila
+             $.each(myFila,function(index, contenido){ //Recorre un array
+                if(index===2){
+                   alert(contenido);
+                };
+             }); 
         } );
-        
     </script>
 </body>
 

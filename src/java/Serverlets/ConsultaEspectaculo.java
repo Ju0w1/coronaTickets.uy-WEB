@@ -99,13 +99,14 @@ public class ConsultaEspectaculo extends HttpServlet {
         String[] datos = espec.split("@");
         context.log(datos[0]);
 
+        String nuevaFuncionConREGEX = datos[0].replaceAll(" ", "%20");
         //ConsultaEspectaculoDTO consultaespec = new ConsultaEspectaculoDTO(espcSeleccionado.getNombre(), espcSeleccionado.getArtista(), espcSeleccionado.getDescripcion(), espcSeleccionado.getMin(), espcSeleccionado.getMax(), espcSeleccionado.getUrl(), espcSeleccionado.getCosto(), espcSeleccionado.getDuracion(), espcSeleccionado.getFecha(), espcSeleccionado.getCategorias(), espcSeleccionado.getUrlIamgen(), espcSeleccionado.getPlataforma(), espcSeleccionado.getEstado(), funcionesDeEspec, paquetes);
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos?nombre=Cuarteto%20de%20Nos");
-        ConsultaEspectaculoDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);
+        WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
         //ConsultaEspectaculoDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(login), ConsultaEspectaculoDTO.class);
 //        String data = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(String.class);
         try {
+            ConsultaEspectaculoDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);
 //              ConsultaEspectaculoDTO especDTO = new Gson().fromJson(data, ConsultaEspectaculoDTO.class);
 //              context.log(datos[0]);
 //            JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
