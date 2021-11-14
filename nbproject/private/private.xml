@@ -3,13 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculo.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/LoginDTO.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/UserDTO.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Home.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ComprarPaquete.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ConsultaEspectaculoDTO.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/login.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/CategoriasDTO.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculo.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/RegistroServerlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/registro.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Home.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/HomeServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/LoginServerlet.java</file>
         </group>
