@@ -98,7 +98,7 @@ public class ComprarPaquete extends HttpServlet {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/compra");
         try {
-                String responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(compra), String.class);
+                String responseAPI = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(compra), String.class);
                 //request.setAttribute("message", "Bienvenido");
                 RequestDispatcher view = request.getRequestDispatcher("/home");
                 view.forward(request, response);
