@@ -4,6 +4,7 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.FuncionDTOConsultaEspectaculo"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -59,7 +60,7 @@
             Date fecha = (Date) request.getAttribute("fecha");
             String urlImagen = (String) request.getAttribute("urlImagen");
             List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
-            List<Funcion> funciones = (List<Funcion>) request.getAttribute("funcionesDeEspec");
+            List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
             List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
 
 
@@ -181,7 +182,7 @@
                                 <div class="carousel-indicators">
                                     <%
                                         int i = 0;
-                                        for (Funcion funcionx : funciones) {
+                                        for (int xx=0;xx<funciones.size();xx++) {
                                             if (i == 0) {
                                     %>
                                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -199,12 +200,12 @@
                                 <div class="carousel-inner">
                                     <%
                                         i = 0;
-                                        for (Funcion funcionx : funciones) {
-                                            Funcion value2 = funcionx;
+                                        for (FuncionDTOConsultaEspectaculo funcionx : funciones) {
+                                            FuncionDTOConsultaEspectaculo value2 = funcionx;
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
@@ -217,7 +218,7 @@
                                     } else {
                                     %>
                                     <div class="carousel-item">
-                                        <img src="<%=value2.getUrlIamgen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=value2.getNombre()%>" />
