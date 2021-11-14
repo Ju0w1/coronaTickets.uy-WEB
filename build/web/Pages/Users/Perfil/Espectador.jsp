@@ -3,6 +3,13 @@
     Created on : 09/10/2021, 12:05:06 PM
     Author     : milto
 --%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.FuncionesDeUserDTO"%>
+<%@page import="DTOs.ListFuncionesDeUserDTO"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="DTOs.UserDTO"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Clases.Funcion"%>
 <%@page import="Logica.Clases.Usuario"%>
@@ -41,29 +48,45 @@
         <%}
     %>
     <%
-        Usuario espect = (Usuario) request.getAttribute("Espectador");
-        String imagen = espect.getImagen();
+        UserDTO espect = (UserDTO) request.getAttribute("Espectador");
+        String imagen = espect.getUrl_imagen();
         String nombre = espect.getNombre();
         String apellido = espect.getApellido();
-        DTFecha nacimiento = espect.getNacimiento();
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = espect.getNacimiento();
+        String strDate = dateFormat.format(date);  
+        String[] datos = strDate.split("-");
+        int dia = Integer.parseInt(datos[2]);
+        int mes = Integer.parseInt(datos[1]);
+        int anio = Integer.parseInt(datos[0]);
+        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+        
         String email = espect.getEmail();
         String nick = espect.getNickname();
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
-        boolean losigo = true;
-        //if (request.getAttribute("losigo")!= null){
-        //    losigo = (boolean) request.getAttribute("losigo");
+        
+        boolean losigo = (boolean) request.getAttribute("losigo");
+        
+        //boolean losigo = true;
+
+        // HAY QUE CAMBIAR ESTOOOOOOOOOOOOOOOOO QUE LO HAGA DESDE EL SERVLETTTTTT A LA API (FACIL)
+        //if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
+        //    losigo = true;
+        //    System.out.println("SI LO SIGO");
+        //} else {
+        //    System.out.println("NO LO SIGO");
+        //    losigo = false;
         //}
         
-        if(Fabrica.getInstance().getIControladorUsuario().loSigo(objSesion.getAttribute("nickname").toString(), nick)){
-            losigo = true;
-            System.out.println("SI LO SIGO");
-        } else {
-            System.out.println("NO LO SIGO");
-            losigo = false;
+        ListFuncionesDeUserDTO funcionesMap = (ListFuncionesDeUserDTO) request.getAttribute("Funciones");
+        Map<String, FuncionesDeUserDTO> funciones = new HashMap<>(); 
+        List<FuncionesDeUserDTO> funcionesX = funcionesMap.getFunciones();
+        for (FuncionesDeUserDTO funcion :  funcionesX) {
+            funciones.put(funcion.getNombre(),new FuncionesDeUserDTO(funcion.getNombre(),funcion.getEspectaculo(), funcion.getPlataforma()));
         }
         
-        Map<String, Funcion> funciones = (Map<String, Funcion>) request.getAttribute("Funciones");
         boolean login = false;
         if (request.getAttribute("login")!=null){
             login = true;
@@ -173,9 +196,9 @@
               </h6>
               
             <%
-                for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                for (Map.Entry<String, FuncionesDeUserDTO> entry : funciones.entrySet()) {
                     String key = entry.getKey();
-                    Funcion value = entry.getValue();  
+                    FuncionesDeUserDTO value = entry.getValue();  
             %>
               
               
@@ -190,7 +213,7 @@
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- NOMBRE -->
                     <h6 class="mb-0"> Espectaculo</h6>
-                    <span class="text-secondary"><%=value.getEspectaculo().getNombre() %></span>
+                    <span class="text-secondary"><%=value.getEspectaculo() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <!-- PLATAFORMA -->
@@ -203,7 +226,7 @@
                           d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
                       </svg>
                       Plataforma</h6>
-                    <span class="text-secondary"><%=value.getEspectaculo().getPlataforma() %></span>
+                    <span class="text-secondary"><%=value.getPlataforma() %></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <button class="btn btn-outline-primary">Detalles</button>

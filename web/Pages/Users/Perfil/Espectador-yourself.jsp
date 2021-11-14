@@ -3,6 +3,16 @@
     Created on : 09/10/2021, 12:02:29 PM
     Author     : milto
 --%>
+<%@page import="DTOs.PaquetesDeUserDTO"%>
+<%@page import="DTOs.ListPaquetesDeUserDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.google.common.collect.HashBiMap"%>
+<%@page import="DTOs.FuncionesDeUserDTO"%>
+<%@page import="DTOs.ListFuncionesDeUserDTO"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="DTOs.UserDTO"%>
 <%@page import="Logica.Clases.Paquete"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Clases.Funcion"%>
@@ -45,17 +55,40 @@
         <%}
     %>
     <%
-        Usuario espect = (Usuario) request.getAttribute("Espectador");
-        String imagen = espect.getImagen();
+        UserDTO espect = (UserDTO) request.getAttribute("Espectador");
+        String imagen = espect.getUrl_imagen();
         String nombre = espect.getNombre();
         String apellido = espect.getApellido();
-        DTFecha nacimiento = espect.getNacimiento();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = espect.getNacimiento();
+        String strDate = dateFormat.format(date);  
+        String[] datos = strDate.split("-");
+        int dia = Integer.parseInt(datos[2]);
+        int mes = Integer.parseInt(datos[1]);
+        int anio = Integer.parseInt(datos[0]);
+        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+
         String email = espect.getEmail();
         String nick = espect.getNickname();
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
-        Map<String, Funcion> funciones = (Map<String, Funcion>) request.getAttribute("Funciones");
-        Map<String, Paquete> paquetesRegistrado = (Map<String, Paquete>) request.getAttribute("paquetes");
+        
+        ListFuncionesDeUserDTO funcionesMap = (ListFuncionesDeUserDTO) request.getAttribute("Funciones");
+        Map<String, FuncionesDeUserDTO> funciones = new HashMap<>(); 
+        List<FuncionesDeUserDTO> funcionesX = funcionesMap.getFunciones();
+        for (FuncionesDeUserDTO funcion :  funcionesX) {
+            funciones.put(funcion.getNombre(),new FuncionesDeUserDTO(funcion.getNombre(),funcion.getEspectaculo(), funcion.getPlataforma()));
+        }
+        
+        ListPaquetesDeUserDTO paquetesMap = (ListPaquetesDeUserDTO) request.getAttribute("paquetes");
+        Map<String, PaquetesDeUserDTO> paquetesRegistrado = new HashMap<>(); 
+        List<PaquetesDeUserDTO> paquetesX = paquetesMap.getPaquetes();
+        for (PaquetesDeUserDTO paquete :  paquetesX) {
+            paquetesRegistrado.put(paquete.getNombre(),new PaquetesDeUserDTO(paquete.getNombre(), paquete.getDescuento()));
+        }
+        
+        //Map<String, Paquete> paquetesRegistrado = (Map<String, Paquete>) request.getAttribute("paquetes");
         System.out.println("La imagen es: \""+imagen+"\"");
     %>
   <div id="header"></div>
@@ -137,48 +170,49 @@
           <div class="row gutters-sm">
             <div class="col-sm-6 mb-3">
               <div class="card h-100">
+                <!--################################################################################################################################################################-->
                 <div class="card-body">
-                  <!-- FUNCIONES REGISTRADO -->
-                  <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Funciones </i>
-                    Registrado
-                  </h6>
+                    <!-- FUNCIONES REGISTRADO -->
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Funciones </i>
+                        Registrado
+                    </h6>
                     <%
-                        for (Map.Entry<String, Funcion> entry : funciones.entrySet()) {
+                        for (Map.Entry<String, FuncionesDeUserDTO> entry : funciones.entrySet()) {
                             String key = entry.getKey();
-                            Funcion value = entry.getValue();  
+                            FuncionesDeUserDTO value = entry.getValue();
                     %>
-                  <div class="func">
-                    <!-- FUNCION EJEMPLO -->
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- NOMBRE -->
-                        <h6 class="mb-0"> Nombre</h6>
-                        <span class="text-secondary"><%=value.getNombre() %></span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- NOMBRE -->
-                        <h6 class="mb-0"> Espectaculo</h6>
-                        <span class="text-secondary"><%=value.getEspectaculo().getNombre() %></span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- PLATAFORMA -->
-                        <h6 class="mb-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-collection-play" viewBox="0 0 16 16">
-                            <path
-                              d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z" />
-                            <path
-                              d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
-                          </svg>
-                          Plataforma</h6>
-                        <span class="text-secondary"><%=value.getEspectaculo().getPlataforma() %></span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <button class="btn btn-outline-primary">Detalles</button>
-                      </li>
-                    </ul>
-                  </div>
-                  <br>
+                    <div class="func">
+                        <!-- FUNCION EJEMPLO -->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- NOMBRE -->
+                                <h6 class="mb-0"> Nombre</h6>
+                                <span class="text-secondary"><%=value.getNombre()%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- NOMBRE -->
+                                <h6 class="mb-0"> Espectaculo</h6>
+                                <span class="text-secondary"><%=value.getEspectaculo()%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- PLATAFORMA -->
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-collection-play" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z" />
+                                    <path
+                                        d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z" />
+                                    </svg>
+                                    Plataforma</h6>
+                                <span class="text-secondary"><%=value.getPlataforma()%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <button class="btn btn-outline-primary">Detalles</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
                     <%
                         }
                     %>
@@ -187,39 +221,40 @@
             </div>
             <div class="col-sm-6 mb-3">
               <div class="card h-100">
+                <!--################################################################################################################################################################-->
                 <div class="card-body">
-                  <!-- PAQUETES COMPRADOS -->
-                  <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Pquetes </i>
-                    Comprados
-                  </h6>
+                    <!-- PAQUETES COMPRADOS -->
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Pquetes </i>
+                        Comprados
+                    </h6>
                     <%
-                        for (Map.Entry<String, Paquete> entry : paquetesRegistrado.entrySet()) {
+                        for (Map.Entry<String, PaquetesDeUserDTO> entry : paquetesRegistrado.entrySet()) {
                             String key = entry.getKey();
-                            Paquete value = entry.getValue();  
+                            PaquetesDeUserDTO value = entry.getValue();
                     %>
-                  <div class="func">
-                    <!-- PAQUETE EJEMPLO -->
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- NOMBRE -->
-                        <h6 class="mb-0"> Nombre</h6>
-                        <span class="text-secondary"><%=value.getNombre() %></span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <!-- DESCUENTO -->
-                        <h6 class="mb-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
-                            <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-                          </svg>
-                          Descuento</h6>
-                        <span class="text-secondary"><%=value.getDescuento() %></span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <button class="btn btn-outline-primary">Detalles</button>
-                      </li>
-                    </ul>
-                  </div>
-                  <br>
+                    <div class="func">
+                        <!-- PAQUETE EJEMPLO -->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- NOMBRE -->
+                                <h6 class="mb-0"> Nombre</h6>
+                                <span class="text-secondary"><%=value.getNombre()%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- DESCUENTO -->
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
+                                    <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                    </svg>
+                                    Descuento</h6>
+                                <span class="text-secondary"><%=value.getDescuento()%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <button class="btn btn-outline-primary">Detalles</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
                     <%
                         }
                     %>
