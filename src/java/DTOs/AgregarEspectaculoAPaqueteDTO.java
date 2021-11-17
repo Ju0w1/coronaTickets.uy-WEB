@@ -23,6 +23,8 @@ import javax.validation.constraints.Null;
 
 public class AgregarEspectaculoAPaqueteDTO implements Serializable {
     private ArrayList<String> espectaculos = new ArrayList();
+    private String paquete;
+    private String espectaculo;
     public AgregarEspectaculoAPaqueteDTO(){
         
     }
@@ -38,4 +40,26 @@ public class AgregarEspectaculoAPaqueteDTO implements Serializable {
     public AgregarEspectaculoAPaqueteDTO(ArrayList<String> espectaculos) {
         this.espectaculos = espectaculos;
     }
+
+    public String getPaquete() {
+        return paquete;
+    }
+
+    public String getEspectaculo() {
+        return espectaculo;
+    }
+
+    public void setPaquete(String paquete) {
+        this.paquete = paquete;
+    }
+
+    public void setEspectaculo(String espectaculo) {
+        this.espectaculo = espectaculo;
+    }
+
+    public AgregarEspectaculoAPaqueteDTO(String paquete, String espectaculo) {
+        this.paquete = paquete;
+        this.espectaculo = espectaculo;
+    }
+    
 }

@@ -29,8 +29,10 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -102,7 +104,10 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
             }
         } else {
             Client client3 = ClientBuilder.newClient();
-            WebTarget target3 = client3.target("http://localhost:8080/rest/api/espectaculos/obtenerEspectaculosDeArtistas?paquete=Rock%20Uruguayo&plataforma=Twitch&nickname=Natasha.Natasha");
+            String paqueteREGEX = paquete.replaceAll(" ", "%20");
+            String plataformaREGEX = plataforma.replaceAll(" ", "%20");
+            String artistaREGEX = user.replaceAll(" ", "%20");
+            WebTarget target3 = client3.target("http://localhost:8080/rest/api/espectaculos/obtenerEspectaculosDeArtistas?paquete=" + paqueteREGEX + "&plataforma=" + plataformaREGEX + "&nickname=" + artistaREGEX);
             try {
                 AgregarEspectaculoAPaqueteDTO responseAPIEspectaculos = target3.request(MediaType.APPLICATION_JSON).get(AgregarEspectaculoAPaqueteDTO.class);
                 context.log("entra:");
@@ -139,10 +144,21 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
         context.log("paquete:" + paquete);
         context.log("espectaculo:" + espectaculo);
 
-        ICP.AgregarEspPaq(espectaculo, paquete);
-        RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
-        view.forward(request, response);
-        // processRequest(request, response);
+//        ICP.AgregarEspPaq(espectaculo, paquete);
+//        RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+//        view.forward(request, response);
+        AgregarEspectaculoAPaqueteDTO especpaqDTO = new AgregarEspectaculoAPaqueteDTO(paquete, espectaculo);
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos/altaEspectaculoAPaquete");
+        try {
+            Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(especpaqDTO));
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+            view.forward(request, response);
+        } catch (WebApplicationException e) {
+            request.setAttribute("error", "Error");
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
+            view.forward(request, response);
+        }
     }
 
     /**
