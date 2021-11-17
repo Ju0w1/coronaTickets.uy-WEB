@@ -5,6 +5,7 @@
  */
 package Serverlets;
 
+import DTOs.AgregarEspectaculoAPaqueteDTO;
 import DTOs.PaquetesListaDTO;
 import DTOs.PlataformaDTO;
 import Logica.Clases.Espectaculo;
@@ -88,7 +89,7 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
         WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/obtenerPaquetes");
 
         Client client2 = ClientBuilder.newClient();
-        WebTarget target2 = client.target("http://localhost:8080/rest/api/paquetes/obtenerPlataformasPaquete");
+        WebTarget target2 = client2.target("http://localhost:8080/rest/api/paquetes/obtenerPlataformasPaquete");
 
         if (paquete == null || plataforma == null) {
             try {
@@ -101,13 +102,16 @@ public class AgregarEspectaculoAPaquete extends HttpServlet {
             }
         } else {
             Client client3 = ClientBuilder.newClient();
-            WebTarget target3 = client.target("http://localhost:8080/rest/api/paquetes/obtenerPlataformasPaquete");
-            PlataformaDTO responseAPIEspectaculos = target.request(MediaType.APPLICATION_JSON).get(PlataformaDTO.class);
-            context.log("entra:");
-            ArrayList<String> espectaculos = (ArrayList<String>) ICE.obtenerEspectaculosDeArtistaQueNoEstanEnPaquete(paquete, plataforma, user);
-            request.setAttribute("espectaculos", espectaculos);
-            request.setAttribute("plataforma", plataforma);
-            request.setAttribute("paquete", paquete);
+            WebTarget target3 = client3.target("http://localhost:8080/rest/api/espectaculos/obtenerEspectaculosDeArtistas?paquete=Rock%20Uruguayo&plataforma=Twitch&nickname=Natasha.Natasha");
+            try {
+                AgregarEspectaculoAPaqueteDTO responseAPIEspectaculos = target3.request(MediaType.APPLICATION_JSON).get(AgregarEspectaculoAPaqueteDTO.class);
+                context.log("entra:");
+                request.setAttribute("espectaculos", responseAPIEspectaculos.getEspectaculos());
+                request.setAttribute("plataforma", plataforma);
+                request.setAttribute("paquete", paquete);
+            } catch (WebApplicationException e) {
+                request.setAttribute("error", "Error");
+            }
         }
 
         RequestDispatcher view = request.getRequestDispatcher("/Pages/Paquetes/agregarEspectaculoAPaquete.jsp");
