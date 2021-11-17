@@ -45,7 +45,7 @@
             if (objSesion.getAttribute("nickname") != null) {%>
         <%@include file="/Pages/Common/HeaderSearchLogeado.jsp" %>
         <%} else {%>
-        <%@include file="/Pages/Common/HeaderSearch.jsp" %>
+        <jsp:include page="/SearchBarServerlet" />
         <%}
         %>
         <%
