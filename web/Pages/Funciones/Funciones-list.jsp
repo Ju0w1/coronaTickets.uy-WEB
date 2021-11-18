@@ -154,6 +154,9 @@
                                 for (Map.Entry<String, Espectaculo> entry : espectaculosFiltrados.entrySet()) {
                                     String key = entry.getKey();
                                     Espectaculo value = entry.getValue();
+                                    if(value.getUrlIamgen()==null){
+                                        value.setUrlImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                                    }
                         %>
                         <form action="/CoronaTickets-Web/funciones" method="post">
                             <div class="item d-flex align-items-center">

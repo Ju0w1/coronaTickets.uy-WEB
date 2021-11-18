@@ -93,13 +93,11 @@ public class ConsultaEspectaculo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String espec = request.getParameter("ver_mas");
+        String espec = request.getParameter("nombreEspectaculo");
         ServletContext context = getServletContext();
-        context.log(espec);
-        String[] datos = espec.split("@");
-        context.log(datos[0]);
+        context.log("Nombre del espec: "+espec);
 
-        String nuevaFuncionConREGEX = datos[0].replaceAll(" ", "%20");
+        String nuevaFuncionConREGEX = espec.replaceAll(" ", "%20");
         //ConsultaEspectaculoDTO consultaespec = new ConsultaEspectaculoDTO(espcSeleccionado.getNombre(), espcSeleccionado.getArtista(), espcSeleccionado.getDescripcion(), espcSeleccionado.getMin(), espcSeleccionado.getMax(), espcSeleccionado.getUrl(), espcSeleccionado.getCosto(), espcSeleccionado.getDuracion(), espcSeleccionado.getFecha(), espcSeleccionado.getCategorias(), espcSeleccionado.getUrlIamgen(), espcSeleccionado.getPlataforma(), espcSeleccionado.getEstado(), funcionesDeEspec, paquetes);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
@@ -122,7 +120,11 @@ public class ConsultaEspectaculo extends HttpServlet {
             request.setAttribute("costo", responseAPI.getCosto());
             request.setAttribute("duracion", responseAPI.getDuracion());
             request.setAttribute("fecha", responseAPI.getFecha_Registro());
-            request.setAttribute("urlImagen", responseAPI.getUrl_imagen());
+            if(responseAPI.getUrl_imagen() == null){
+                request.setAttribute("urlImagen","");
+            }else{
+                request.setAttribute("urlImagen",responseAPI.getUrl_imagen());
+            }
             request.setAttribute("categorias", responseAPI.getCategorias());
             RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculo.jsp");
             view.forward(request, response);

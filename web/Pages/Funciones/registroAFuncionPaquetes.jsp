@@ -94,6 +94,9 @@
                                     for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
                                         String key = entry.getKey();
                                         Paquete value = entry.getValue();
+                                        if(value.getUrl()==null){
+                                            value.setUrl("https://i.imgur.com/Hh3cYL8.jpeg");
+                                        }
                                         i++;
                             %>
                                         <tr class="align-middle clickable-row">

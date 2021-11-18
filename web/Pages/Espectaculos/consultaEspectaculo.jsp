@@ -15,8 +15,9 @@
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
     <head>
         <link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
@@ -58,7 +59,12 @@
             double costo = (double) request.getAttribute("costo");
             double duracion = (double) request.getAttribute("duracion");
             Date fecha = (Date) request.getAttribute("fecha");
-            String urlImagen = (String) request.getAttribute("urlImagen");
+            String urlImagen = "";
+            if(request.getAttribute("urlImagen").toString().equals("")){
+                urlImagen = "https://i.imgur.com/Hh3cYL8.jpeg";
+            }else{
+                urlImagen = (String) request.getAttribute("urlImagen");
+            }
             List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
             List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
             List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
@@ -200,9 +206,13 @@
                                         i = 0;
                                         for (FuncionDTOConsultaEspectaculo funcionx : funciones) {
                                             FuncionDTOConsultaEspectaculo value2 = funcionx;
+                                            if(value2.getUrl_imagen() == null){
+                                                value2.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                                            }
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
+                                        <h6><%=value2.getNombre()%></h6>
                                         <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
@@ -216,6 +226,7 @@
                                     } else {
                                     %>
                                     <div class="carousel-item">
+                                        <h6><%=value2.getNombre()%></h6>
                                         <img src="<%=value2.getUrl_imagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
@@ -302,13 +313,17 @@
                                             float costop = value.getCosto();
                                             String urlImagenp = value.getUrl();
                                             String concat = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
+                                            if(value.getUrl()==null){
+                                                value.setUrl("https://i.imgur.com/Hh3cYL8.jpeg");
+                                            }
                                             if (i == 0) {
                                     %>
                                     <div class="carousel-item active">
+                                        <h6><%=value.getNombre()%></h6>
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat%>" name="ver_mas">
+                                                <input type="hidden" value="<%= value.getNombre() %>" name="nombrePaquete">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -318,10 +333,11 @@
                                     } else {
                                     %>
                                     <div class="carousel-item">
+                                        <h6><%=value.getNombre()%></h6>
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat%>" name="ver_mas">
+                                                <input type="hidden" value="<%= value.getNombre() %>" name="nombrePaquete">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>

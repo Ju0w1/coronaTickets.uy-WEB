@@ -12,7 +12,7 @@
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <link rel="icon" href="https://i.imgur.com/KXDtCAj.png">
@@ -101,6 +101,9 @@
                                 List<EspectaculoPaqueteDTO> especs = nuevoDTO.getEspectaculos();
                                 
                                 for (EspectaculoPaqueteDTO espec : especs) {
+                                    if(espec.getImagen()==null){
+                                        espec.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                                    }
 
                             %>
                             <tr class="align-middle clickable-row">
@@ -143,6 +146,10 @@
                         mes = Integer.toString(espec.getFecha_Registro().getMonth());
                     }
                     String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
+
+                    if(espec.getUrl_imagen()==null){
+                        espec.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                    }
 
             %>  
             <div class="row">

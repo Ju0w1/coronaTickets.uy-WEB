@@ -132,6 +132,11 @@
             </div>
             <div class="col-6 d-flex justify-content-md-center align-items-center">
                 <div class="w-100 d-flex justify-content-md-center align-items-center">
+                    <%
+                        if(funcion.getUrlImagen()==null){
+                            funcion.setUrlImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                        }
+                    %>
                     <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=funcion.getUrlImagen()%>">
                 </div>
             </div>

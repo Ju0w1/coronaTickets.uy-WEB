@@ -4,6 +4,9 @@
     Author     : LucasCiceri
 --%>
 
+<%@page import="DTOs.HomeEspectaculoDTO"%>
+<%@page import="DTOs.HomePaqueteDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="Logica.Clases.Espectaculo"%>
 <%@page import="Logica.Interfaz.IControladorPaquete"%>
 <%@page import="Logica.Fabrica"%>
@@ -17,8 +20,8 @@
 
     <html>
     <head>
-
         <meta charset="UTF-8">
+        <meta http-equiv="Content-Type"  content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CoronaTickets - Home</title>
@@ -80,58 +83,25 @@
                         <div class="col-6 " id="content-3" style="height: 85vh">
                             <h1>Paquetes</h1>
                             <%
-                                Map<String, Paquete> paquetes = (Map<String, Paquete>) request.getAttribute("paquetes");
-                                if(paquetes == null){
+                                List<HomePaqueteDTO> arregloPaquetes = (List<HomePaqueteDTO>)request.getAttribute("paquetes");
+                               
+                                if(arregloPaquetes.isEmpty()){
                                     System.out.println("VACIO");
                                 }else{
-                                    for (Map.Entry<String, Paquete> entry : paquetes.entrySet()) {
-                                        String key = entry.getKey();
-                                        Paquete value = entry.getValue();
-                                        String nombre =value.getNombre();
-                                        String desc = value.getDescripcion();
-                                        
-                                        String mes1;
-                                        if(value.getFecha_Inicio().getMes()<10){
-                                           mes1 = "0"+value.getFecha_Inicio().getMes();
-                                        }else{
-                                           mes1 = Integer.toString(value.getFecha_Inicio().getMes());
+                                    for (HomePaqueteDTO paquete : arregloPaquetes) {
+                                        if(paquete.getImagen()==null){
+                                            paquete.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                         }
-                                        String dia1;
-                                        if(value.getFecha_Inicio().getDia()<10){
-                                           dia1 = "0"+value.getFecha_Inicio().getDia();
-                                        }else{
-                                           dia1 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        String mes2;
-                                        if(value.getFecha_Fin().getMes()<10){
-                                           mes2 = "0"+value.getFecha_Fin().getMes();
-                                        }else{
-                                           mes2 = Integer.toString(value.getFecha_Fin().getMes());
-                                        }
-                                        String dia2;
-                                        if(value.getFecha_Fin().getDia()<10){
-                                           dia2 = "0"+value.getFecha_Fin().getDia();
-                                        }else{
-                                           dia2 = Integer.toString(value.getFecha_Inicio().getDia());
-                                        }
-                                        
-                                        String fechaIni = value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
-                                        String fechaFin = value.getFecha_Fin().getAnio()+"-"+mes2+"-"+dia2;
-                                        //String fechaFin = value.getFecha_Fin().getDia()+"/"+value.getFecha_Fin().getMes()+"/"+value.getFecha_Fin().getAnio();
-                                        
-                                        float descuento = value.getDescuento();
-                                        float costo = value.getCosto();
-                                        String urlImagen = value.getUrl();
-                                        String concat = nombre+"@"+desc+"@"+fechaIni+"@"+fechaFin+"@"+Float.toString(descuento)+"@"+Float.toString(costo)+"@"+urlImagen;
                             %>
                             <div class="row">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
-                                        <input type="hidden" id="nombrePaqueteLista" name="nombrePaqueteLista" class="nombrePaqueteLista" value="<%=nombre%>">
-                                        <img src="<%= value.getUrl()%>" id="" class="card-img">
+                                        <h4><%= paquete.getNombre() %></h4>
+                                        <img src="<%= paquete.getImagen() %>" id="" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="hidden" id="nombrePaquete" name="nombrePaquete" class="nombrePaqueteLista" value="<%= paquete.getNombre() %>">
+                                                <input type="hidden" value="" name="ver_mas">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -147,10 +117,17 @@
                         <div class="col-6" id="content-4" style="height: 85vh">
                             <h1>Espectáculos</h1>
                             <%
-                                Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
-                                if(espectaculos == null){
+                                List<HomeEspectaculoDTO> arregloEspectaculos = (List<HomeEspectaculoDTO>)request.getAttribute("espectaculos");
+                                
+                                //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+                                if(arregloEspectaculos.isEmpty()){
                                     System.out.println("VACIO");
                                 }else{
+                                    for (HomeEspectaculoDTO espectaculo : arregloEspectaculos) {
+                                        if(espectaculo.getImagen()==null){
+                                            espectaculo.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                                        }
+                                    /*
                                     for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
                                         String key = entry.getKey();
                                         Espectaculo value = entry.getValue();
@@ -165,15 +142,17 @@
                                         String fecha = value.getFecha().toString();
                                         String urlImagen = value.getUrlIamgen();
                                         String concat = nombre+"@"+artista+"@"+descripcion+"@"+especmax+"@"+especmin+"@"+url+"@"+costo+"@"+duracion+"@"+fecha+"@"+urlImagen;
+                                    */
                             %>
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
                                     <div class="card bg-dark text-white">
-                                        <input type="hidden" id="nombrePaqueteLista" name="nombrePaqueteLista" class="nombrePaqueteLista" value="<%=nombre%>">
-                                        <img src="<%= value.getUrlIamgen()%>" id="<%=key%>" class="card-img">
+                                        <h4><%= espectaculo.getNombre() %></h4>
+                                        <img src="<%= espectaculo.getImagen() %>" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
-                                                <input type="hidden" value="<%= concat %>" name="ver_mas">
+                                                <input type="hidden" id="nombrePaqueteLista" name="nombreEspectaculo" class="nombrePaqueteLista" value="<%= espectaculo.getNombre() %>">
+                                                <input type="hidden" value="" name="ver_mas">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>

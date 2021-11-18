@@ -55,7 +55,12 @@
             String descuento = (String) request.getAttribute("descuento");
             String costo = "0";
             //String costo = (String) request.getAttribute("costo");
-            String imagen = (String) request.getAttribute("imagen");
+            String imagen = "";
+            if(request.getAttribute("imagen") == null){
+                imagen = "https://i.imgur.com/Hh3cYL8.jpeg";
+            }else{
+                imagen = (String) request.getAttribute("imagen");
+            }
             String nickname = (String) objSesion.getAttribute("nickname");
             Map<String, Paquete> paquetes2 = new HashMap<>();
             paquetes2 = (Map<String, Paquete>) request.getAttribute("paquetes2");

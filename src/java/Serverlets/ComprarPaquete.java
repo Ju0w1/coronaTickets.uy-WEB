@@ -94,7 +94,8 @@ public class ComprarPaquete extends HttpServlet {
         String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
         String nickUsuario= (String) objSesion.getAttribute("nickname");
         //
-        CompraPaqueteDTO compra= new CompraPaqueteDTO(nickUsuario, nombrePaquete);
+        String nuevoPaqueteConREGEX = nombrePaquete.replaceAll(" ", "%20");
+        CompraPaqueteDTO compra= new CompraPaqueteDTO(nickUsuario, nuevoPaqueteConREGEX);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/compra");
         try {

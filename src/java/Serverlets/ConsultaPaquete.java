@@ -35,7 +35,7 @@ import javax.ws.rs.core.MediaType;
  */
 @WebServlet(name = "ConsultaPaquete", urlPatterns = {"/Paquete"})
 public class ConsultaPaquete extends HttpServlet {
-
+    
     Fabrica fabrica = Fabrica.getInstance();
     IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
     IControladorPaquete ICP = fabrica.getIControladorPaquete();
@@ -82,11 +82,8 @@ public class ConsultaPaquete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-            String paquete = request.getParameter("ver_mas");
-            ServletContext context = getServletContext( );
-            context.log(paquete);
-            String[] datos = paquete.split("@");
-            String nombre = datos[0];           
+            String nombrePaq = request.getParameter("nombrePaquete");
+        
             
             HttpSession objSesion = request.getSession();
             String nickUsuario= (String) objSesion.getAttribute("nickname");
@@ -94,15 +91,15 @@ public class ConsultaPaquete extends HttpServlet {
             Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
             request.setAttribute("paquetes2", paquetes);
             
+            String nuevaFuncionConREGEX = nombrePaq.replaceAll(" ", "%20");
             
-            String nuevaFuncionConREGEX = nombre.replaceAll(" ", "%20");
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/consultaPaq?paquete="+nuevaFuncionConREGEX);
             
             try {
                 ConsultaPaqueteDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(ConsultaPaqueteDTO.class);
 
-                request.setAttribute("nombre", responseAPI.getNombre());
+                request.setAttribute("nombre", nombrePaq);
                 request.setAttribute("descripcion", responseAPI.getDescripcion());
                 request.setAttribute("fechaIni", responseAPI.getFechaInicio());
                 request.setAttribute("fechaFin", responseAPI.getFechaFin());
@@ -115,7 +112,6 @@ public class ConsultaPaquete extends HttpServlet {
 
 
             } catch (WebApplicationException e) {
-                context.log(String.valueOf(e.getResponse().getStatus()));
                 if(e.getResponse().getStatus()==401){
                     request.setAttribute("error", "El paquete no existe");
                     RequestDispatcher view = request.getRequestDispatcher("/home");
