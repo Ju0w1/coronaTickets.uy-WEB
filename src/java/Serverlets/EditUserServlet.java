@@ -114,12 +114,13 @@ public class EditUserServlet extends HttpServlet {
         if(responseAPI.getTipo().equals("artista")){
             UserDTO art = new UserDTO(responseAPI.getNickname(), responseAPI.getNombre(),responseAPI.getApellido(), responseAPI.getEmail(), date, responseAPI.getUrl_imagen(), responseAPI.getDesc(), responseAPI.getBio(), responseAPI.getLink());
             request.setAttribute("artista", art);
-            System.out.println("BIEND DE BIEN");
         } else {
+            System.out.println("BIEND DE BIEN");
             UserDTO espec = new UserDTO(responseAPI.getNickname(), responseAPI.getNombre(), responseAPI.getApellido(), responseAPI.getEmail(), date, responseAPI.getUrl_imagen());
             request.setAttribute("espectador", espec);
         }
         
+        System.out.println("Me llego el nick::::::::::::: " + nick);
 //        if(ICU.obtenerArtistaPorNick(nick)!=null){ // ES ARTISTA
 //            Artista art = ICU.obtenerArtistaPorNick(nick);
 //            request.setAttribute("artista", art);

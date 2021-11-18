@@ -65,13 +65,13 @@ public class UserDTO implements Serializable {
         this.email = email;
         this.nacimiento = nacimiento;
     }
-    public UserDTO(String nickname, String nombre, String apellido, String email, Date nacimiento, String tipo) {
+    public UserDTO(String nickname, String nombre, String apellido, String email, Date nacimiento, String imagen) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.nacimiento = nacimiento;
-        this.tipo = tipo;
+        this.url_imagen = imagen;
     }
     public UserDTO(String nick){
         this.nickname = nick;
@@ -91,6 +91,12 @@ public class UserDTO implements Serializable {
     public UserDTO(String nick, String imagen){
         this.nickname = nick;
         this.url_imagen = imagen;
+    }
+    public UserDTO(String nick, String email, String imagen, String tipo){
+        this.nickname = nick;
+        this.email = email;
+        this.url_imagen = imagen;
+        this.tipo = tipo;
     }
     
     
