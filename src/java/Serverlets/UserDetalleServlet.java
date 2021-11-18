@@ -156,7 +156,7 @@ public class UserDetalleServlet extends HttpServlet {
         
         
         if (responseAPI.getTipo().equals("espectador")){
-            System.out.println("NO ES ARTISTA");
+
             UserDTO espect = responseAPI;
             System.out.println("ES ESPECTADOR");
             request.setAttribute("Espectador", espect);

@@ -5,6 +5,8 @@ package Serverlets;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import DTOs.ListUserDTO;
+import DTOs.UserDTO;
 import Logica.Clases.Artista;
 import Logica.Clases.Espectador;
 import java.io.IOException;
@@ -23,6 +25,11 @@ import Logica.Interfaz.IControladorPaquete;
 import Logica.Interfaz.IControladorUsuario;
 import java.util.HashSet;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import org.apache.jasper.tagplugins.jstl.core.Url;
 
 /**
@@ -42,24 +49,45 @@ public class UsersServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    //Fabrica fabrica = Fabrica.getInstance();
+    //IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.obtenerUsuarios();
-        boolean tipoUser[] = new boolean[usuarios.size()];
-        int cont=0;
-        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
-            String key = entry.getKey();
-            if (ICU.obtenerArtistaPorNick(key)!=null){ //Artista = true
-                tipoUser[cont]=true;
-            } else { //Espectador = false
-                tipoUser[cont]= false;
-            }
-            cont++;
-        }
-        request.setAttribute("tipoUser", tipoUser);
+        
+        Client client = ClientBuilder.newClient();
+        UserDTO userTest = new UserDTO("nada");//SOLO PARA ENVIARLE ALGO A LA API
+        WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/getAllUsers");
+        ListUserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userTest), ListUserDTO.class);
+        
+        List<UserDTO> usuarios = responseAPI.getUsuarios();
+        System.out.println("Cantidad de usuarios: " + usuarios.size());
+//        boolean tipoUser[] = new boolean[usuarios.size()];// XREO UN ARRAY PARA SABER LA POSICION DE LOS ARTISTAS Y ESPECTADORES PARA EL JSP
+//        int cont=0;
+//        
+//        for (UserDTO user :  usuarios) {
+//            if(user.getTipo().equals("artista")){
+//                System.out.println("Usuario: " + user.getNickname() + " es Artista");
+//                //tipoUser[cont]=true;
+//            } else {
+//                //tipoUser[cont]= false;
+//                System.out.println("Usuario: " + user.getNickname() + " es Espectador");
+//            }
+//            cont++;
+////funciones.put(funcion.getNombre(),new FuncionesDeUserDTO(funcion.getNombre(),funcion.getEspectaculo(), funcion.getPlataforma()));
+//        }
+        
+//        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+//            String key = entry.getKey();
+//            if (ICU.obtenerArtistaPorNick(key)!=null){ //Artista = true
+//                tipoUser[cont]=true;
+//            } else { //Espectador = false
+//                tipoUser[cont]= false;
+//            }
+//            cont++;
+//        }
+        //request.setAttribute("tipoUser", tipoUser);
         
         String respuesta;
         if(usuarios.isEmpty()){
@@ -103,42 +131,42 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nickname = request.getParameter("data");
-        HttpSession objSesion = request.getSession();
-        //String[] datos = nickname.split(",");
-        //String nick = datos[0];
-        //String usuario = objSesion.getAttribute("nickname").toString();
-        
-        if (ICU.obtenerArtistaPorNick(nickname)==null){
-            System.out.println("NO ES ARTISTA");
-            Usuario espect = ICU.obtenerEspectadorPorNick(nickname);
-            System.out.println("ES ESPECTADOR");
-            request.setAttribute("Espectador", espect);
-            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
-                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
-                view.forward(request, response);
-            } else {
-                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
-                view.forward(request, response);
-            }
-        } else {
-            Artista art=ICU.obtenerArtistaPorNick(nickname);
-            System.out.println("IMAGEN GUARDADA: " + art.getImagen());
-            request.setAttribute("Artista", art);
-            
-            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
-                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
-                view.forward(request, response);
-            } else {
-                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
-                view.forward(request, response);
-            }
-        }
-        //processRequest(request, response);
+//        String nickname = request.getParameter("data");
+//        HttpSession objSesion = request.getSession();
+//        //String[] datos = nickname.split(",");
+//        //String nick = datos[0];
+//        //String usuario = objSesion.getAttribute("nickname").toString();
+//        
+//        if (ICU.obtenerArtistaPorNick(nickname)==null){
+//            System.out.println("NO ES ARTISTA");
+//            Usuario espect = ICU.obtenerEspectadorPorNick(nickname);
+//            System.out.println("ES ESPECTADOR");
+//            request.setAttribute("Espectador", espect);
+//            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
+//                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador-yourself.jsp");
+//                view.forward(request, response);
+//            } else {
+//                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Espectador.jsp");
+//                view.forward(request, response);
+//            }
+//        } else {
+//            Artista art=ICU.obtenerArtistaPorNick(nickname);
+//            System.out.println("IMAGEN GUARDADA: " + art.getImagen());
+//            request.setAttribute("Artista", art);
+//            
+//            if(objSesion.getAttribute("nickname").toString().equals(nickname)){
+//                System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");
+//                view.forward(request, response);
+//            } else {
+//                System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+//                RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista.jsp");
+//                view.forward(request, response);
+//            }
+//        }
+//        //processRequest(request, response);
     }
 
     /**

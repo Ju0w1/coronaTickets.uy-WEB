@@ -34,11 +34,13 @@
         <%}
         %>
         <%
+            System.out.println("Me llego el nick:::::::::::::::: " + objSesion.getAttribute("nickname").toString());
             String imagen, apellido, nombre, email, nick, bio="", desc="", sitio="";
             DTFecha nacimiento;
             if (request.getAttribute("espectador") != null) {
                 UserDTO espect = (UserDTO) request.getAttribute("espectador");
                 imagen = espect.getUrl_imagen();
+            System.out.println("La imagen es: \"" + imagen + "\"");
                 nombre = espect.getNombre();
                 apellido = espect.getApellido();
                 
@@ -53,9 +55,8 @@
                 
                 email = espect.getEmail();
                 nick = espect.getNickname();
-                if(imagen.equals("")){
-                    imagen = "https://imgur.com/mwpO9Ct.png";
-                }
+                
+            System.out.println("Me llego el nick::::::::::::::::::: " + objSesion.getAttribute("nickname").toString());
             } else {
                 UserDTO art = (UserDTO) request.getAttribute("artista");
                 imagen = art.getUrl_imagen();
@@ -76,11 +77,11 @@
                 bio = art.getBio();
                 desc = art.getDesc();
                 sitio = art.getLink();
-                if(imagen.equals("")){
-                    imagen = "https://imgur.com/mwpO9Ct.png";
-                }
             }
-            System.out.println("La imagen es: \"" + imagen + "\"");
+            if(imagen.equals("")){
+                imagen = "https://imgur.com/mwpO9Ct.png";
+            }
+            System.out.println("La imagen esszssss: \"" + imagen + "\"");
         %>
     </head>
     <body>

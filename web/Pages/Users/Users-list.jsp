@@ -3,6 +3,8 @@
     Created on : 09/10/2021, 10:50:18 AM
     Author     : milto
 --%>
+<%@page import="java.util.List"%>
+<%@page import="DTOs.UserDTO"%>
 <%@page import="Logica.Clases.Usuario"%>
 
 <%@page import="Logica.Interfaz.IControladorUsuario"%>
@@ -43,9 +45,14 @@
    <div id="header"></div>
    <br>
     <%
-        Map<String, Usuario> usuarios = (Map<String, Usuario>) request.getAttribute("usuarios");
-        boolean tipoUser[] = (boolean[]) request.getAttribute("tipoUser");
+        List<UserDTO> userss = (List<UserDTO>) request.getAttribute("usuarios");
         
+        //Map<String, Usuario> usuarios = (Map<String, Usuario>) request.getAttribute("usuarios");
+        Map<String, UserDTO> usuarios = new HashMap<>();
+        for (UserDTO user :  userss) {
+            usuarios.put(user.getNickname(), new UserDTO(user.getNickname(), user.getEmail(), user.getUrl_imagen(), user.getTipo()));
+        }
+
         String mensaje = (String) request.getAttribute("mensaje");
         System.out.println(mensaje);
         if(mensaje.equals("Vacio")){
@@ -67,22 +74,23 @@
                <div class="card-body no-padding">
                     <!--USUARIO-->
                     <%
-                        int i = 0;
-                        for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
-                            if(tipoUser[i]){
+                        //int i = 0;
+                        for (Map.Entry<String, UserDTO> entry : usuarios.entrySet()) {
                                 String key = entry.getKey();
-                                Usuario value = entry.getValue();
+                                UserDTO value = entry.getValue();
+                            if(value.getTipo().equals("artista")){
+                                System.out.println("Usuario: " + value.getNickname() + " es Artista");
                         %>
                         <div class="item d-flex align-items-center">
                            <div class="image">
                                 <%
-                                    if(value.getImagen().equals("")){ //NO TIENE IMAGEN
+                                    if(value.getUrl_imagen().equals("")){ //NO TIENE IMAGEN
                                 %>
                                     <img src="https://imgur.com/mwpO9Ct.png" alt="fotoPerfil" class="img-fluid rounded-circle">
                                 <%  }
                                     else {
                                 %>
-                                    <img src="<%=value.getImagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
+                                    <img src="<%=value.getUrl_imagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
                                 <%
                                     }
                                 %>
@@ -103,7 +111,7 @@
                         </div>
                         <%
                             }
-                            i++;
+                            //i++;
                         }
                         %>
                </div>
@@ -119,11 +127,13 @@
                <div class="card-body no-padding">
                   <!--USUARIO-->
                   <%
-                    i=0;
-                    for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
+//                    i=0;
+                    for (Map.Entry<String, UserDTO> entry : usuarios.entrySet()) {
                         String key = entry.getKey();
-                        Usuario value = entry.getValue();
-                        if(tipoUser[i]){
+                        UserDTO value = entry.getValue();
+                        System.out.println("Usuario: " + value.getNickname() + " es Espectador");
+                        if(value.getTipo().equals("artista")){
+//if(tipoUser[i]){
                             
                         } else {
                         //###########################################
@@ -132,13 +142,13 @@
                   <div class="item d-flex align-items-center">
                        <div class="image">
                            <%
-                                if(value.getImagen().equals("")){ //NO TIENE IMAGEN
+                                if(value.getUrl_imagen().equals("")){ //NO TIENE IMAGEN
                             %>
                                 <img src="https://imgur.com/mwpO9Ct.png" alt="fotoPerfil" class="img-fluid rounded-circle">
                             <%  }
                                 else {
                             %>
-                                <img src="<%=value.getImagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
+                                <img src="<%=value.getUrl_imagen()%>" alt="fotoPerfil" class="img-fluid rounded-circle">
                             <%
                                 }
                             %>
@@ -160,7 +170,7 @@
                    <%
                         //###########################################
                         }
-                        i++;
+//                        i++;
                     }
                         // ##########################################
                     %> 
