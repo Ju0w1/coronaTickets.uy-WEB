@@ -104,6 +104,19 @@
                                     if(espec.getImagen()==null){
                                         espec.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                     }
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã¡", "\u00E1"));
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã©", "\u00E9"));
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã³", "\u00F3"));
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ãº", "\u00FA"));
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã±", "\u00F1"));
+                                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã", "\u00ED"));
+
+                                    espec.setNombre(espec.getNombre().replaceAll("Ã¡", "\u00E1"));
+                                    espec.setNombre(espec.getNombre().replaceAll("Ã©", "\u00E9"));
+                                    espec.setNombre(espec.getNombre().replaceAll("Ã³", "\u00F3"));
+                                    espec.setNombre(espec.getNombre().replaceAll("Ãº", "\u00FA"));
+                                    espec.setNombre(espec.getNombre().replaceAll("Ã±", "\u00F1"));
+                                    espec.setNombre(espec.getNombre().replaceAll("Ã", "\u00ED"));
 
                             %>
                             <tr class="align-middle clickable-row">
@@ -112,7 +125,7 @@
                                     <td><%=espec.getCosto()%></td>
                                     <td>
                                         <div class="">
-                                            <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=espec.getImagen()%>">
+                                            <img style="max-height:75%; max-width:75%;object-fit: contain;" src="<%=espec.getImagen()%>">
                                         </div>
                                     </td>
                                 </tr>
@@ -133,6 +146,20 @@
 
                     //espectaculo.getUrlIamgen()
                     //value.getFecha_Inicio().getAnio()+"-"+mes1+"-"+dia1;
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã¡", "\u00E1"));
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã©", "\u00E9"));
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã³", "\u00F3"));
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ãº", "\u00FA"));
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã±", "\u00F1"));
+                    espec.setDescripcion(espec.getDescripcion().replaceAll("Ã", "\u00ED"));
+                    
+                    espec.setNombre(espec.getNombre().replaceAll("Ã¡", "\u00E1"));
+                    espec.setNombre(espec.getNombre().replaceAll("Ã©", "\u00E9"));
+                    espec.setNombre(espec.getNombre().replaceAll("Ã³", "\u00F3"));
+                    espec.setNombre(espec.getNombre().replaceAll("Ãº", "\u00FA"));
+                    espec.setNombre(espec.getNombre().replaceAll("Ã±", "\u00F1"));
+                    espec.setNombre(espec.getNombre().replaceAll("Ã", "\u00ED"));
+
                     String dia;
                     String mes;
                     if(espec.getFecha_Registro().getDate() <10){

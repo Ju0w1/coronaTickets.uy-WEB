@@ -51,8 +51,20 @@
         %>
         <%
             String nombre = (String) request.getAttribute("nombre");
+            nombre = nombre.replaceAll("Ã¡", "\u00E1");
+            nombre = nombre.replaceAll("Ã©", "\u00E9");
+            nombre = nombre.replaceAll("Ã­", "\u00ED");
+            nombre = nombre.replaceAll("Ã³", "\u00F3");
+            nombre = nombre.replaceAll("Ãº", "\u00FA");
+            nombre = nombre.replaceAll("Ã±", "\u00F1");
             int artista = (int) request.getAttribute("artista");
             String descripcion = (String) request.getAttribute("descripcion");
+            descripcion = descripcion.replaceAll("Ã¡", "\u00E1");
+            descripcion = descripcion.replaceAll("Ã©", "\u00E9");
+            descripcion = descripcion.replaceAll("Ã­", "\u00ED");
+            descripcion = descripcion.replaceAll("Ã³", "\u00F3");
+            descripcion = descripcion.replaceAll("Ãº", "\u00FA");
+            descripcion = descripcion.replaceAll("Ã±", "\u00F1");
             int especmax = (int) request.getAttribute("especmax");
             int especmin = (int) request.getAttribute("especmin");
             String url = (String) request.getAttribute("url");

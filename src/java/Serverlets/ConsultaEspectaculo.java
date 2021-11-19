@@ -79,6 +79,7 @@ public class ConsultaEspectaculo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         processRequest(request, response);
     }
 
@@ -93,11 +94,28 @@ public class ConsultaEspectaculo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         String espec = request.getParameter("nombreEspectaculo");
         ServletContext context = getServletContext();
+        
         context.log("Nombre del espec: "+espec);
 
+        
+        espec = espec.replaceAll("Ã¡", "\u00E1");
+        espec = espec.replaceAll("Ã©", "\u00E9");
+        espec = espec.replaceAll("Ã-", "\u00ED");
+        espec = espec.replaceAll("Ã³", "\u00F3");
+        espec = espec.replaceAll("Ãº", "\u00FA");
+        espec = espec.replaceAll("Ã±", "\u00F1");
+         context.log("Nombre del espec: "+espec);
+        espec = espec.replaceAll("Ã±", "\u00F1");
+         context.log("Nombre del espec: "+espec);
+        
+
         String nuevaFuncionConREGEX = espec.replaceAll(" ", "%20");
+
+
         //ConsultaEspectaculoDTO consultaespec = new ConsultaEspectaculoDTO(espcSeleccionado.getNombre(), espcSeleccionado.getArtista(), espcSeleccionado.getDescripcion(), espcSeleccionado.getMin(), espcSeleccionado.getMax(), espcSeleccionado.getUrl(), espcSeleccionado.getCosto(), espcSeleccionado.getDuracion(), espcSeleccionado.getFecha(), espcSeleccionado.getCategorias(), espcSeleccionado.getUrlIamgen(), espcSeleccionado.getPlataforma(), espcSeleccionado.getEstado(), funcionesDeEspec, paquetes);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);

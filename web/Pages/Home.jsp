@@ -95,7 +95,7 @@
                             %>
                             <div class="row">
                                 <div class="container w-100 mt-3 mb-3">
-                                    <div class="card bg-dark text-white">
+                                    <div class="card bg-dark text-white align-items-center">
                                         <h4><%= paquete.getNombre() %></h4>
                                         <img src="<%= paquete.getImagen() %>" id="" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
@@ -146,7 +146,7 @@
                             %>
                             <div class="row ">
                                 <div class="container w-100 mt-3 mb-3">
-                                    <div class="card bg-dark text-white">
+                                    <div class="card bg-dark text-white align-items-center">
                                         <h4><%= espectaculo.getNombre() %></h4>
                                         <img src="<%= espectaculo.getImagen() %>" class="card-img">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">

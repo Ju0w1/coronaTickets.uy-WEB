@@ -65,7 +65,19 @@
         String nick = espect.getNickname();
         String web = espect.getLink();
         String descripcion = espect.getDesc();
+        descripcion = descripcion.replaceAll("Ã¡", "\u00E1");
+        descripcion = descripcion.replaceAll("Ã©", "\u00E9");
+        descripcion = descripcion.replaceAll("Ã­", "\u00ED");
+        descripcion = descripcion.replaceAll("Ã³", "\u00F3");
+        descripcion = descripcion.replaceAll("Ãº", "\u00FA");
+        descripcion = descripcion.replaceAll("Ã±", "\u00F1");
         String bio = espect.getBio();
+        bio = bio.replaceAll("Ã¡", "\u00E1");
+        bio = bio.replaceAll("Ã©", "\u00E9");
+        bio = bio.replaceAll("Ã­", "\u00ED");
+        bio = bio.replaceAll("Ã³", "\u00F3");
+        bio = bio.replaceAll("Ãº", "\u00FA");
+        bio = bio.replaceAll("Ã±", "\u00F1");
         
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();

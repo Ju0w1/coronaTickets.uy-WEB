@@ -62,7 +62,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="home" style="margin-right: 40px;margin-right: 40px;">
+        <a class="navbar-brand" href="/CoronaTickets-Web/home" style="margin-right: 40px;margin-right: 40px;">
             <img src="https://i.imgur.com/9HUpz3c.png" alt="" width="100" height="40">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

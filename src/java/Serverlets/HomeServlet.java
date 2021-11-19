@@ -73,6 +73,14 @@ public class HomeServlet extends HttpServlet {
         
         try {
             TransporteListaPaquetesHomeDTO listaPaq = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(TransporteListaPaquetesHomeDTO.class);
+            for (HomePaqueteDTO paquete : listaPaq.getPaquetes()) {
+                paquete.setNombre(paquete.getNombre().replaceAll("Ã¡", "\u00E1"));
+                paquete.setNombre(paquete.getNombre().replaceAll("Ã©", "\u00E9"));
+                paquete.setNombre(paquete.getNombre().replaceAll("Ã", "\u00ED"));
+                paquete.setNombre(paquete.getNombre().replaceAll("Ã³", "\u00F3"));
+                paquete.setNombre(paquete.getNombre().replaceAll("Ãº", "\u00FA"));
+                paquete.setNombre(paquete.getNombre().replaceAll("Ã±", "\u00F1"));
+            }
             arregloPaquetes = listaPaq.getPaquetes();
         } catch (WebApplicationException e) {   
         }
@@ -82,9 +90,19 @@ public class HomeServlet extends HttpServlet {
         
         try {
             TransporteListaEspectaculosHomeDTO listaEspec = target2.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(TransporteListaEspectaculosHomeDTO.class);
+            for (HomeEspectaculoDTO espectaculo : listaEspec.getEspectaculos()) {
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ã¡", "\u00E1"));
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ã©", "\u00E9"));
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ã-", "\u00ED"));
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ã³", "\u00F3"));
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ãº", "\u00FA"));
+                espectaculo.setNombre(espectaculo.getNombre().replaceAll("Ã±", "\u00f1"));
+            }
+            
             arregloEspectaculos = listaEspec.getEspectaculos();
         } catch (WebApplicationException e) {   
         }
+        
         
         request.setAttribute("paquetes", arregloPaquetes);
         request.setAttribute("espectaculos", arregloEspectaculos);
