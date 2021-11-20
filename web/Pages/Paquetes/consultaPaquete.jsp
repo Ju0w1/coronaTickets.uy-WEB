@@ -4,6 +4,7 @@
     Author     : pabli
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Date"%>
@@ -74,8 +75,11 @@
                 imagen = (String) request.getAttribute("imagen");
             }
             String nickname = (String) objSesion.getAttribute("nickname");
-            Map<String, Paquete> paquetes2 = new HashMap<>();
-            paquetes2 = (Map<String, Paquete>) request.getAttribute("paquetes2");
+            
+            //Map<String, Paquete> paquetes2 = new HashMap<>();
+            //paquetes2 = (Map<String, Paquete>) request.getAttribute("paquetes2");
+            
+            List<String> paquetes2 = (List<String>) request.getAttribute("paquetes2");
             //2013-01-08
             objSesion.setAttribute("nombrePaquete", nombre);
 
@@ -137,13 +141,18 @@
                                     String tipoUsuario = objSesion.getAttribute("tipo").toString();
                                     if (tipoUsuario.equals("espectador")) {
                                         boolean isPaqueteComprado = false;
-                                        for (Map.Entry<String, Paquete> entry : paquetes2.entrySet()) {
-                                            String key2 = entry.getKey();
-                                            Paquete value2 = entry.getValue();
-                                            if (value2.getNombre().equals(nombre)) {
+                                        for(String paq: paquetes2){
+                                            if(paq.equals(nombre)){
                                                 isPaqueteComprado = true;
                                             }
                                         }
+                                        //for (Map.Entry<String, Paquete> entry : paquetes2.entrySet()) {
+                                        //    String key2 = entry.getKey();
+                                        //    Paquete value2 = entry.getValue();
+                                        //    if (value2.getNombre().equals(nombre)) {
+                                        //        isPaqueteComprado = true;
+                                        //    }
+                                        //}
                                         if (isPaqueteComprado == false) {
                                 %>
                                 <form class="p-2" name="paquete" method="POST" action="/CoronaTickets-Web/ComprarPaquete">

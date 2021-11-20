@@ -9,6 +9,8 @@ import DTOs.ArtistasDeFuncionDTO;
 import DTOs.ConsultaPaqueteDTO;
 import DTOs.FuncionConArtistasDTO;
 import DTOs.FuncionDTO;
+import DTOs.TransporteListaPaquetesCompradosPorUsuarioDTO;
+import DTOs.UsuarioCompraDTO;
 import Logica.Clases.Paquete;
 import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
@@ -26,6 +28,7 @@ import javax.servlet.http.*;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
@@ -81,15 +84,32 @@ public class ConsultaPaquete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-            String nombrePaq = request.getParameter("nombrePaquete");
-        
+            String nombrePaq = "";
+            nombrePaq = request.getParameter("nombrePaquete");
+            if(request.getParameter("nombrePaquete") == null){
+                if(request.getAttribute("nombrePaquete") != null){
+                    nombrePaq = (String) request.getAttribute("nombrePaquete");
+                }
+            }
             
             HttpSession objSesion = request.getSession();
             String nickUsuario= (String) objSesion.getAttribute("nickname");
-            int id= ICP.getIdUsuario(nickUsuario);
-            Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
-            request.setAttribute("paquetes2", paquetes);
+            
+            Client client2 = ClientBuilder.newClient();
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/paquetes/compradosPorUsuario");
+            
+            try {
+                UsuarioCompraDTO userCompra = new UsuarioCompraDTO(nickUsuario);
+                TransporteListaPaquetesCompradosPorUsuarioDTO responseAPI = target2.request(MediaType.APPLICATION_JSON).post(Entity.json(userCompra), TransporteListaPaquetesCompradosPorUsuarioDTO.class);
+                request.setAttribute("paquetes2", responseAPI.getPaquetesComprados());
+            } catch (WebApplicationException e) {
+                System.out.println(e);
+            }
+            
+            
+            //int id= ICP.getIdUsuario(nickUsuario);
+            //Map<String, Paquete> paquetes = (Map<String, Paquete>) ICP.getPaquetesQueComproUsuario(id);
+            //request.setAttribute("paquetes2", paquetes);
             
             String nuevaFuncionConREGEX = nombrePaq.replaceAll(" ", "%20");
             

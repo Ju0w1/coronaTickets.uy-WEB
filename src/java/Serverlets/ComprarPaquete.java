@@ -93,16 +93,19 @@ public class ComprarPaquete extends HttpServlet {
         HttpSession objSesion = request.getSession();
         String nombrePaquete = (String) objSesion.getAttribute("nombrePaquete");
         String nickUsuario= (String) objSesion.getAttribute("nickname");
-        //
-        String nuevoPaqueteConREGEX = nombrePaquete.replaceAll(" ", "%20");
-        CompraPaqueteDTO compra= new CompraPaqueteDTO(nickUsuario, nuevoPaqueteConREGEX);
+
+        CompraPaqueteDTO compra= new CompraPaqueteDTO(nickUsuario, nombrePaquete);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/paquetes/compra");
         try {
-                String responseAPI = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(compra), String.class);
+                String responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(compra), String.class);
                 //request.setAttribute("message", "Bienvenido");
-                RequestDispatcher view = request.getRequestDispatcher("/home");
-                view.forward(request, response);
+                if(responseAPI.equals("ok")){
+                    request.setAttribute("nombrePaquete", nombrePaquete);
+                    RequestDispatcher view = request.getRequestDispatcher("/Paquete");
+                    view.forward(request, response);
+                
+                }
             } catch (WebApplicationException e) {
                 if(e.getResponse().getStatus()==401){
                     request.setAttribute("error", "El paquete no pudo ser comprado.");
