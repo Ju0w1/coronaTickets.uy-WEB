@@ -85,11 +85,12 @@ public class ConsultaPaquete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             String nombrePaq = "";
-            nombrePaq = request.getParameter("nombrePaquete");
             if(request.getParameter("nombrePaquete") == null){
                 if(request.getAttribute("nombrePaquete") != null){
                     nombrePaq = (String) request.getAttribute("nombrePaquete");
                 }
+            }else{
+                nombrePaq = request.getParameter("nombrePaquete");
             }
             
             HttpSession objSesion = request.getSession();
