@@ -6,6 +6,8 @@
 package Serverlets;
 
 import DTOs.AltaEspectaculoDTO;
+import DTOs.TransporteListaCategoriasDTO;
+import DTOs.TransporteListaPlataformasDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Paquete;
 import Logica.Clases.Plataforma;
@@ -13,6 +15,8 @@ import Logica.Fabrica;
 import Logica.Interfaz.IControladorEspectaculo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -51,8 +55,22 @@ public class AltaEspectaculo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
-        Map<String, Categoria> categorias = (Map<String, Categoria>) ICE.getCategorias();
+        //Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
+        //Map<String, Categoria> categorias = (Map<String, Categoria>) ICE.getCategorias();
+        
+        List<String> plataformas = new ArrayList<>();
+        List<String> categorias = new ArrayList<>();
+        
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/plataformas/lista");
+        TransporteListaPlataformasDTO trPlats = target.request().accept(MediaType.APPLICATION_JSON).get(TransporteListaPlataformasDTO.class);
+        plataformas = trPlats.getPlataformas();
+        
+        Client client2 = ClientBuilder.newClient();
+        WebTarget target2 = client2.target("http://localhost:8080/rest/api/categorias/lista");
+        TransporteListaCategoriasDTO trCats = target2.request().accept(MediaType.APPLICATION_JSON).get(TransporteListaCategoriasDTO.class);
+        categorias = trCats.getCategorias();
+        
         try (PrintWriter out = response.getWriter()) {
             request.setAttribute("plataformas", plataformas);
             request.setAttribute("categorias", categorias);

@@ -112,17 +112,19 @@
                     <select class="form-select" name="espectaculo" aria-label="Espectaculos">
                         <option selected>Seleccione un espectaculo</option>
                         <%
-                            int i=0;
-                             Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+
+                            //Map<String, Espectaculo> espectaculos= (Map<String, Espectaculo>) request.getAttribute("espectaculos");
+                            ArrayList<String> espectaculos = (ArrayList<String>) request.getAttribute("espectaculos");
                             if(espectaculos == null){
                                 System.out.println("VACIO");
                             }else{
-                                for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
-                                    String key = entry.getKey();
+                                for (String espec: espectaculos){
+                                //for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                                    //String key = entry.getKey();
                         %>
-                        <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                        <option value="<%=espec%>" id=""><%=espec%></option>
                         <%
-                                    i++;
+
                                 }
                             }
                         %>

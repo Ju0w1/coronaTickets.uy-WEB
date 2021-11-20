@@ -1,4 +1,5 @@
 
+<%@page import="java.util.List"%>
 <%@page import="java.lang.String"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Plataforma"%>
@@ -230,15 +231,17 @@
                                     <option selected>Plataforma *</option>
                                     <%
                                         int i=0;
-                                        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+                                        //Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+                                        List<String> plataformas = (List<String>) request.getAttribute("plataformas");
                                         if(plataformas == null){
                                             System.out.println("VACIO");
                                         }else{
-                                            for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
-                                                String key = entry.getKey();
-                                                Plataforma value = entry.getValue();
+                                            for (String plats: plataformas){
+                                            //for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
+                                                //String key = entry.getKey();
+                                                //Plataforma value = entry.getValue();
                                     %>
-                                    <option value="<%=key%>" id="<%=key%>"><%=key%></option>
+                                    <option value="<%=plats%>" id=""><%=plats%></option>
                                     <%
                                                 i++;
                                             }
@@ -249,21 +252,23 @@
                                 <div class="col content-3" id="content-3">
                                 <h4 class="form-check-label align-items-center" for="flexCheckDefault">Categoria/s *</h4>
                                     <%
-                                    Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+                                    //Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+                                    List<String> categorias = (List<String>) request.getAttribute("categorias");
                                     if(plataformas == null){
                                         System.out.println("VACIO");
                                     }else{
-                                        for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
-                                            String key2 = entry.getKey();
-                                            Categoria value2 = entry.getValue();
+                                        for (String cat: categorias){
+                                        //for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
+                                          //  String key2 = entry.getKey();
+                                            //Categoria value2 = entry.getValue();
 
                                 %>
 
                                 <div class="row ms-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" name="categoria" type="checkbox" value="<%=value2.getNombre()%>">
+                                        <input class="form-check-input" name="categoria" type="checkbox" value="<%=cat%>">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                          <%=value2.getNombre()%>
+                                          <%=cat%>
                                         </label>
                                     </div>
                                 </div>

@@ -5,8 +5,6 @@
  */
 package DTOs;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 /**
@@ -15,9 +13,9 @@ import java.util.List;
  */
 public class AltaFuncionDTO {
     String nombre;
-    private Date fecha;
-    private Time horaInicio;
-    private Date fechaRegistro;
+    private String fecha;
+    private String horaInicio;
+    private String fechaRegistro;
     private String urlImagen;
     private String nombreEspectaculo;
     List<String> artistas;
@@ -25,7 +23,7 @@ public class AltaFuncionDTO {
     public AltaFuncionDTO() {
     }
 
-    public AltaFuncionDTO(String nombre, Date fecha, Time horaInicio, Date fechaRegistro, String urlImagen, String nombreEspectaculo, List<String> artistas) {
+    public AltaFuncionDTO(String nombre, String fecha, String horaInicio, String fechaRegistro, String urlImagen, String nombreEspectaculo, List<String> artistas) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
@@ -40,15 +38,15 @@ public class AltaFuncionDTO {
         return nombre;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public Time getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public Date getFechaRegistro() {
+    public String getFechaRegistro() {
         return fechaRegistro;
     }
 
@@ -68,15 +66,15 @@ public class AltaFuncionDTO {
         this.nombre = nombre;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
