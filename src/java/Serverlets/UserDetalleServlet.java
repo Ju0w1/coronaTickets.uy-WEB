@@ -184,8 +184,8 @@ public class UserDetalleServlet extends HttpServlet {
                 }
             }
         } else {
-            Artista art=ICU.obtenerArtistaPorNick(nick);
-            System.out.println("IMAGEN GUARDADA: " + art.getImagen());
+            //Artista art=ICU.obtenerArtistaPorNick(nick);
+            //System.out.println("IMAGEN GUARDADA: " + art.getImagen());
             request.setAttribute("Artista", responseAPI);
             
             target = client.target("http://localhost:8080/rest/api/usuarios/espectAceptados");
@@ -210,7 +210,7 @@ public class UserDetalleServlet extends HttpServlet {
             } else {
                 if(objSesion.getAttribute("nickname").toString().equals(nick)){
                     System.out.println("AHHH");
-                    System.out.println("SITIO: " + art.getLinkWeb());
+                    //System.out.println("SITIO: " + art.getLinkWeb());
                     RequestDispatcher view = request.getRequestDispatcher("/Pages/Users/Perfil/Artista-yourself.jsp");        
                     view.forward(request, response);
                 } else {
