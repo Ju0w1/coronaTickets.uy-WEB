@@ -3,6 +3,7 @@
     Created on : 09/10/2021, 12:13:41 PM
     Author     : milto
 --%>
+<%@page import="java.util.List"%>
 <%@page import="Logica.Clases.Categoria"%>
 <%@page import="Logica.Clases.Plataforma"%>
 <%@page import="Logica.Clases.Funcion"%>
@@ -25,8 +26,10 @@
         Map<String, Categoria> categoriasAux;
         
         
-        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
-        Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+        //Map<String, Plataforma> plataformas = (Map<String, Plataforma>) request.getAttribute("plataformas");
+        List<String> plataformas = (List<String>) request.getAttribute("plataformas");
+        //Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
+        List<String> categorias = (List<String>) request.getAttribute("categorias");
         //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
         Map<String, Funcion> funcionesDeEspec = new HashMap<>();
         Map<String, Espectaculo> espectaculosFiltrados = new HashMap<>();
@@ -93,16 +96,17 @@
                                     <%
                                     }
                                     int cont =0;
-                                for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
-                                    String key = entry.getKey();
-                                    Categoria value = entry.getValue();  
-                                    if(cont==0 && categoriaSelect!=null && value.getNombre().equalsIgnoreCase(categoriaSelect)){ %> 
+                                    for(String cat: categorias){
+                                //for (Map.Entry<String, Categoria> entry : categorias.entrySet()) {
+                                    //String key = entry.getKey();
+                                    //Categoria value = entry.getValue();  
+                                    if(cont==0 && categoriaSelect!=null && cat.equalsIgnoreCase(categoriaSelect)){ %> 
                                         <option value="Categorias">Categorias</option>
                                     <%  
                                     }
                                     //if(!(value.getNombre().equals(categoriaSelect))){
                                     %>
-                                        <option value="<%=value.getNombre()%>"><%=value.getNombre()%></option>
+                                        <option value="<%=cat%>"><%=cat%></option>
                                     <%
                                     //}
                                     cont++;
@@ -121,11 +125,12 @@
                                 style="height: 42px; font-size: large; border-color: rgb(226, 227, 236); border-radius: 5%; background-color: #fafafa;">
                                 <option selected>Plataformas</option>
                                 <%
-                                for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
-                                    String key = entry.getKey();
-                                    Plataforma value = entry.getValue();  
+                                for(String plat: plataformas){
+                                //for (Map.Entry<String, Plataforma> entry : plataformas.entrySet()) {
+                                    //String key = entry.getKey();
+                                    //Plataforma value = entry.getValue();  
                                 %>
-                                <option value="<%=value.getNombre()%>"><%=value.getNombre()%></option>
+                                <option value="<%=plat%>"><%=plat%></option>
                                 <%
                                     }
                                 %>

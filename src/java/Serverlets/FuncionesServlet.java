@@ -5,6 +5,10 @@
  */
 package Serverlets;
 
+import DTOs.HomeEspectaculoDTO;
+import DTOs.TransporteListaCategoriasDTO;
+import DTOs.TransporteListaEspectaculosHomeDTO;
+import DTOs.TransporteListaPlataformasDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -17,7 +21,9 @@ import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,6 +31,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -52,15 +62,35 @@ public class FuncionesServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         //Map<String, Usuario> usuarios = (Map<String, Usuario>) ICU.obtenerUsuarios();
-        Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
-        Map<String, Categoria> categorias = (Map<String, Categoria>) ICE.getCategorias();
-        Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
-        Map<String, Funcion> funciones = new HashMap<>(); //(Map<String, Funcion>) ICF.getFunciones();
+        //Map<String, Plataforma> plataformas = (Map<String, Plataforma>) ICE.getPlataformas();
+        //Map<String, Categoria> categorias = (Map<String, Categoria>) ICE.getCategorias();
+        //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
+        //Map<String, Funcion> funciones = new HashMap<>(); //(Map<String, Funcion>) ICF.getFunciones();
         
+        List<String> plataformas = new ArrayList<>();
+        List<String> categorias = new ArrayList<>();
+        List<HomeEspectaculoDTO> espectaculos = new ArrayList<>();
         
+        //Obtengo plataformas por api
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:8080/rest/api/plataformas/lista");
+        TransporteListaPlataformasDTO trPlats = target.request().accept(MediaType.APPLICATION_JSON).get(TransporteListaPlataformasDTO.class);
+        plataformas = trPlats.getPlataformas();
         
-        request.setAttribute("funciones", funciones);
-        request.setAttribute("espectaculos", espectaculos);
+        //Obtengo categorias por api
+        Client client2 = ClientBuilder.newClient();
+        WebTarget target2 = client2.target("http://localhost:8080/rest/api/categorias/lista");
+        TransporteListaCategoriasDTO trCats = target2.request().accept(MediaType.APPLICATION_JSON).get(TransporteListaCategoriasDTO.class);
+        categorias = trCats.getCategorias();
+        
+//        //Obtengo espectaculos por api
+//        Client client3 = ClientBuilder.newClient();
+//        WebTarget target3 = client3.target("http://localhost:8080/rest/api/categorias/lista");
+//        TransporteListaEspectaculosHomeDTO trEspecs = target3.request().accept(MediaType.APPLICATION_JSON).get(TransporteListaEspectaculosHomeDTO.class);
+//        espectaculos = trEspecs.getEspectaculos();
+        
+        //request.setAttribute("funciones", funciones);
+        //request.setAttribute("espectaculos", espectaculos);
         request.setAttribute("categorias", categorias);
         request.setAttribute("plataformas", plataformas);
         
