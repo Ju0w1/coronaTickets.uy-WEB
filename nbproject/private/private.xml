@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Paquetes/consultaPaquete.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/DTOs/TransporteListaPaquetesCompradosPorUsuarioDTO.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaPaquete.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ComprarPaquete.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/HeaderSearchLogeado.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/FinEspectaculo.java</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/AltaEspectaculo.java</file>
         </group>
     </open-files>
 </project-private>
