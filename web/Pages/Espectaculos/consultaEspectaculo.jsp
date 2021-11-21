@@ -98,7 +98,7 @@
                             <div class="form-group row mb-2 justify-content-between">
                                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputNombre" placeholder="<%=nombre%>" readonly>
+                                    <input type="text" class="form-control" id="inputNombre" name="nombreEspec" placeholder="<%=nombre%>" readonly>
                                 </div>
                             </div>
                             <div class="form-group row mb-2 justify-content-between">
@@ -392,6 +392,14 @@
                                     CREAR ESPECTÁCULO
                                 </button>
                             </a>
+                            <form name="" method="POST" action="/CoronaTickets-Web/FinEspectaculo" >
+                                <input id="" name="nombreEspectaculoFinalizar" type="hidden" value="<%= nombre %>" >
+                                <button type="submit" class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
+                                    FINALIZAR ESPECTÁCULO
+                                </button>
+                                
+                            </form>
+                            
                             <%
                                     }
                                 }
