@@ -6,6 +6,7 @@
 package Serverlets;
 
 import DTOs.AltaEspectaculoDTO;
+import DTOs.AltaPremioDTO;
 import DTOs.TransporteListaCategoriasDTO;
 import DTOs.TransporteListaPlataformasDTO;
 import Logica.Clases.Categoria;
@@ -222,7 +223,20 @@ public class AltaEspectaculo extends HttpServlet {
             try {
                 Response respuesta = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.json(espectaculo));
                 if (respuesta.getStatus() == 200){
-                    request.setAttribute("success", "Agregado correctamente!");
+                    
+                    if(!request.getParameter("inputDescripcionPremios").equals("") && !request.getParameter("inputCanitdadPremios").equals("")){
+                        String descPremio = request.getParameter("inputDescripcionPremios");
+                        int canitdad = Integer.parseInt(request.getParameter("inputCanitdadPremios"));
+                        Client client2 = ClientBuilder.newClient();
+                        WebTarget target2 = client2.target("http://localhost:8080/rest/api/premios/alta");
+                        AltaPremioDTO premio = new AltaPremioDTO(nombre, descPremio, canitdad);
+                        Response respuesta2 = target2.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(premio));
+                        if(respuesta2.getStatus()==200){
+                            request.setAttribute("success", "Agregado correctamente!");
+                        }else{
+                            request.setAttribute("error", "Espectáculo agregado pero error al agregar premios");
+                        }
+                    }
                 }else{
                     request.setAttribute("error", "Verifique sus datos, Puede que el nombre del espectáculo ingresado ya exista.");
                     request.setAttribute("nombreEspec", request.getParameter("inputNombre"));

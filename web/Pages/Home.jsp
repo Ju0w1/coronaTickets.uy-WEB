@@ -124,7 +124,7 @@
                                     System.out.println("VACIO");
                                 }else{
                                     for (HomeEspectaculoDTO espectaculo : arregloEspectaculos) {
-                                        if(espectaculo.getImagen()==null){
+                                        if(espectaculo.getImagen()==null || espectaculo.getImagen().equals("")){
                                             espectaculo.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                         }
                                     /*

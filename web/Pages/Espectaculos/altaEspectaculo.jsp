@@ -201,11 +201,11 @@
     <div class="d-flex justify-content-md-center align-items-center mt-5">
         
         <form name="altaEspectaculo" class="needs-validation" id="formEspec" method="POST" action="/CoronaTickets-Web/AltaEspectaculo" novalidate>
-            <div style="width: 80vh;" class="form-register d-flex justify-content-md-center align-items-center">
+            <div style="" class="form-register d-flex justify-content-md-center align-items-center">
                 <h1 class="mb-5">ALTA DE ESPECTÁCULO</h1>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group ">
                         <input type="text" class="form-control rounded-pill mb-1 " id="inputNombre" name="inputNombre" placeholder="Nombre *" value="<%=nombreEspec%>" required>
                         <div class="invalid-feedback mb-2">Campo inválido.</div>
@@ -250,7 +250,7 @@
                                 </select>
                             </div>
                                 <div class="col content-3" id="content-3">
-                                <h4 class="form-check-label align-items-center" for="flexCheckDefault">Categoria/s *</h4>
+                                <h5 class="form-check-label align-items-center" for="flexCheckDefault">Categoria/s *</h5>
                                     <%
                                     //Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
                                     List<String> categorias = (List<String>) request.getAttribute("categorias");
@@ -284,7 +284,7 @@
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-4">
                     <div class="input-group ">
                         <input type="number" class="form-control rounded-pill mb-1  " id="inputEspecMin" name="inputEspecMin" placeholder="Espectadores mínimos *" value="<%=espectadoresMinimos%>" required>
                         <span class="input-group-append ">
@@ -338,7 +338,15 @@
                         <img style="max-height:100%; max-width:100%;object-fit: contain;" id="imagenEnDiv" src="<%=urlImagen%>">
                     </div>
                 </div>
-
+                
+                <div class="col-4">
+                    <h5 class="form-check-label align-items-center" for="flexCheckDefault">Premios</h5>
+                    <textarea class="form-control rounded-3 mb-1 " id="inputDescripcionPremios" name="inputDescripcionPremios" style="resize: none; " placeholder="Descripción de los premios" rows="4" ></textarea>
+                    <div class="input-group ">
+                        <input type="number" class="form-control rounded-pill mb-1  " id="inputCanitdadPremios" name="inputCanitdadPremios" placeholder="Cantidad" value=""> 
+                        <div class="invalid-feedback mb-2">Campo inválido.</div>
+                    </div>
+                </div>
 
             </div>
             <div class="d-flex justify-content-center" id="spinner-border">
