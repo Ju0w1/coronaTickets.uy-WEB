@@ -392,15 +392,22 @@
                                     CREAR ESPECTÁCULO
                                 </button>
                             </a>
-                            <form name="" method="POST" action="/CoronaTickets-Web/FinEspectaculo" >
-                                <input id="" name="nombreEspectaculoFinalizar" type="hidden" value="<%= nombre %>" >
-                                <button type="submit" class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
-                                    FINALIZAR ESPECTÁCULO
-                                </button>
+                            <%
                                 
-                            </form>
+                                    if(request.getAttribute("especFinalizado")!=null){
+                                        if((boolean) request.getAttribute("especFinalizado") == true){
+                            %>
+                                            <form name="" method="POST" action="/CoronaTickets-Web/FinEspectaculo" >
+                                                <input id="" name="nombreEspectaculoFinalizar" type="hidden" value="<%= nombre %>" >
+                                                <button type="submit" class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
+                                                    FINALIZAR ESPECTÁCULO
+                                                </button>
+
+                                            </form>
                             
                             <%
+                                            }
+                                        }
                                     }
                                 }
                             %>

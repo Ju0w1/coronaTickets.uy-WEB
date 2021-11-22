@@ -6,7 +6,10 @@
 package Serverlets;
 
 import DTOs.ConsultaEspectaculoDTO;
+import DTOs.EspecFinalizadoDTO;
 import DTOs.LoginDTO;
+import DTOs.TransporteListaEspecFinalizadosDTO;
+import DTOs.TransporteListaNombresEspectaculosAceptadosDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -25,6 +28,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.Client;
@@ -112,10 +116,25 @@ public class ConsultaEspectaculo extends HttpServlet {
         espec = espec.replaceAll("Ã±", "\u00F1");
          context.log("Nombre del espec: "+espec);
         
-
+        HttpSession objSesion = request.getSession();
+        String user = (String) objSesion.getAttribute("nickname");
+        Client client2 = ClientBuilder.newClient();
+        WebTarget target2 = client2.target("http://localhost:8080/rest/api/espectaculos/espectaculosDeArtista?artista="+user);
+        boolean especFin = false;
+        try {
+            TransporteListaNombresEspectaculosAceptadosDTO responseAPI = target2.request(MediaType.APPLICATION_JSON).get(TransporteListaNombresEspectaculosAceptadosDTO.class);
+            for (String especF : responseAPI.getEspectaculos()) {
+                if(especF.equals(espec)){
+                    especFin = true;
+                }
+            }
+            request.setAttribute("especFinalizado", especFin);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        
         String nuevaFuncionConREGEX = espec.replaceAll(" ", "%20");
-
-
         //ConsultaEspectaculoDTO consultaespec = new ConsultaEspectaculoDTO(espcSeleccionado.getNombre(), espcSeleccionado.getArtista(), espcSeleccionado.getDescripcion(), espcSeleccionado.getMin(), espcSeleccionado.getMax(), espcSeleccionado.getUrl(), espcSeleccionado.getCosto(), espcSeleccionado.getDuracion(), espcSeleccionado.getFecha(), espcSeleccionado.getCategorias(), espcSeleccionado.getUrlIamgen(), espcSeleccionado.getPlataforma(), espcSeleccionado.getEstado(), funcionesDeEspec, paquetes);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
