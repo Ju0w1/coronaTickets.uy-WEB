@@ -78,7 +78,7 @@
                     
             %>
             <div class="row mb-2">
-                <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
+                <form class="form-inline" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosFinalizados">
                     <input id="nombreEspectaculoABuscar" name="espectaculoGET" type="hidden" value="">
                     <button id="btnValoresSeleccionados" class="btn btn-primary">Mostrar datos</button>
                 </form>
@@ -174,7 +174,7 @@
                     }
                     String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
 
-                    if(espec.getUrl_imagen()==null){
+                    if(espec.getUrl_imagen()==null || espec.getUrl_imagen().equals("")){
                         espec.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
                     }
 

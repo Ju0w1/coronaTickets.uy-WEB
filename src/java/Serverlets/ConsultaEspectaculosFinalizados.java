@@ -5,16 +5,28 @@
  */
 package Serverlets;
 
+import DTOs.ConsultaEspectaculoDTO;
+import DTOs.EspecFinalizadoDTO;
+import DTOs.TransporteListEspectaculosDePaqueteDTO;
+import DTOs.TransporteListaEspecFinalizadosDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -49,11 +61,25 @@ public class ConsultaEspectaculosFinalizados extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession objSesion = request.getSession();
+        String user = (String) objSesion.getAttribute("nickname");
         
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos/");
+        WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos/espectaculosFinalizados?artista="+user);
+        List<EspecFinalizadoDTO> especsFinalizados = new ArrayList<>();
+        try {
+            TransporteListaEspecFinalizadosDTO respuesta = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(TransporteListaEspecFinalizadosDTO.class);
+            especsFinalizados = respuesta.getEspectaculos();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         
-        processRequest(request, response);
+        request.setAttribute("especsFinalizados", especsFinalizados);
+        
+        RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosFinalizados.jsp");
+        view.forward(request, response);
+        
+       //processRequest(request, response);
     }
 
     /**
@@ -67,6 +93,40 @@ public class ConsultaEspectaculosFinalizados extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String nombreEspectaculo = request.getParameter("espectaculoGET");
+        if(nombreEspectaculo.equals("")){
+            HttpSession objSesion = request.getSession();
+            String user = (String) objSesion.getAttribute("nickname");
+
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/rest/api/espectaculos/espectaculosFinalizados?artista="+user);
+            List<EspecFinalizadoDTO> especsFinalizados = new ArrayList<>();
+            try {
+                TransporteListaEspecFinalizadosDTO respuesta = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(TransporteListaEspecFinalizadosDTO.class);
+                especsFinalizados = respuesta.getEspectaculos();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            request.setAttribute("especsFinalizados", especsFinalizados);
+            RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosFinalizados.jsp");
+            view.forward(request, response);    
+        }else{
+            String nuevaFuncionConREGEX = nombreEspectaculo.replaceAll(" ", "%20");
+            Client client2 = ClientBuilder.newClient();
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
+
+            try {
+                ConsultaEspectaculoDTO espectaculo = target2.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);
+                request.setAttribute("espec", espectaculo);
+                RequestDispatcher view = request.getRequestDispatcher("/Pages/Espectaculos/consultaEspectaculosFinalizados.jsp");
+                view.forward(request, response);
+            } catch (WebApplicationException e) {
+                RequestDispatcher view = request.getRequestDispatcher("/home");
+                view.forward(request, response);
+            }
+            
+        }
         processRequest(request, response);
     }
 

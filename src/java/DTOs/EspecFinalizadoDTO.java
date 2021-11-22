@@ -13,12 +13,12 @@ import java.io.Serializable;
  */
 public class EspecFinalizadoDTO implements Serializable{
     private String nombre;
-    private String descripción;
+    private String descripcion;
     private String imagen;
 
     public EspecFinalizadoDTO(String nombre, String descripción, String imagen) {
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripción;
         this.imagen = imagen;
     }
 
@@ -29,8 +29,8 @@ public class EspecFinalizadoDTO implements Serializable{
         return nombre;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public String getImagen() {
@@ -41,8 +41,8 @@ public class EspecFinalizadoDTO implements Serializable{
         this.nombre = nombre;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
+    public void setDescripcion(String descripción) {
+        this.descripcion = descripción;
     }
 
     public void setImagen(String imagen) {
