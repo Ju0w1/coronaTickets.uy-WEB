@@ -64,10 +64,10 @@ public class UserDetalleServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
-    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-    IControladorPaquete ICP = fabrica.getIControladorPaquete();
+    //Fabrica fabrica = Fabrica.getInstance();
+    //IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    //IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    //IControladorPaquete ICP = fabrica.getIControladorPaquete();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

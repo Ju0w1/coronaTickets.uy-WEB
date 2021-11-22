@@ -5,7 +5,14 @@
  */
 package Serverlets;
 
+import DTOs.CategoriaDTO;
+import DTOs.DTOListEspec;
+import DTOs.DTOespec;
+import DTOs.EspectDTO;
+import DTOs.FuncionDTO;
 import DTOs.HomeEspectaculoDTO;
+import DTOs.ListEspectDTO;
+import DTOs.ListFuncionDTO;
 import DTOs.TransporteListaCategoriasDTO;
 import DTOs.TransporteListaEspectaculosHomeDTO;
 import DTOs.TransporteListaPlataformasDTO;
@@ -33,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
@@ -43,10 +51,10 @@ import javax.ws.rs.core.MediaType;
 @WebServlet(name = "FuncionesServlet", urlPatterns = {"/funciones"})
 public class FuncionesServlet extends HttpServlet {
 
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
-    IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
-    IControladorFuncion ICF = fabrica.getIControladorFuncion();
+    //Fabrica fabrica = Fabrica.getInstance();
+    //IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    //IControladorEspectaculo ICE = fabrica.getIControladorEspectaculo();
+    //IControladorFuncion ICF = fabrica.getIControladorFuncion();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -132,36 +140,93 @@ public class FuncionesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
+            //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) ICE.getEspectaculos();
+            Client client6 = ClientBuilder.newClient();
+            WebTarget target2 = client6.target("http://localhost:8080/rest/api/espectaculos/ObtenerEspectaculos");
+            String Espect2 = request.getParameter("data");
+            EspectDTO espectaculoYY = new EspectDTO(Espect2);
+            DTOListEspec responseAPI = target2.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(espectaculoYY), DTOListEspec.class);
+            
+            //ListEspectDTO responseAPI = target2.request().accept(MediaType.APPLICATION_JSON).post(ListEspectDTO.class);
+
+            List<DTOespec> listaEspectDTO = responseAPI.getEspectaculos();
+            
+            System.out.println("LISTA RECIBIDA:::: ");
+            System.out.println("-------------------------------");
+            for (DTOespec X : listaEspectDTO ){
+                System.out.println("E: " + X.getNombre()+ " P: " + X.getPlataforma() + " I: " + X.getImagen());
+                if (X.getImagen().equals("")){
+                    X.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                }
+            }
+            System.out.println("-------------------------------");
+            
+            
+            Map<String, EspectDTO> espectaculos = new HashMap<>(); 
+            
+            
+            
+            for (DTOespec espec : listaEspectDTO ) {
+                //paquetesRegistrado.put(paquete.getNombre(),new PaquetesDeUserDTO(paquete.getNombre(), paquete.getDescuento()));
+                List<CategoriaDTO> categoriasXX = new ArrayList<>();
+                categoriasXX = espec.getCategorias();
+                
+                
+//                for (CategoriaDTO cat : categoriasXX ){
+//                    categoriasXX.add(new CategoriaDTO(cat.getNombre()));
+//                }
+                
+                espectaculos.put(espec.getNombre(), new EspectDTO(espec.getNombre(), espec.getPlataforma(),espec.getImagen(),categoriasXX));
+            }
+            
+            
+            
+            
             String categoria=request.getParameter("cat");
             String Espect = request.getParameter("data");
             String plataforma = request.getParameter("pla");
-            Map<String, Espectaculo> EspectAux = new HashMap<>();
+            Map<String, EspectDTO> EspectAux = new HashMap<>();
             
             if(!(request.getParameter("data")==null)){
-                Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(Espect);
+                
+                //Map<String, Funcion> funcionesDeEspec = ICE.obtenerMapFunciones(Espect);
+
+                WebTarget target3 = client6.target("http://localhost:8080/rest/api/espectaculos/getFunciones");
+                EspectDTO espectaculoY = new EspectDTO(Espect);
+                ListFuncionDTO responseAPI2 = target3.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(espectaculoY), ListFuncionDTO.class);
+                List<FuncionDTO> listaDeFunciones= responseAPI2.getFunciones();
+                Map<String, FuncionDTO> funcionesDeEspec = new HashMap<>();
+                
+                for (FuncionDTO funccc : listaDeFunciones ){
+                    funcionesDeEspec.put(funccc.getNombre(), funccc);
+                    
+                }
+                
                 request.setAttribute("funcionesDeEspec", funcionesDeEspec);    
             }
             if(!(request.getParameter("pla")==null)){
                 System.out.println("Plataforma Seleccionada: " + plataforma);
-                for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                for (Map.Entry<String, EspectDTO> entry : espectaculos.entrySet()) {
                     String key = entry.getKey();
-                    Espectaculo value = entry.getValue();
+                    EspectDTO value = entry.getValue();
+                    
+                    
+                    System.out.println("PLATAFORMA DEL VALUE: " + value.getPlataforma());
+                    System.out.println("PLATAFORMA DEL PLATAFORMA: " + plataforma);
                     if(value.getPlataforma().equals(plataforma)){
-                        EspectAux.put(entry.getKey(),entry.getValue());
+                        EspectAux.put(key,value);
                     }
                 }
             }
             if(!(request.getParameter("cat")==null)){
                 System.out.println("Categoria Seleccionada: " + categoria);
-                Map<String, Categoria> categoriasAux;
-                for (Map.Entry<String, Espectaculo> entry : espectaculos.entrySet()) {
+                List<CategoriaDTO> categoriasAux;
+                for (Map.Entry<String, EspectDTO> entry : espectaculos.entrySet()) {
                     String key = entry.getKey();
-                    Espectaculo value = entry.getValue();  
+                    EspectDTO value = entry.getValue();  
                     categoriasAux = value.getCategorias();
-                    for (Map.Entry<String, Categoria> entry2 : categoriasAux.entrySet()){
-                        String key2 = entry2.getKey(); 
-                        if(key2.equals(categoria)){
+                    for (CategoriaDTO entry2 : categoriasAux){
+                        if(entry2.getNombre().equals(categoria)){
                             EspectAux.put(entry.getKey(),entry.getValue());
                             break;
                         }

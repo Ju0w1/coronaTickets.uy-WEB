@@ -3,23 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/LoginServerlet.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/EditUserServlet.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador.jsp</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UserDetalleServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/FuncionesServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/PaquetesDeUserDTO.java</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/EditUser.jsp</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Users-list.jsp</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/TestServlet.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/UserDTO.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista.jsp</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListFuncionesDeUserDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListFuncionDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/RegistroFuncionDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/agregarEspectaculoAPaquete.jsp</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funciones-list.jsp</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador-yourself.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/CategoriaDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/TrophyServerlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Home.jsp</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListUserEspectDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/DejarDeSeguirUsuarioDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListEspectDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador-yourself-trophys.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListTrophyDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/EditUserServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/homeLogueado.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Funciones/Funcion.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/UserDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/TrophyDTO.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/consultaPaquete.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Espectador-yourself.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/EspectDTO.java</file>
             <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/ListUserDTO.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculo.java</file>
-            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Login/login.jsp</file>
+            <file>file:/C:/Users/milto/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/EspectaculoDTO.java</file>
         </group>
     </open-files>
 </project-private>
