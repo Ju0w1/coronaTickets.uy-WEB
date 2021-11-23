@@ -130,6 +130,18 @@ public class TrophyServerlet extends HttpServlet {
             request.setAttribute("premios", listadePremiosFiltrados);
         }
         
+        UserDTO userContar = new UserDTO(nick);
+        WebTarget target8 = client.target("http://localhost:8080/rest/api//premios/getPremiosDeUser");
+        ListTrophyDTO responseAPIpremiosCant = target8.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userContar), ListTrophyDTO.class);
+        int contadorPremios = 0;
+        List<TrophyDTO> listadePremios = responseAPIpremiosCant.getPremios();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        List<TrophyDTO> listadePremiosNuevos = new ArrayList<>();
+        for(TrophyDTO premio : listadePremios){
+            contadorPremios++;
+        }
+        request.setAttribute("cantPremios", contadorPremios);
+        
         
 //###########################################################################################################################################################################
         // Aqui se visualiza el usuario con el nick recibido

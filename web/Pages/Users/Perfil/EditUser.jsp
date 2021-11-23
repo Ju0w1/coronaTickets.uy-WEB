@@ -8,12 +8,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="DTOs.UserDTO"%>
 <%@page import="java.util.Date"%>
-<%@page import="Logica.Clases.Artista"%>
-<%@page import="Logica.Clases.Paquete"%>
-<%@page import="Logica.DataTypes.DTFecha"%>
-<%@page import="Logica.Clases.Funcion"%>
 <%@page import="java.util.Map"%>
-<%@page import="Logica.Clases.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true" %>
 <!DOCTYPE html>
@@ -36,7 +31,10 @@
         <%
             System.out.println("Me llego el nick:::::::::::::::: " + objSesion.getAttribute("nickname").toString());
             String imagen, apellido, nombre, email, nick, bio="", desc="", sitio="";
-            DTFecha nacimiento;
+            int dia = 0;
+            int mes = 0;
+            int anio = 0;
+            //DTFecha nacimiento;
             if (request.getAttribute("espectador") != null) {
                 UserDTO espect = (UserDTO) request.getAttribute("espectador");
                 imagen = espect.getUrl_imagen();
@@ -48,10 +46,10 @@
                 Date date = espect.getNacimiento();
                 String strDate = dateFormat.format(date);  
                 String[] datos = strDate.split("-");
-                int dia = Integer.parseInt(datos[2]);
-                int mes = Integer.parseInt(datos[1]);
-                int anio = Integer.parseInt(datos[0]);
-                nacimiento = new DTFecha(dia, mes, anio);
+                dia = Integer.parseInt(datos[2]);
+                mes = Integer.parseInt(datos[1]);
+                anio = Integer.parseInt(datos[0]);
+                //nacimiento = new DTFecha(dia, mes, anio);
                 
                 email = espect.getEmail();
                 nick = espect.getNickname();
@@ -67,10 +65,10 @@
                 Date date = art.getNacimiento();
                 String strDate = dateFormat.format(date);  
                 String[] datos = strDate.split("-");
-                int dia = Integer.parseInt(datos[2]);
-                int mes = Integer.parseInt(datos[1]);
-                int anio = Integer.parseInt(datos[0]);
-                nacimiento = new DTFecha(dia, mes, anio);
+                dia = Integer.parseInt(datos[2]);
+                mes = Integer.parseInt(datos[1]);
+                anio = Integer.parseInt(datos[0]);
+                //nacimiento = new DTFecha(dia, mes, anio);
                 
                 email = art.getEmail();
                 nick = art.getNickname();
@@ -119,7 +117,7 @@
                                 //    
                                 //    Date fechaDate = (nacimiento.getAnio()+ "/" +nacimiento.getMes() + "/" + nacimiento.getDia());
                                 %>
-                                <div class="col-md-6"><label>Fecha de nacimiento</label><input type="text" class="form-control" placeholder="dd/mm/aaaa" name="fecha" value="<%=nacimiento.getDia()%>/<%=nacimiento.getMes()%>/<%=nacimiento.getAnio()%>"></div>                                
+                                <div class="col-md-6"><label>Fecha de nacimiento</label><input type="text" class="form-control" placeholder="dd/mm/aaaa" name="fecha" value="<%=dia%>/<%=mes%>/<%=anio%>"></div>                                
                                 <%
                                     if (request.getAttribute("espectador") == null) {%>
                                 <div class="col-md-6"><label>Sitio Web</label><input type="text" class="form-control" placeholder="https://example.com" name="sitio" value="<%=sitio%>"></div>

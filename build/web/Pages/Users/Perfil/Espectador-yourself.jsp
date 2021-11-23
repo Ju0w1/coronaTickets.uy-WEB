@@ -13,16 +13,9 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="DTOs.UserDTO"%>
-<%@page import="Logica.Clases.Paquete"%>
-<%@page import="Logica.Clases.Espectaculo"%>
-<%@page import="Logica.Clases.Funcion"%>
-<%@page import="Logica.Clases.Usuario"%>
-<%@page import="Logica.Interfaz.IControladorUsuario"%>
-<%@page import="Logica.Fabrica"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Artista"%>
 <%@page import="java.util.Map"%>
-<%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true" %>
@@ -67,7 +60,7 @@
         int dia = Integer.parseInt(datos[2]);
         int mes = Integer.parseInt(datos[1]);
         int anio = Integer.parseInt(datos[0]);
-        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+//        DTFecha nacimiento = new DTFecha(dia, mes, anio);
 
         String email = espect.getEmail();
         String nick = espect.getNickname();
@@ -144,7 +137,7 @@
                       d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                   </svg>
                   </svg> Nacimiento</h6>
-                <span class="text-secondary"><%=nacimiento.getDia() + "/" +nacimiento.getMes() + "/" +nacimiento.getAnio()%></span>
+                <span class="text-secondary"><%=dia + "/" + mes + "/" + anio%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- EMAIL -->
@@ -169,7 +162,8 @@
                     </button>
                     <input type="hidden" name="data" value="<%=nick%>" />
                 </form>
-                <span class="text-secondary">23</span>
+                <%int cantPremios = (int) request.getAttribute("cantPremios");%>
+                <span class="text-secondary"><%=cantPremios%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <form action="/CoronaTickets-Web/EditUser" method="post">

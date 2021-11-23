@@ -16,16 +16,9 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="DTOs.UserDTO"%>
-<%@page import="Logica.Clases.Paquete"%>
-<%@page import="Logica.Clases.Espectaculo"%>
-<%@page import="Logica.Clases.Funcion"%>
-<%@page import="Logica.Clases.Usuario"%>
-<%@page import="Logica.Interfaz.IControladorUsuario"%>
-<%@page import="Logica.Fabrica"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="Logica.Clases.Artista"%>
 <%@page import="java.util.Map"%>
-<%@page import="Logica.DataTypes.DTFecha"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true" %>
@@ -164,7 +157,8 @@
                     </button>
                     <input type="hidden" name="data" value="<%=nick%>" />
                 </form>
-                <span class="text-secondary">23</span>
+                <%int cantPremios = (int) request.getAttribute("cantPremios");%>
+                <span class="text-secondary"><%=cantPremios%></span>
               </li>
             </ul>
           </div>

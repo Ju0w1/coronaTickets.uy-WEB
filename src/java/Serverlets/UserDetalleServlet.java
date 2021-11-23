@@ -10,6 +10,8 @@ import DTOs.ListUserEspectDTO;
 import DTOs.FuncionesDeUserDTO;
 import DTOs.ListFuncionesDeUserDTO;
 import DTOs.ListPaquetesDeUserDTO;
+import DTOs.ListTrophyDTO;
+import DTOs.TrophyDTO;
 import DTOs.UserDTO;
 import DTOs.followDTO;
 import Logica.Fabrica;
@@ -27,9 +29,12 @@ import Logica.Interfaz.IControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -138,9 +143,20 @@ public class UserDetalleServlet extends HttpServlet {
             UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(art), UserDTO.class);
             objSesion.setAttribute("imagen", responseAPI.getUrl_imagen());
         }
+        Client client = ClientBuilder.newClient();
+        UserDTO userContar = new UserDTO(nick);
+        WebTarget target8 = client.target("http://localhost:8080/rest/api//premios/getPremiosDeUser");
+        ListTrophyDTO responseAPIpremiosCant = target8.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userContar), ListTrophyDTO.class);
+        int contadorPremios = 0;
+        List<TrophyDTO> listadePremios = responseAPIpremiosCant.getPremios();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        List<TrophyDTO> listadePremiosNuevos = new ArrayList<>();
+        for(TrophyDTO premio : listadePremios){
+            contadorPremios++;
+        }
+        request.setAttribute("cantPremios", contadorPremios);
 //###########################################################################################################################################################################
         // Aqui se visualiza el usuario con el nick recibido
-        Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/loadUser");
         UserDTO user = new UserDTO(nick);
         UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), UserDTO.class);

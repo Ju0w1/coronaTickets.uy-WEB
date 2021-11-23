@@ -5,10 +5,6 @@
 --%>
 <%@page import="java.util.List"%>
 <%@page import="DTOs.UserDTO"%>
-<%@page import="Logica.Clases.Usuario"%>
-
-<%@page import="Logica.Interfaz.IControladorUsuario"%>
-<%@page import="Logica.Fabrica"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
