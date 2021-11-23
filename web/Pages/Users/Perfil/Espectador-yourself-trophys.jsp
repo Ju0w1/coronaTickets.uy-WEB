@@ -70,6 +70,8 @@
         int seguidores = espect.getSeguidores();
         int seguidos = espect.getSeguidos();
         
+        
+        
 
         ListTrophyDTO premiosList = (ListTrophyDTO) request.getAttribute("premios");
         List<TrophyDTO> premios = premiosList.getPremios();
