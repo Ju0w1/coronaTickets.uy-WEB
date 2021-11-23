@@ -234,7 +234,7 @@
                                         i = 0;
                                         for (FuncionDTOConsultaEspectaculo funcionx : funciones) {
                                             FuncionDTOConsultaEspectaculo value2 = funcionx;
-                                            if(value2.getUrl_imagen() == null){
+                                            if(value2.getUrl_imagen() == null || value2.getUrl_imagen().equals("")){
                                                 value2.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                             }
                                             if (i == 0) {
@@ -341,7 +341,7 @@
                                             float costop = value.getCosto();
                                             String urlImagenp = value.getUrl();
                                             String concat = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
-                                            if(value.getUrl()==null){
+                                            if(value.getUrl()==null || value.getUrl().equals("")){
                                                 value.setUrl("https://i.imgur.com/Hh3cYL8.jpeg");
                                             }
                                             if (i == 0) {

@@ -101,7 +101,7 @@
                                 List<EspectaculoPaqueteDTO> especs = nuevoDTO.getEspectaculos();
                                 
                                 for (EspectaculoPaqueteDTO espec : especs) {
-                                    if(espec.getImagen()==null){
+                                    if(espec.getImagen()==null || espec.getImagen().equals("")){
                                         espec.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                     }
                                     espec.setDescripcion(espec.getDescripcion().replaceAll("Ã¡", "\u00E1"));

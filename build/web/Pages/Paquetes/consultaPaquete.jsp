@@ -69,7 +69,7 @@
             String costo = "0";
             //String costo = (String) request.getAttribute("costo");
             String imagen = "";
-            if(request.getAttribute("imagen") == null){
+            if(request.getAttribute("imagen") == null || request.getAttribute("imagen").equals("")){
                 imagen = "https://i.imgur.com/Hh3cYL8.jpeg";
             }else{
                 imagen = (String) request.getAttribute("imagen");
