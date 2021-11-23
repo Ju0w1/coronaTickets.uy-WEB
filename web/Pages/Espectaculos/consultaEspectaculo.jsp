@@ -395,29 +395,38 @@
                         if (yaEsFavorito == true) {
                     %>
                     <div style="text-align: center;">
-                        Favoritos:
-                        <button class="btn ">
-                            <i class="bi bi-heart-fill"></i> <%=cantidadFavoritos%>
-                        </button>
+                        <form action="/CoronaTickets-Web/Favorito" method="POST">
+                            <button type="submit" class="btn">
+                                Favoritos: <i class="bi bi-heart-fill"></i> <%=cantidadFavoritos%>
+                            </button>
+                            <input type="hidden" name="favnickname" value="<%=objSesion.getAttribute("nickname")%>" />
+                            <input type="hidden" name="favnombre" value="<%=nombre%>" />
+                        </form>
                     </div>
                     <%
                     } else {
                     %>
                     <div style="text-align: center;">
-                        Favoritos:
-                        <button class="btn ">
-                            <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
-                        </button>
+                        <form action="/CoronaTickets-Web/Favorito" method="POST"> 
+                            <button type="submit" class="btn">
+                                Favoritos: <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
+                            </button>
+                            <input type="hidden" name="favnickname" value="<%=objSesion.getAttribute("nickname")%>" />
+                            <input type="hidden" name="favnombre" value="<%=nombre%>" />
+                        </form>
                     </div>
                     <%
                         }
                     } else {
                     %>
                     <div style="text-align: center;">
-                        Favoritos:
-                        <button class="btn " disabled>
-                            <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
-                        </button>
+                        <form action="/CoronaTickets-Web/Favorito" method="POST">
+                            <button type="submit" class="btn" disabled>
+                                Favoritos: <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
+                            </button>
+                            <input type="hidden" name="favnickname" value="<%=objSesion.getAttribute("nickname")%>" />
+                            <input type="hidden" name="favnombre" value="<%=nombre%>" />
+                        </form>
                     </div>
                     <%
                         }

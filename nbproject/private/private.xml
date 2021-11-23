@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/yaEsFavoritoDTO.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/getFavoritosDTO.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/ConsultaEspectaculo.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/TestServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Users/Perfil/Artista.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UserDetalleServlet.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/UsersServlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/DTOs/FavoritoDTO.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/web/Pages/Paquetes/consultaPaquete.jsp</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/coronaTickets.uy-WEB/src/java/Serverlets/TrophyServerlet.java</file>
         </group>
     </open-files>

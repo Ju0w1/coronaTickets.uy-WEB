@@ -102,7 +102,15 @@ public class ConsultaEspectaculo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String espec = request.getParameter("nombreEspectaculo");
+//        String espec = request.getParameter("nombreEspectaculo");
+            String espec = "";
+                    if(request.getParameter("nombreEspectaculo") == null){
+                if(request.getAttribute("nombreEspectaculo") != null){
+                    espec = (String) request.getAttribute("nombreEspectaculo");
+                }
+            }else{
+                espec = request.getParameter("nombreEspectaculo");
+            }
         ServletContext context = getServletContext();
         
         context.log("Nombre del espec: "+espec);
