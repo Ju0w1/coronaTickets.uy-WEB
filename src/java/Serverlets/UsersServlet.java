@@ -30,7 +30,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import org.apache.jasper.tagplugins.jstl.core.Url;
+//import org.apache.jasper.tagplugins.jstl.core.Url;
 
 /**
  *

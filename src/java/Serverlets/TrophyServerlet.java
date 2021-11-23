@@ -17,6 +17,10 @@ import Logica.Clases.Artista;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -91,18 +95,53 @@ public class TrophyServerlet extends HttpServlet {
             throws ServletException, IOException {
         String nick = request.getParameter("data");
         HttpSession objSesion = request.getSession();
+        Client client = ClientBuilder.newClient();
 
+        if(request.getParameter("inputFecha") != null){
+            System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            String fecha = request.getParameter("inputFecha");
+            System.out.println("Fecha: " + fecha);
+            
+            UserDTO userr = new UserDTO(nick);
+            WebTarget target9 = client.target("http://localhost:8080/rest/api//premios/getPremiosDeUser");
+            ListTrophyDTO responseAPIpremios = target9.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(userr), ListTrophyDTO.class);
+ 
+            List<TrophyDTO> listadePremios = responseAPIpremios.getPremios();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+            List<TrophyDTO> listadePremiosNuevos = new ArrayList<>();
+            for(TrophyDTO premio : listadePremios){
+                
+                
+                java.util.Date date = premio.getFecha();
+                
+                String strDate = dateFormat.format(date);  
+                String[] datos = strDate.split("-");
+                String fechaStr = (datos[0] + "-" + datos[1] + "-" + datos[2]);
+                System.out.println("Fecha: " + fechaStr);
+                
+                if(fechaStr.equals(fecha)){
+                    listadePremiosNuevos.add(premio);
+                }
+            }
+            
+            ListTrophyDTO listadePremiosFiltrados = new ListTrophyDTO(listadePremiosNuevos);
+            
+            request.setAttribute("ultimoSelect", fecha);
+            request.setAttribute("premios", listadePremiosFiltrados);
+        }
+        
+        
 //###########################################################################################################################################################################
         // Aqui se visualiza el usuario con el nick recibido
-        Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/usuarios/loadUser");
         UserDTO user = new UserDTO(nick);
         UserDTO responseAPI = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), UserDTO.class);
-
-        target = client.target("http://localhost:8080/rest/api//premios/getPremiosDeUser");
-        ListTrophyDTO responseAPIpremios = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), ListTrophyDTO.class);
-        request.setAttribute("premios", responseAPIpremios);
         
+        if(request.getParameter("inputFecha") == null){
+            target = client.target("http://localhost:8080/rest/api//premios/getPremiosDeUser");
+            ListTrophyDTO responseAPIpremios = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(user), ListTrophyDTO.class);
+            request.setAttribute("premios", responseAPIpremios);
+        }
         
         //if (responseAPI.getTipo().equals("espectador")){
             UserDTO espect = responseAPI;
