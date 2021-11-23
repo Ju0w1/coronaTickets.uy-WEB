@@ -89,7 +89,7 @@
                                     System.out.println("VACIO");
                                 }else{
                                     for (HomePaqueteDTO paquete : arregloPaquetes) {
-                                        if(paquete.getImagen()==null){
+                                        if(paquete.getImagen()==null || paquete.getImagen().equals("")){
                                             paquete.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                         }
                             %>
