@@ -72,30 +72,30 @@
             double duracion = (double) request.getAttribute("duracion");
             Date fecha = (Date) request.getAttribute("fecha");
             String urlImagen = "";
-            if(request.getAttribute("urlImagen").toString().equals("")){
+            if (request.getAttribute("urlImagen").toString().equals("")) {
                 urlImagen = "https://i.imgur.com/Hh3cYL8.jpeg";
-            }else{
+            } else {
                 urlImagen = (String) request.getAttribute("urlImagen");
             }
             List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
             List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
             List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
-            
+            int cantidadFavoritos = (int) request.getAttribute("cantidadFavoritos");
             String dia;
             String mes;
-            if(fecha.getDate() <10){
-                dia = "0"+fecha.getDate();
-            }else{
+            if (fecha.getDate() < 10) {
+                dia = "0" + fecha.getDate();
+            } else {
                 dia = Integer.toString(fecha.getDate());
             }
-            if(fecha.getMonth() <10){
-                mes = "0"+fecha.getMonth();
-            }else{
+            if (fecha.getMonth() < 10) {
+                mes = "0" + fecha.getMonth();
+            } else {
                 mes = Integer.toString(fecha.getMonth());
             }
-            int anio = fecha.getYear()+1900;
+            int anio = fecha.getYear() + 1900;
             //String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
-            String fechaA = dia+"/"+mes+"/"+anio;
+            String fechaA = dia + "/" + mes + "/" + anio;
         %>
 
         <div class="d-flex justify-content-md-center align-items-center mt-5">
@@ -104,7 +104,6 @@
                     <div class="col-12 d-flex justify-content-md-center">
                         <h1 class="mb-5">DETALLES DEL ESPECTÁCULO</h1>
                     </div>
-
                 </div>
 
                 <div class="row">
@@ -214,7 +213,7 @@
                                 <div class="carousel-indicators">
                                     <%
                                         int i = 0;
-                                        for (int xx=0;xx<funciones.size();xx++) {
+                                        for (int xx = 0; xx < funciones.size(); xx++) {
                                             if (i == 0) {
                                     %>
                                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -234,7 +233,7 @@
                                         i = 0;
                                         for (FuncionDTOConsultaEspectaculo funcionx : funciones) {
                                             FuncionDTOConsultaEspectaculo value2 = funcionx;
-                                            if(value2.getUrl_imagen() == null || value2.getUrl_imagen().equals("")){
+                                            if (value2.getUrl_imagen() == null || value2.getUrl_imagen().equals("")) {
                                                 value2.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                             }
                                             if (i == 0) {
@@ -341,7 +340,7 @@
                                             float costop = value.getCosto();
                                             String urlImagenp = value.getUrl();
                                             String concat = nombrep + "@" + desc + "@" + fechaIni + "@" + fechaFin + "@" + Float.toString(descuento) + "@" + Float.toString(costop) + "@" + urlImagenp;
-                                            if(value.getUrl()==null || value.getUrl().equals("")){
+                                            if (value.getUrl() == null || value.getUrl().equals("")) {
                                                 value.setUrl("https://i.imgur.com/Hh3cYL8.jpeg");
                                             }
                                             if (i == 0) {
@@ -351,7 +350,7 @@
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= value.getNombre() %>" name="nombrePaquete">
+                                                <input type="hidden" value="<%= value.getNombre()%>" name="nombrePaquete">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -365,7 +364,7 @@
                                         <img src="<%=value.getUrl()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Paquete" >
-                                                <input type="hidden" value="<%= value.getNombre() %>" name="nombrePaquete">
+                                                <input type="hidden" value="<%= value.getNombre()%>" name="nombrePaquete">
                                                 <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
                                             </form>
                                         </div>
@@ -388,6 +387,27 @@
                             </div>
                         </div>   
                     </div>
+                    <%
+                        if (objSesion.getAttribute("tipo") != null) {
+                    %>
+                    <div style="text-align: center;">
+                        Favoritos:
+                        <button class="btn ">
+                            <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
+                        </button>
+                    </div>
+                    <%
+                    } else {
+                    %>
+                    <div style="text-align: center;">
+                        Favoritos:
+                        <button class="btn " disabled>
+                            <i class="bi bi-heart"></i> <%=cantidadFavoritos%>
+                        </button>
+                    </div>
+                    <%
+                        }
+                    %>
                     <div class="row mt-3" style="margin-bottom: 20px; position: center;">
                         <div class="col-12 d-flex justify-content-md-center">
                             <a href="home">
@@ -409,18 +429,17 @@
                                 </button>
                             </a>
                             <%
-                                
-                                    if(request.getAttribute("especFinalizado")!=null){
-                                        if((boolean) request.getAttribute("especFinalizado") == true){
+                                if (request.getAttribute("especFinalizado") != null) {
+                                    if ((boolean) request.getAttribute("especFinalizado") == true) {
                             %>
-                                            <form name="" method="POST" action="/CoronaTickets-Web/FinEspectaculo" >
-                                                <input id="" name="nombreEspectaculoFinalizar" type="hidden" value="<%= nombre %>" >
-                                                <button type="submit" class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
-                                                    FINALIZAR ESPECTÁCULO
-                                                </button>
+                            <form name="" method="POST" action="/CoronaTickets-Web/FinEspectaculo" >
+                                <input id="" name="nombreEspectaculoFinalizar" type="hidden" value="<%= nombre%>" >
+                                <button type="submit" class="btn btn-secondary rounded-pill me-3" style="margin-right: 10px; margin-left: 10px;">
+                                    FINALIZAR ESPECTÁCULO
+                                </button>
 
-                                            </form>
-                            
+                            </form>
+
                             <%
                                             }
                                         }
