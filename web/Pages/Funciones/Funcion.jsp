@@ -133,7 +133,7 @@
             <div class="col-6 d-flex justify-content-md-center align-items-center">
                 <div class="w-100 d-flex justify-content-md-center align-items-center">
                     <%
-                        if(funcion.getUrlImagen()==null || funcion.getUrlImagen().equals("")){
+                        if(funcion.getUrlImagen()==null){
                             funcion.setUrlImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                         }
                     %>
