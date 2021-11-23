@@ -70,7 +70,7 @@
         int dia = Integer.parseInt(datos[2]);
         int mes = Integer.parseInt(datos[1]);
         int anio = Integer.parseInt(datos[0]);
-        DTFecha nacimiento = new DTFecha(dia, mes, anio);
+        //DTFecha nacimiento = new DTFecha(dia, mes, anio);
 
         String email = espect.getEmail();
         String nick = espect.getNickname();
@@ -80,6 +80,7 @@
 
         ListTrophyDTO premiosList = (ListTrophyDTO) request.getAttribute("premios");
         List<TrophyDTO> premios = premiosList.getPremios();
+        
         
         
         //Map<String, Paquete> paquetesRegistrado = (Map<String, Paquete>) request.getAttribute("paquetes");
@@ -138,7 +139,7 @@
                       d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                   </svg>
                   </svg> Nacimiento</h6>
-                <span class="text-secondary"><%=nacimiento.getDia() + "/" +nacimiento.getMes() + "/" +nacimiento.getAnio()%></span>
+                <span class="text-secondary"><%=dia + "/" + mes + "/" + anio%></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <!-- EMAIL -->
@@ -170,15 +171,42 @@
         </div>
         <div class="col-md-8">
             <div class="card mb-3">
-                <div class="card-body">
+                <form action="/CoronaTickets-Web/Trophy" method="post">
                     <div class="card-body">
-                        <!-- FUNCIONES REGISTRADO -->
+                        <!-- PREMIOS -->
+                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Buscar por </i> :</h6>
+                            <div class="form-group row mb-2 justify-content-between">
+                                <label for="inputNombre" class="col-sm-2 col-form-label">Fecha</label>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control rounded-pill" id="inputFechaFuncion" name="inputFecha" value="" required>        
+                                </div>
+
+                                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill col-sm-1"  type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                    </div>
+                    <input type="hidden" name="data" value="<%=nick%>" required>
+                </form>   
+                
+            </div>
+            <div class="card mb-3">
+
+                <div class="card-body">
+                    
+                    <div class="card-body">
+                        <!-- PREMIOS -->
                         <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"> Premios </i>
-                            Ganados FILTROS FILTROS FILTROS FILTROS FILTROS FILTROS FILTROS
+                            Ganados
                         </h6>
                         <%
-                            for (TrophyDTO premio :  premios) {
-                                
+                            for (TrophyDTO premio :  premios) {  
+                                Date date2 = premio.getFecha();
+                                String strDate2 = dateFormat.format(date2);  
+                                String[] datos2 = strDate2.split("-");
+                                int dia2 = Integer.parseInt(datos2[2]);
+                                int mes2 = Integer.parseInt(datos2[1]);
+                                int anio2 = Integer.parseInt(datos2[0]);
                         %>
                         <div class="func">
                             <!-- FUNCION EJEMPLO -->
@@ -203,7 +231,7 @@
                                               d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                         </svg>
                                         Fecha</h6>
-                                    <span class="text-secondary">04/08/2005</span>
+                                    <span class="text-secondary"><%=dia2 + "/" + mes2 + "/" +anio2%></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <button class="btn btn-outline-primary">Detalles...</button>

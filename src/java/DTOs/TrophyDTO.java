@@ -5,13 +5,14 @@
  */
 package DTOs;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author milto
  */
-public class TrophyDTO {
+public class TrophyDTO implements Serializable{
     private String usuario;
     private String descripcion;
     private String nombreFuncion;
