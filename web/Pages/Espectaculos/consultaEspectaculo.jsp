@@ -81,6 +81,7 @@
             List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
             List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
             int cantidadFavoritos = (int) request.getAttribute("cantidadFavoritos");
+            boolean yaEsFavorito = (boolean) request.getAttribute("yaEsFavorito");
             String dia;
             String mes;
             if (fecha.getDate() < 10) {
@@ -390,6 +391,18 @@
                     <%
                         if (objSesion.getAttribute("tipo") != null) {
                     %>
+                    <%
+                        if (yaEsFavorito == true) {
+                    %>
+                    <div style="text-align: center;">
+                        Favoritos:
+                        <button class="btn ">
+                            <i class="bi bi-heart-fill"></i> <%=cantidadFavoritos%>
+                        </button>
+                    </div>
+                    <%
+                    } else {
+                    %>
                     <div style="text-align: center;">
                         Favoritos:
                         <button class="btn ">
@@ -397,6 +410,7 @@
                         </button>
                     </div>
                     <%
+                        }
                     } else {
                     %>
                     <div style="text-align: center;">

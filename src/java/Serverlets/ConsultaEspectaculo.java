@@ -11,6 +11,7 @@ import DTOs.LoginDTO;
 import DTOs.TransporteListaEspecFinalizadosDTO;
 import DTOs.TransporteListaNombresEspectaculosAceptadosDTO;
 import DTOs.getFavoritosDTO;
+import DTOs.yaEsFavoritoDTO;
 import Logica.Clases.Categoria;
 import Logica.Clases.Espectaculo;
 import Logica.Clases.Funcion;
@@ -143,14 +144,18 @@ public class ConsultaEspectaculo extends HttpServlet {
 //        String data = target.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(String.class);
         Client clientNew = ClientBuilder.newClient();
         WebTarget targetNew = clientNew.target("http://localhost:8080/rest/api/espectaculos/getFavoritos?nombre="+nuevaFuncionConREGEX);
+        Client clientNew2 = ClientBuilder.newClient();
+        WebTarget targetNew2 = clientNew2.target("http://localhost:8080/rest/api/espectaculos/yaEsFavorito?nickname="+user+"&nombre="+nuevaFuncionConREGEX);
         try {
             ConsultaEspectaculoDTO responseAPI = target.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);
             getFavoritosDTO favoritos = targetNew.request(MediaType.APPLICATION_JSON).get(getFavoritosDTO.class);
+            yaEsFavoritoDTO esFav = targetNew2.request(MediaType.APPLICATION_JSON).get(yaEsFavoritoDTO.class);
 //              ConsultaEspectaculoDTO especDTO = new Gson().fromJson(data, ConsultaEspectaculoDTO.class);
 //              context.log(datos[0]);
 //            JsonObject convertedObject = new Gson().fromJson(data, JsonObject.class);
 //            context.log(convertedObject.get("Nombre").getAsString());  
             request.setAttribute("cantidadFavoritos", favoritos.getCantidadFavoritos());
+            request.setAttribute("yaEsFavorito", esFav.isEsFavorito());
             request.setAttribute("funcionesDeEspec", responseAPI.getFunciones());
             request.setAttribute("paquetes", responseAPI.getPaquetes());
             request.setAttribute("nombre", responseAPI.getNombre());
