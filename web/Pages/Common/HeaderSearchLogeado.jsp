@@ -149,6 +149,7 @@
                             <li><a class="dropdown-item" href="AltaPaquete">Crear paquete de espectáculos</a></li>
                             <li><a class="dropdown-item" href="AltaFuncion">Alta función de espectáculo</a></li>
                             <li><a class="dropdown-item" href="AgregarEspectaculo">Agregar espectáculo a paquete</a></li>
+                            <li><a class="dropdown-item" href="ConsultaEspectaculosFinalizados">Consultar espectaculos finalizados</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/CoronaTickets-Web/Pages/Users/CerrarSesion.jsp">Cerrar Sesión</a></li>
                         </ul>

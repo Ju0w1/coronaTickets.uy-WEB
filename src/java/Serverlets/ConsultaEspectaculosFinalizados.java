@@ -114,7 +114,7 @@ public class ConsultaEspectaculosFinalizados extends HttpServlet {
         }else{
             String nuevaFuncionConREGEX = nombreEspectaculo.replaceAll(" ", "%20");
             Client client2 = ClientBuilder.newClient();
-            WebTarget target2 = client2.target("http://localhost:8080/rest/api/espectaculos?nombre="+nuevaFuncionConREGEX);
+            WebTarget target2 = client2.target("http://localhost:8080/rest/api/espectaculos/finalizados?nombre="+nuevaFuncionConREGEX);
 
             try {
                 ConsultaEspectaculoDTO espectaculo = target2.request(MediaType.APPLICATION_JSON).get(ConsultaEspectaculoDTO.class);

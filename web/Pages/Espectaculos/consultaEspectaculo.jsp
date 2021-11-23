@@ -80,6 +80,22 @@
             List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
             List<FuncionDTOConsultaEspectaculo> funciones = (List<FuncionDTOConsultaEspectaculo>) request.getAttribute("funcionesDeEspec");
             List<Paquete> paquetes = (List<Paquete>) request.getAttribute("paquetes");
+            
+            String dia;
+            String mes;
+            if(fecha.getDate() <10){
+                dia = "0"+fecha.getDate();
+            }else{
+                dia = Integer.toString(fecha.getDate());
+            }
+            if(fecha.getMonth() <10){
+                mes = "0"+fecha.getMonth();
+            }else{
+                mes = Integer.toString(fecha.getMonth());
+            }
+            int anio = fecha.getYear()+1900;
+            //String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
+            String fechaA = dia+"/"+mes+"/"+anio;
         %>
 
         <div class="d-flex justify-content-md-center align-items-center mt-5">
@@ -162,7 +178,7 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de registro</label>
                             <div class="col-sm-7">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=fecha%>" readonly>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=fechaA%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2 justify-content-between">

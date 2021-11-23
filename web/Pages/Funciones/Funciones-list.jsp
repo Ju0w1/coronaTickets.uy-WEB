@@ -3,6 +3,8 @@
     Created on : 09/10/2021, 12:13:41 PM
     Author     : milto
 --%>
+<%@page import="DTOs.EspectDTO"%>
+<%@page import="DTOs.FuncionDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="Logica.Clases.Categoria"%>
 <%@page import="Logica.Clases.Plataforma"%>
@@ -31,10 +33,17 @@
         //Map<String, Categoria> categorias = (Map<String, Categoria>) request.getAttribute("categorias");
         List<String> categorias = (List<String>) request.getAttribute("categorias");
         //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos");
-        Map<String, Funcion> funcionesDeEspec = new HashMap<>();
-        Map<String, Espectaculo> espectaculosFiltrados = new HashMap<>();
-        espectaculosFiltrados = (Map<String, Espectaculo>) request.getAttribute("espectaculosFiltrados");
-        funcionesDeEspec = (Map<String, Funcion>) request.getAttribute("funcionesDeEspec");
+        //Map<String, Funcion> funcionesDeEspec = new HashMap<>();
+        //Map<String, Espectaculo> espectaculosFiltrados = new HashMap<>();
+        //espectaculosFiltrados = (Map<String, Espectaculo>) request.getAttribute("espectaculosFiltrados");
+        //funcionesDeEspec = (Map<String, Funcion>) request.getAttribute("funcionesDeEspec");
+        
+        //Map<String, Espectaculo> espectaculos = (Map<String, Espectaculo>) request.getAttribute("espectaculos"); //HAY QUE AGREGARLOS
+        
+        Map<String, FuncionDTO> funcionesDeEspec = new HashMap<>();
+        Map<String, EspectDTO> espectaculosFiltrados = new HashMap<>();
+        espectaculosFiltrados = (Map<String, EspectDTO>) request.getAttribute("espectaculosFiltrados");
+        funcionesDeEspec = (Map<String, FuncionDTO>) request.getAttribute("funcionesDeEspec");
     %>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -156,9 +165,11 @@
                         <!--ESPECTACULO-EJEMPLO-->
                         <%
                             if(espectaculosFiltrados!=null){
-                                for (Map.Entry<String, Espectaculo> entry : espectaculosFiltrados.entrySet()) {
+                                //for (Map.Entry<String, Espectaculo> entry : espectaculosFiltrados.entrySet()) {
+                                for (Map.Entry<String, EspectDTO> entry : espectaculosFiltrados.entrySet()) {
                                     String key = entry.getKey();
-                                    Espectaculo value = entry.getValue();
+                                    //Espectaculo value = entry.getValue();
+                                    EspectDTO value = entry.getValue();
                                     if(value.getUrlIamgen()==null){
                                         value.setUrlImagen("https://i.imgur.com/Hh3cYL8.jpeg");
                                     }
@@ -201,16 +212,18 @@
                     <div class="card-body no-padding">
                         <%
                             if(funcionesDeEspec!=null){
-                                for (Map.Entry<String, Funcion> entry : funcionesDeEspec.entrySet()) {
+                                //for (Map.Entry<String, Funcion> entry : funcionesDeEspec.entrySet()) {
+                                for (Map.Entry<String, FuncionDTO> entry : funcionesDeEspec.entrySet()) {
                                     String key = entry.getKey();
-                                    Funcion value = entry.getValue();
+                                    //Funcion value = entry.getValue();
+                                    FuncionDTO value = entry.getValue();
                         %>
                         <!--FUNCION-EJEMPLO-->
                         <form action="/CoronaTickets-Web/funcion" method="post">
                             <div class="item d-flex align-items-center">
                                 <input type="hidden" name="data2" value="<%=value.getNombre()%>" />
                                 <!--IMAGEN-->
-                                <div class="image"><img src="<%=value.getUrlIamgen() %>"
+                                <div class="image"><img src="<%=value.getUrlImagen()%>"
                                     alt="fotoPerfil" class="img-thumbnail" style="height: 100px ;width: 100px;"></div>
                                     <div class="text"> 
                                         <button style="border:none; background-color: transparent;">

@@ -78,7 +78,7 @@
                     
             %>
             <div class="row mb-2">
-                <form class="form-inline" method="POST" action="/CoronaTickets-Web/ConsultaEspectaculosFinalizados">
+                <form class="form-inline" method="GET" action="/CoronaTickets-Web/ConsultaEspectaculosDePaquete">
                     <input id="nombreEspectaculoABuscar" name="espectaculoGET" type="hidden" value="">
                     <button id="btnValoresSeleccionados" class="btn btn-primary">Mostrar datos</button>
                 </form>
@@ -172,8 +172,10 @@
                     }else{
                         mes = Integer.toString(espec.getFecha_Registro().getMonth());
                     }
-                    String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
-
+                    int anio = espec.getFecha_Registro().getYear()+1900;
+                    //String fecha = espec.getFecha_Registro().getYear()+1900+"-"+mes+"-"+dia;
+                    String fecha = dia+"/"+mes+"/"+anio;
+                    
                     if(espec.getUrl_imagen()==null || espec.getUrl_imagen().equals("")){
                         espec.setUrl_imagen("https://i.imgur.com/Hh3cYL8.jpeg");
                     }
@@ -229,9 +231,10 @@
                         </div>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
+                        <input id="" name="" type="hidden" value="<%=fecha%>">
                         <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de registro</label>
                         <div class="col-sm-7">
-                            <input type="date" class="form-control" id="inputNombre" value="<%=fecha%>" readonly>
+                            <input type="text" class="form-control" id="inputNombre" value="<%=fecha%>" readonly>
                         </div>
                     </div>
                     <div class="form-group row mb-2 justify-content-between">
