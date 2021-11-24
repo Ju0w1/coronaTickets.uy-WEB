@@ -6,6 +6,8 @@
 package Serverlets;
 
 import DTOs.ArtistasDeFuncionDTO;
+import DTOs.BooleanDTO;
+import DTOs.CheckearSorteoDTO;
 import DTOs.FuncionConArtistasDTO;
 import DTOs.FuncionDTO;
 import DTOs.UserDTO;
@@ -89,7 +91,19 @@ public class ConsultaFuncion extends HttpServlet {
         /*Funcion funcion;
         funcion = ICF.obtenerFuncion(funcionName);*/
         ////
+        
+        
+        
         String nuevaFuncionConREGEX = funcionName.replaceAll(" ", "%20");
+        
+        if(objSesion.getAttribute("tipo")!=null && objSesion.getAttribute("tipo").equals("artista")){
+            Client client5 = ClientBuilder.newClient();
+            WebTarget target5 = client5.target("http://localhost:8080/rest/api/usuarios/sorteable");
+            CheckearSorteoDTO s = new CheckearSorteoDTO(objSesion.getAttribute("nickname").toString(), funcionName);
+            BooleanDTO responseAPIB = target5.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Entity.json(s),BooleanDTO.class);
+            request.setAttribute("esSorteable", responseAPIB.getDato());
+        }
+        
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:8080/rest/api/funciones/consulta?funcion="+nuevaFuncionConREGEX);
         try {

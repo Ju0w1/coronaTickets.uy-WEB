@@ -47,6 +47,7 @@
         FuncionDTO funcion = funcionConArt.getFuncion();
         ArtistasDeFuncionDTO artistas = funcionConArt.getArtistas();
         
+        boolean esSorteable = (boolean) request.getAttribute("esSorteable");
     %>
     <script>
         function abrirModal() {
@@ -117,7 +118,24 @@
                   </div>
                     <row>
                         
-                        
+                        <%
+                            if(objSesion.getAttribute("tipo")!= null && objSesion.getAttribute("tipo").equals("artista")){
+                                if(esSorteable){
+                            
+                        %>
+                                    <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
+                                        <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
+                                        <div class="d-flex justify-content-md-center align-items-center mt-3">
+
+                                            <button type="submit" id="mostrarModal"  class="btn btn-outline-secondary rounded-pill ">
+                                                SORTEAR
+                                            </button>
+                                        </div>
+                                    </form>
+                        <%
+                                }
+                            }else if(objSesion.getAttribute("tipo")!= null && objSesion.getAttribute("tipo").equals("espectador")){
+                        %>
                         <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
                             <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
                             <div class="d-flex justify-content-md-center align-items-center mt-3">
@@ -127,7 +145,9 @@
                                 </button>
                             </div>
                         </form>
-                        
+                        <%
+                            }
+                        %>
                     </row>
             </div>
             <div class="col-6 d-flex justify-content-md-center align-items-center">
