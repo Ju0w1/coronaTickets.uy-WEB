@@ -123,10 +123,10 @@
                                 if(esSorteable){
                             
                         %>
-                                    <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
+                                    <form name="sortear" method="POST" action="/CoronaTickets-Web/Sorteo">
                                         <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
                                         <div class="d-flex justify-content-md-center align-items-center mt-3">
-
+                                            <input type="hidden" name="funcion" value="<%=funcion.getNombre()%>">
                                             <button type="submit" id="mostrarModal"  class="btn btn-outline-secondary rounded-pill ">
                                                 SORTEAR
                                             </button>
