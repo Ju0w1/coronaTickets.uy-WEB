@@ -273,7 +273,11 @@
                         <span class="text-secondary"><%=value.getCosto()%></span>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <button class="btn btn-outline-primary">Detalles</button>
+                        <form name="ver_mas" method="POST" action="/CoronaTickets-Web/Espectaculo" >
+                            <input type="hidden" id="nombrePaqueteLista" name="nombreEspectaculo" class="nombrePaqueteLista" value="<%= value.getNombre() %>">
+                            <button type="submit" class="btn btn-outline-primary">Detalles</button>
+                        </form>  
+                        
                       </li>
                     </ul>
                   </div>

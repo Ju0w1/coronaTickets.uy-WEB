@@ -101,7 +101,7 @@
         %>
 
         <div class="d-flex justify-content-md-center align-items-center mt-5">
-            <div class="container" style="width: 100vh;">
+            <div class="container" style="width: 100%;">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-md-center">
                         <h1 class="mb-5">DETALLES DEL ESPECTÁCULO</h1>
@@ -109,7 +109,26 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
+                         <%
+                                if (urlImagen.equals("")) {
+                            %>
+
+                            <%
+                            } else {
+                            %>
+                            <div class="form-group row mb-2 justify-content-between">
+                                <label for="inputNombre" class="col-sm-8 col-form-label">Imagen</label>
+
+                                <div class="w-100 d-flex justify-content-md-center align-items-center">
+                                    <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=urlImagen%>">
+                                </div>
+                            </div>
+                            <%
+                                }
+                            %>
+                    </div>
+                    <div class="col-4">
                         <form class="p-2">
 
                             <div class="form-group row mb-2 justify-content-between">
@@ -148,46 +167,29 @@
                                     <input type="number" class="form-control" id="inputNombre" placeholder="<%=especmax%>" readonly>
                                 </div>
                             </div>
-
-                            <%
-                                if (urlImagen.equals("")) {
-                            %>
-
-                            <%
-                            } else {
-                            %>
                             <div class="form-group row mb-2 justify-content-between">
-                                <label for="inputNombre" class="col-sm-8 col-form-label">Imagen</label>
-
-                                <div class="w-100 d-flex justify-content-md-center align-items-center">
-                                    <img style="max-height:100%; max-width:100%;object-fit: contain;" src="<%=urlImagen%>">
+                                <label for="inputNombre" class="col-sm-2 col-form-label">URL</label>
+                                <div class="col-sm-10">
+                                    <input type="url" class="form-control" id="inputNombre" placeholder="<%=url%>" readonly>
                                 </div>
                             </div>
-                            <%
-                                }
-                            %>
+                            <div class="form-group row mb-2 justify-content-between">
+                                <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de registro</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="inputNombre" placeholder="<%=fechaA%>" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2 justify-content-between">
+                                <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
+                                </div>
+                            </div>    
+                           
                         </form>
 
                     </div>
-                    <div class="col-6 p-2">
-                        <div class="form-group row mb-2 justify-content-between">
-                            <label for="inputNombre" class="col-sm-2 col-form-label">URL</label>
-                            <div class="col-sm-10">
-                                <input type="url" class="form-control" id="inputNombre" placeholder="<%=url%>" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 justify-content-between">
-                            <label for="inputNombre" class="col-sm-5 col-form-label">Fecha de registro</label>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control" id="inputNombre" placeholder="<%=fechaA%>" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 justify-content-between">
-                            <label for="inputNombre" class="col-sm-2 col-form-label">Costo</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputNombre" placeholder="<%=costo%>" readonly>
-                            </div>
-                        </div>
+                    <div class="col-4 p-2">
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Categorías</label>
                             <div class="col-sm-50" >
@@ -290,9 +292,9 @@
                         }else if(objSesion.getAttribute("tipo").equals("artista")){
                            List<FuncionesParaArtistaDTO> funcionesArt = (List<FuncionesParaArtistaDTO>) request.getAttribute("funcionesParaArtistas");
                        %>
-                       <div class="w-100 d-flex justify-content-md-center align-items-center">
+                       <div class="w-100 d-flex justify-content-md-center align-items-center ">
 
-                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="height:50%; width: 50%;">
                                 <div class="carousel-indicators">
                                     <%
                                         int n = 0;
@@ -320,9 +322,9 @@
                                             }
                                             if (n == 0) {
                                     %>
-                                    <div class="carousel-item active">
+                                    <div class="carousel-item active ">
                                         <h6><%=funcionx.getNombreF()%></h6>
-                                        <img src="<%=funcionx.getImagen() %>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=funcionx.getImagen() %>" class="d-block w-100" alt="...">
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=funcionx.getNombreF()%>" />
@@ -336,7 +338,7 @@
                                     %>
                                     <div class="carousel-item">
                                         <h6><%=funcionx.getNombreF()%></h6>
-                                        <img src="<%=funcionx.getImagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <img src="<%=funcionx.getImagen()%>" class="d-block w-100" alt="..." >
                                         <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
                                             <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
                                                 <input type="hidden" name="data2" value="<%=funcionx.getNombreF()%>" />

@@ -46,8 +46,11 @@
         FuncionConArtistasDTO funcionConArt = (FuncionConArtistasDTO) request.getAttribute("funcion");
         FuncionDTO funcion = funcionConArt.getFuncion();
         ArtistasDeFuncionDTO artistas = funcionConArt.getArtistas();
+        boolean esSorteable = false;
+        if(request.getAttribute("esSorteable")!= null){
+            esSorteable = (boolean) request.getAttribute("esSorteable");
+        }
         
-        boolean esSorteable = (boolean) request.getAttribute("esSorteable");
     %>
     <script>
         function abrirModal() {
@@ -136,15 +139,14 @@
                                 }
                             }else if(objSesion.getAttribute("tipo")!= null && objSesion.getAttribute("tipo").equals("espectador")){
                         %>
-                        <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
-                            <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
-                            <div class="d-flex justify-content-md-center align-items-center mt-3">
-                                
-                                <button type="submit" id="mostrarModal"  class="btn btn-outline-secondary rounded-pill ">
-                                    REGISTRARSE
-                                </button>
-                            </div>
-                        </form>
+                            <form name="altaEspectaculo" method="GET" action="/CoronaTickets-Web/RegistroAFuncion">
+                                <input id="nombreFuncion" name="nombreFuncionDesdeFuncion" type="hidden" value="<%=funcion.getNombre()%>">
+                                <div class="d-flex justify-content-md-center align-items-center mt-3">
+                                    <button type="submit" id="mostrarModal"  class="btn btn-outline-secondary rounded-pill ">
+                                        REGISTRARSE
+                                    </button>
+                                </div>
+                            </form>
                         <%
                             }
                         %>
