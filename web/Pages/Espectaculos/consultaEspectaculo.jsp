@@ -4,6 +4,7 @@
     Author     : pabli
 --%>
 
+<%@page import="DTOs.FuncionesParaArtistaDTO"%>
 <%@page import="DTOs.FuncionDTOConsultaEspectaculo"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
@@ -208,6 +209,10 @@
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Funciones:</label>   
                         </div>
+                             
+                        <%
+                            if(objSesion.getAttribute("tipo") == null || objSesion.getAttribute("tipo").equals("espectador")){
+                        %>
                         <div class="w-100 d-flex justify-content-md-center align-items-center">
 
                             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -229,6 +234,7 @@
                                         }
                                     %>
                                 </div>
+                                
                                 <div class="carousel-inner">
                                     <%
                                         i = 0;
@@ -269,6 +275,7 @@
                                         }
                                     %>
                                 </div>
+                                
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
@@ -279,6 +286,85 @@
                                 </button>
                             </div>
                         </div>
+                        <%
+                        }else if(objSesion.getAttribute("tipo").equals("artista")){
+                           List<FuncionesParaArtistaDTO> funcionesArt = (List<FuncionesParaArtistaDTO>) request.getAttribute("funcionesParaArtistas");
+                       %>
+                       <div class="w-100 d-flex justify-content-md-center align-items-center">
+
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <%
+                                        int n = 0;
+                                        for (int xx = 0; xx < funcionesArt.size(); xx++) {
+                                            if (n == 0) {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <%
+                                        n++;
+                                    } else {
+                                    %>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=n%>" aria-label="Slide 2"></button>
+                                    <%
+                                                n++;
+                                            }
+                                        }
+                                    %>
+                                </div>
+                                <div class="carousel-inner">
+                                    <%
+                                        n = 0;
+                                        for (FuncionesParaArtistaDTO funcionx : funcionesArt) {
+                                            if (funcionx.getImagen() == null || funcionx.getImagen().equals("")) {
+                                                funcionx.setImagen("https://i.imgur.com/Hh3cYL8.jpeg");
+                                            }
+                                            if (n == 0) {
+                                    %>
+                                    <div class="carousel-item active">
+                                        <h6><%=funcionx.getNombreF()%></h6>
+                                        <img src="<%=funcionx.getImagen() %>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
+                                                <input type="hidden" name="data2" value="<%=funcionx.getNombreF()%>" />
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                        n++;
+                                    } else {
+                                    %>
+                                    <div class="carousel-item">
+                                        <h6><%=funcionx.getNombreF()%></h6>
+                                        <img src="<%=funcionx.getImagen()%>" class="d-block w-100" alt="..." style="max-height:150px; max-width:100%;">
+                                        <div class="card-img-overlay d-flex justify-content-md-center align-items-center">
+                                            <form name="ver_mas" method="POST" action="/CoronaTickets-Web/funcion" >
+                                                <input type="hidden" name="data2" value="<%=funcionx.getNombreF()%>" />
+                                                <input type="submit" value="Ver más" id="btn_ver_mas" class="btn btn-secondary">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%
+                                                n++;
+                                            }
+                                        }
+                                    %>
+                                </div>
+                            
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                       <%
+                        }
+                       %>
+                         
                         <div class="form-group row mb-2 justify-content-between">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Paquetes:</label>   
                         </div>
@@ -287,7 +373,7 @@
                             <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
                                     <%
-                                        i = 0;
+                                        int i = 0;
                                         for (Paquete paquetex : paquetes) {
                                             if (i == 0) {
                                     %>
