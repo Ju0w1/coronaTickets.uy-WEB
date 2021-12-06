@@ -86,8 +86,8 @@
         }
         List<String> ganadores = (List<String>) request.getAttribute("ganadores");
         %>
-        
-        <div class="d-flex justify-content-md-center align-items-center mt-5">
+        <div class="container">
+            <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container" style="width: 100vh;">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-md-center">
@@ -159,7 +159,7 @@
             
         </div>
         
-        <div class="articles card me-5 ms-5">
+        <div class="articles card">
             <div class="card-header d-flex align-items-center">
                 <h2 class="h3">USUARIOS REGISTRADOS</h2>
             </div> 
@@ -211,6 +211,8 @@
         <%
         }
         %>
+        </div>
+        
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://localhost:8080/CoronaTickets-Web/Pages/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
     <script>
