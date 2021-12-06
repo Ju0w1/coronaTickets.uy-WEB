@@ -28,7 +28,6 @@
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,6 +40,7 @@
             body {
                 font-family: 'Montserrat', sans-serif;
             }
+            
             /* Custom Scrollbar using CSS */
             .custom-scrollbar-css {
               overflow-y: scroll;
@@ -64,6 +64,7 @@
                 height: 20vh;
             }
         </style>
+
     </head>
     <%
             HttpSession objSesion = request.getSession();
@@ -76,7 +77,9 @@
                 <%@include file="/Pages/Common/Header.jsp" %>
             <%}
         %>
-    <body>
+        
+    <link rel="stylesheet" href="home.css">
+    <body class="pt3">
         <div class="d-flex justify-content-md-center align-items-center mt-5">
             <div class="container w-75 ">
                     <div class="row ">

@@ -67,7 +67,7 @@
             <img src="https://i.imgur.com/9HUpz3c.png" alt="" width="100" height="40">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item" style="margin-right: 40px;">
 
                     <div class="input-group" style="width: 400px;">
@@ -109,7 +109,7 @@
                 </li>-->
             </ul>
         </div>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item dropdown" style="margin-right: 40px;">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img

@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Espectaculos/consultaEspectaculo.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/GenerarPremios.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/DTOs/CheckearSorteoDTO.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Funciones/Funcion.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaFuncion.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/FuncionesServlet.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Funciones/altaFuncion.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/ConsultaPaquete.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/DTOs/DarPremioDTO.java</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Funciones/sorteo.jsp</file>
-            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/src/java/Serverlets/SorteoServlet.java</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Home.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/HeaderSearch.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/Header.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/Header2.jsp</file>
+            <file>file:/C:/Users/pabli/Documents/NetBeansProjects/CoronaTickets-Web/web/Pages/Common/HeaderSearchLogeado.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -11,13 +11,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navback">
     <div class="container">
         <a class="navbar-brand" href="home" style="margin-right: 40px;margin-right: 40px;">
             <img src="https://i.imgur.com/9HUpz3c.png" alt="" width="100" height="40">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item" style="margin-right: 40px;">
                     <div class="input-group" style="width: 400px;">
                         <input class="form-control border-end-0 border rounded-pill searchbar" value="Espectáculos, Paquetes" type="search" onkeyup="filter()" id="myInput">
@@ -53,7 +53,7 @@
 
             </ul>
         </div>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item dropdown" style="margin-right: 40px;">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img
